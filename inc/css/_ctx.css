@@ -1,0 +1,108 @@
+div._ctx_scheme
+{
+	cursor:							pointer;
+}
+div._ctx_scheme table
+{
+	background-color:				transparent;
+}
+div._ctx_scheme td._ctx_scheme_l,div._ctx_scheme td._ctx_scheme_r
+{
+	padding-top:					1px;
+	padding-bottom:					1px;
+}
+
+td._ctx_scheme
+{
+	padding:						0px;
+	padding-left:					2px;
+	padding-right:					2px;
+	vertical-align:					middle;
+	white-space:					nowrap;
+	font-size:						10px;
+	/* To stop inheritance here */
+	font-weight:					normal;
+	font-style:						normal;
+	text-decoration:				none;
+}
+div._ctx_scheme_dum td._ctx_scheme,div._ctx_scheme_dum td._ctx_scheme_l div,div._ctx_scheme_dum td._ctx_scheme_r div
+{
+	background-color:				#ffffff;
+	color:							#a5a5a5;
+}
+div._ctx_scheme_dum:hover td._ctx_scheme,div._ctx_scheme_dum:hover td._ctx_scheme_l div,div._ctx_scheme_dum:hover td._ctx_scheme_r div
+{
+	background-color:				#d5d5d5;
+	color:							#ffffff;
+}
+div._ctx_scheme_des td._ctx_scheme,div._ctx_scheme_des td._ctx_scheme_l div,div._ctx_scheme_des td._ctx_scheme_r div
+{
+	background-color:				#cb0000;
+	color:							#ffffff;
+}
+div._ctx_scheme_blu td._ctx_scheme,div._ctx_scheme_blu td._ctx_scheme_l div,div._ctx_scheme_blu td._ctx_scheme_r div
+{
+	background-color:				#2b6bff;
+	color:							#ffffff;
+}
+div._ctx_scheme_wee td._ctx_scheme,div._ctx_scheme_wee td._ctx_scheme_l div,div._ctx_scheme_wee td._ctx_scheme_r div
+{
+	background-color:				#54992b;
+	color:							#ffffff;
+}
+div._ctx_scheme_sil td._ctx_scheme,div._ctx_scheme_sil td._ctx_scheme_l div,div._ctx_scheme_sil td._ctx_scheme_r div
+{
+	background-color:				#eeeeec;
+	color:							#666666;
+}
+div._ctx_scheme_sun td._ctx_scheme,div._ctx_scheme_sun td._ctx_scheme_l div,div._ctx_scheme_sun td._ctx_scheme_r div
+{
+	background-color:				#fff98f;
+	color:							#d82900;
+}
+div._ctx_scheme_flw td._ctx_scheme,div._ctx_scheme_flw td._ctx_scheme_l div,div._ctx_scheme_flw td._ctx_scheme_r div
+{
+	background-color:				#fcaf3e;
+	color:							#333300;
+}
+
+div._ctx_scheme_sky td._ctx_scheme,div._ctx_scheme_sky td._ctx_scheme_l div,div._ctx_scheme_sky td._ctx_scheme_r div
+{
+	background-color:				#729fcf;
+	color:							#ffffff;
+}
+div._ctx_scheme_dar td._ctx_scheme,div._ctx_scheme_dar td._ctx_scheme_l div,div._ctx_scheme_dar td._ctx_scheme_r div
+{
+	background-color:				#2e3436;
+	color:							#ffffff;
+}
+div._ctx_scheme_roq td._ctx_scheme,div._ctx_scheme_roq td._ctx_scheme_l div,div._ctx_scheme_roq td._ctx_scheme_r div
+{
+	background-color:				#75507b;
+	color:							#ffffff;
+}
+div._ctx_scheme_cle td._ctx_scheme,div._ctx_scheme_cle td._ctx_scheme_l div,div._ctx_scheme_cle td._ctx_scheme_r div
+{
+	background-color:				#babdb6;
+	color:							#333333;
+}
+div._ctx_scheme_sio td._ctx_scheme
+{
+	background-color:				#ffffff;
+	border-top:						1px solid #e7e7e7;
+	border-bottom:					1px solid #e7e7e7;
+	color:							#878787;
+}
+div._ctx_scheme_sio td._ctx_scheme_l div,div._ctx_scheme_sio td._ctx_scheme_r div
+{
+	background-color:				#e7e7e7;
+	color:							#333333;
+}
+td._ctx_scheme_l div,td._ctx_scheme_r div
+{
+	height:							13px;
+	width:							1px;
+	min-width:						1px;
+	max-width:						1px;
+	font-size:						1px;
+}

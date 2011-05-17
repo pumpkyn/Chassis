@@ -1,0 +1,262 @@
+/* Lists stylesheet */
+
+/* Main container of list table */
+td._list_main
+{
+	/*padding:					12px;
+	padding-bottom:				0px;*/
+	padding:					0px
+}
+
+/* Style of all row items */
+td._list_row_item
+{
+	padding-top:				2px;
+	padding-bottom:				2px;
+	padding-right:				12px;
+	padding-left:				0px;
+	border-top:					1px solid #d7d7d7;
+	height:						18px;
+	vertical-align:				middle;
+}
+td._list_row_item_date
+{
+	padding-right:				8px;
+}
+
+/* Style of items of last list row */
+td._list_row_item_last
+{
+	border-bottom:				1px solid #d7d7d7;
+}
+
+/* Icon type row item */
+td._list_row_item_icon
+{
+	padding-right:				4px;
+}
+
+/* Checkbox in list */
+td._list_row_item_chkbox
+{
+	vertical-align:				middle;
+	padding:					0px;
+	padding-right:				4px;
+}
+
+/* Header item of the list */
+th._list_header
+{
+	padding-bottom:				2px;
+	font-size:					11px;
+	font-weight:				bold;
+	padding-right:				16px;
+	/*padding-left:				4px;*/
+	padding-top:				2px;
+	/*border-top:					1px solid #e7e7e7;*/
+	/*border-top:					1px solid #e7e7e7;*/
+	background-color:			#e7e7e7;
+	/*background-color:			#ddf7ff;*/
+	height:						21px;
+	vertical-align:				middle;
+	white-space:				nowrap;
+}
+th._list_col_first,td._list_col_first
+{
+	padding-left:				12px;
+}
+th._list_col_last,td._list_col_last
+{
+	padding-right:				12px;
+}
+
+div._list_pager_no,div._list_pager_dots,div._list_pager_act
+{
+	padding:						1px;
+	padding-left:						4px;
+	padding-right:						4px;
+	float:							left;
+	margin-left:					4px;
+	margin-right:					0px;
+	_margin-left:					2px;	/* MSIE */
+	_margin-right:					0px;	/* MSIE */
+	font-size:						11px;
+}
+
+/* Pager number */
+div._list_pager_no,div._list_pager_act
+{
+	cursor:							pointer;
+	color:							#000000;
+	background-color:				#e7e7e7;
+	/*border-style:					solid;
+	_border-color:					transparent;
+	border-color:					transparent;
+	border-width:					1px;
+	border-left-width:				3px;
+	border-right-width:				3px;*/
+	text-align:						center;
+	border-radius:					2px;
+	-moz-border-radius:				2px;
+	/*-webkit-border-radius:			3px;*/
+	/*min-width:						9px;
+	min-height:						13px;*/
+}
+div._list_pager_no:hover,div._list_pager_act
+{
+	background-color:				#b5b5b5;
+	color:							#000000;
+	border-color:					#b5b5b5;
+
+	/*text-decoration:				underline;*/
+}
+
+/* Pager number of actual page */
+div._list_pager_act
+{
+	background-color:				#3465a4;
+	color:							#ffffff;
+	border-color:					#3465a4;
+}
+
+/* Orderable header style */
+div._list_header_ordle
+{
+	/*font-size:						12px;*/
+	cursor:							pointer;
+	font-weight:					bold;
+	float:							left;
+	padding-right:					12px;
+}
+div._list_header_ordle:hover
+{
+	text-decoration:				underline;
+}
+
+/* Decoration of header ordered in ASC */
+div._list_header_asc
+{
+	background:						url(../img/_list_order_up.gif) no-repeat center right;
+	padding-right:					12px;
+}
+
+/* Decoration of header ordered in DESC */
+div._list_header_desc
+{
+	background:						url(../img/_list_order_down.gif) no-repeat center right;
+	padding-right:					12px;
+}
+
+/* Container for single/lists footer area */
+div._list_footer
+{
+	padding:						12px;
+	padding-bottom:					0px;
+}
+
+/* Row containing pager */
+td._list_pager_row
+{
+	/*padding-top:						4px;
+	padding-bottom:						3px;*/
+	/*vertical-align:					middle;
+	min-height:						20px;*/
+	padding-left:					12px;
+	padding-right:					12px;
+	border-bottom:					1px solid #d7d7d7;
+	height:							24px;
+	vertical-align:					middle;
+}
+td._list_pager_text
+{
+	white-space:					nowrap;
+	vertical-align:					middle;
+	padding-top:					1px;
+}
+/*td._list_pager_row td
+{
+	vertical-align:					middle;
+}*/
+
+/* Clickable text (e.g. manJavascript) */
+/*a.iFwListAction,div.iFwListAction
+{
+	cursor:				pointer;
+	color:				#003387;
+}
+a.iFwListAction:hover,div.iFwListAction:hover
+{
+	text-decoration:	underline;
+}*/
+
+/* Icons */
+div._list_ico_remove
+{
+	margin:							0px;
+	padding:						0px;
+	float:							right;
+	/*border:							1px solid #000000;*/
+	background:						url(../img/_list_ico_remove_off.gif) no-repeat center center;
+	height:							16px;
+	width:							16px;
+	min-height:						16px;
+	min-width:						16px;
+	cursor:							pointer;
+}
+div._list_ico_remove:hover
+{
+	background:						url(../img/_list_ico_remove_on.gif) no-repeat center center;
+}
+td._list_form
+{
+	/*padding-top:					4px;*/
+	background-color:			#e7e7e7;
+	vertical-align:					middle;
+	border-bottom:				1px solid #d7d7d7;
+}
+td._list_form td._uicmp_buttons
+{
+	padding-top:					0px;
+	padding-bottom:					0px;
+}
+
+/* deco list item */
+div._list_deco,div._list_deco_on
+{
+	overflow:						hidden;
+	height:							15px;
+	cursor:							pointer;
+}
+
+div._list_deco_on span._list_deco_text,div._list_deco_on span._list_deco_title
+{
+	text-decoration:				underline;
+}
+
+/* Spacing between deco list item context badges */
+div._list_deco div._ctx_scheme,div._list_deco_on div._ctx_scheme
+{
+	margin-right:					2px;
+}
+
+/* Informational text attached to item main title */
+span._list_deco_text
+{
+	padding:						0px;
+	margin:							0px;
+	color:							#666666;
+}
+
+/* Item main title */
+span._list_deco_title
+{
+	padding:						0px;
+	margin:							0px;
+	color:							#003387;
+	white-space:					normal;
+}
+
+td._list_pi
+{
+	vertical-align:					middle;
+}

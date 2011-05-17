@@ -1,0 +1,16 @@
+{* Renderer template for Menu web widget *}
+<td>
+	<table cellspacing="0" cellpadding="0">
+		<tr>
+			{assign var='item' value=$wdg->getFirst()}
+			{while $item}
+				{assign var='template' value=$item->getTemplate()}
+					{include file=$template}
+				{assign var='item' value=$wdg->getNext()}
+				{if $item}
+				<td class="_wwgSep">|</td>
+				{/if}
+			{/while}
+		</tr>
+	</table>
+</td>

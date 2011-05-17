@@ -1,0 +1,24 @@
+{* Simple search form *}
+<td class="_uicmp_srch_frm">
+	<div class="_uicmp_srch_frm">
+		<table cellspacing="0" cellpadding="0" class="_uicmp_search">
+			<tr>
+				<td class="_uicmp_search_field"><input onKeyUp="if ( waEventKeycode(event) == 13 ) {$USR_UICMP_CMP->getJsVar()}.search();" id="{$USR_UICMP_CMP->getHtmlId()}:input" class="_uicmp_search_input" type="text" value="{$USR_UICMP_CMP->getKeywords()}"></td>
+				<td class="_uicmp_search_field"><input onClick="{$USR_UICMP_CMP->getJsVar()}.search();" type="button" value="{$CHASSIS_UICMP_MESSAGES.srchBtSearch}"></td>
+				<td class="_uicmp_search_field"><input onClick="{$USR_UICMP_CMP->getJsVar()}.showAll();"type="button" value="{$CHASSIS_UICMP_MESSAGES.srchBtShowAll}"></td>
+				{*<td class="_uicmp_search_field"><div id="{$USR_UICMP_CMP->getHtmlId()}:indicator" class="_uicmp_search_indicator_hidden">{$CHASSIS_UICMP_MESSAGES.ajxLoading}</div></td>*}
+				{if !$USR_UICMP_CMP->isEmpty()}
+				{assign var='USR_UICMP_ITEM' value=$USR_UICMP_CMP->getFirst()}
+				{while $USR_UICMP_ITEM}
+					<td class="_uicmp_gi">{include file=$USR_UICMP_ITEM->getRenderer()}</td>
+					{assign var='USR_UICMP_ITEM' value=$USR_UICMP_CMP->getNext()}
+					{if $USR_UICMP_ITEM}
+					{*<td></td>*}
+					{/if}
+				{/while}
+				{/if}
+				<td width="100%"></td>
+			</tr>
+		</table>
+	</div>
+</td>

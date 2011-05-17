@@ -1,0 +1,16 @@
+{* UICMP Table Fold *}
+<td id="{$USR_UICMP_FOLD->getHtmlId()}:td" class="_uicmp_fold">
+	<div id="{$USR_UICMP_FOLD->getHtmlId()}" onClick="{$USR_UICMP_LAYOUT->getJsVar()}.show('{$USR_UICMP_TAB->getHtmlId()}');" class="_uicmp_fold{if $USR_UICMP_TAB->isHidden()}_hidden{/if}">{* JS functionality depends on Smarty variables created by parents (layout/tab/fold *}
+		<table cellspacing="0" cellpadding="0" class="_uicmp">
+			<tr>
+				<td class="_uicmp_tab_lt"></td>
+				<td class="_uicmp_fold_t">
+					<div class="_uicmp_fold_content">
+						<div class="_uicmp_fold_cap" id="{$USR_UICMP_FOLD->getHtmlId()}:div">{$USR_UICMP_FOLD->getTitle()}</div>
+					</div>
+				</td>
+				<td class="_uicmp_tab_rt"></td>
+			</tr>
+		</table>
+	</div>
+</td>

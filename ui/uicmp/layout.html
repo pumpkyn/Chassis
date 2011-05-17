@@ -1,0 +1,47 @@
+{* Layout template, the container for single layout content, it expects
+   $USR_UICMP_LAYOUT variable to hold reference to uiLayout class. *}
+
+{assign var='CHASSIS_UICMP_MESSAGES' value=$USR_UICMP_LAYOUT->getMessages()}
+
+<table cellspacing="0" cellpadding="0" width="100%" cborder="1">
+	<tr>
+		<td></td>
+		{* Fold, tabs, etc. *}
+		<td>
+			<table width="100%" cellspacing="0" cellpadding="0">
+				{* Folds *}
+				<tr>
+					<td>
+						<table cellspacing="0" cellpadding="0">
+							<tr>
+								{assign var='USR_UICMP_TAB' value=$USR_UICMP_LAYOUT->getFirst()}
+								{while $USR_UICMP_TAB}
+									{assign var='USR_UICMP_FOLD' value=$USR_UICMP_TAB->getFold()}
+									{if $USR_UICMP_FOLD}
+										{include file=$USR_UICMP_FOLD->getRenderer()}
+									{/if}
+									{assign var='USR_UICMP_TAB' value=$USR_UICMP_LAYOUT->getNext()}
+								{/while}
+							</tr>
+						</table>
+						
+					</td>
+				</tr>
+				{* Tabs *}
+				<tr>
+					<td>
+						{assign var='USR_UICMP_TAB' value=$USR_UICMP_LAYOUT->getFirst()}
+						{while $USR_UICMP_TAB}
+							{assign var='USR_UICMP_RENDERER' value=$USR_UICMP_TAB->getRenderer()}
+							{if $USR_UICMP_RENDERER}
+								{include file=$USR_UICMP_RENDERER}
+							{/if}
+							{assign var='USR_UICMP_TAB' value=$USR_UICMP_LAYOUT->getNext()}
+						{/while}
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td></td>
+	</tr>
+</table>

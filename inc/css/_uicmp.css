@@ -1,0 +1,591 @@
+
+/**
+ * @file _uicmp.css
+ * @author giorno
+ * @subpackage UICMP
+ *
+ * Styles for UICMP components.
+ */
+
+/* This class is required for all tables containing UI components */
+table._uicmp
+{
+	table-layout:					fixed;
+}
+
+/* Style for UICMP data containers */
+div._uicmp_data,._uicmp_hidden
+{
+	visibility:						hidden;
+}
+div._uicmp_data
+{
+	display:						none;
+}
+
+td._uicmp_layout_gap
+{
+	border-top:						64px solid #89abcd;
+	width:							16px;
+}
+
+td._uicmp_layout
+{
+	background-color:				#89abcd;
+}
+
+/* Corners of the tabs */
+td._uicmp_tab_lt,td._uicmp_tab_rt,td._uicmp_tab_lb,td._uicmp_tab_rb,td._uicmp_dlg_lt,td._uicmp_dlg_rt,td._uicmp_dlg_lb,td._uicmp_dlg_rb
+{
+	height:							4px;
+	width:							4px;
+}
+td._uicmp_tab_lt { background:			url(../img/_uicmp_tab_t.gif) no-repeat top left; }
+td._uicmp_tab_rt { background:			url(../img/_uicmp_tab_t.gif) no-repeat top right; }
+td._uicmp_tab_lb { background:			url(../img/_uicmp_tab_b.gif) no-repeat bottom left; }
+td._uicmp_tab_rb { background:			url(../img/_uicmp_tab_b.gif) no-repeat bottom right; }
+td._uicmp_dlg_lt { background:			url(../img/_uicmp_dlg.gif) no-repeat top left; }
+td._uicmp_dlg_rt { background:			url(../img/_uicmp_dlg.gif) no-repeat top right; }
+td._uicmp_dlg_lb { background:			url(../img/_uicmp_dlg.gif) no-repeat bottom left; }
+td._uicmp_dlg_rb { background:			url(../img/_uicmp_dlg.gif) no-repeat bottom right; }
+
+/* Tab top edge */
+td._uicmp_tab_t,td._uicmp_dlg_t,td._uicmp_fold_t
+{
+	background-color:				#e7e7e7;
+}
+td._uicmp_tab_t,td._uicmp_dlg_t
+{
+	width:							100%;
+}
+td._uicmp_fold_t
+{
+	padding-left:					4px;
+	padding-right:					4px;
+}
+
+/* Tab bottom edge */
+td._uicmp_tab_b,td._uicmp_dlg_b,td._uicmp_dlg_t { background-color:		#ffffff; }
+
+/* Tab header container, tab item, tab caption */
+td._uicmpTabItem,td._uicmpTabCaption,td._uicmpDlgCaption
+{
+	padding-left:					12px;
+	padding-right:					12px;
+}
+td._uicmpTabCaption,td._uicmp_head
+{
+	background-color:				#e7e7e7;
+}
+/* Background of tab canvas */
+td._uicmpTabBg,td._uicmpDlgCaption,td._uicmp_body
+{
+	background-color:				#ffffff;
+}
+td._uicmpTabCaption,td._uicmpDlgCaption
+{
+	padding-top:					2px;
+	/*padding-bottom:					6px;*/
+	vertical-align:					top;
+	height:							29px;
+	color:							#000000;
+}
+
+td._uicmp_fold
+{
+	border-right:					1px solid transparent;
+}
+
+div._uicmp_fold,div._uicmp_fold_hidden
+{
+	cursor:							pointer;
+	border-bottom:					1px solid #e7e7e7;
+}
+div._uicmp_fold_hidden
+{
+	border-bottom:					1px solid transparent;
+}
+
+/* Simple text anchors */
+div._uicmp_blue,div._uicmp_blue_b,div._uicmp_fold_content,div._uicmp_gi
+{
+	color:							#003387;
+}
+div._uicmp_blue,div._uicmp_blue_b
+{
+	cursor:							pointer;
+	white-space:					nowrap;
+}
+div._uicmp_blue:hover,div._uicmp_blue_b:hover,div._uicmp_gi:hover
+{
+	text-decoration:				underline;
+}
+div._uicmp_fold_content
+{
+	font-size:						12px;
+	padding-bottom:					4px;
+	_padding:						3px;
+	padding-top:					6px;
+	width:							100%;
+	white-space:					nowrap;
+	clear:							none;
+	float:							left;
+	min-height:						16px;
+}
+/* Tab fold title, clickable */
+div._uicmp_fold_cap,div._uicmp_fold_cap_bold
+{
+	_height:						16px;
+	padding:						2px;
+	padding-right:					2px;
+	padding-top:					0px;
+	padding-bottom:					2px;
+	/*font-size:						12px;*/
+	font-weight:					100;
+}
+div._uicmp_fold_cap_bold,div._uicmp_blue_b
+{
+	font-weight:					bold;
+}
+div._uicmp_fold:hover div._uicmp_fold_cap,div._uicmp_fold_hidden:hover div._uicmp_fold_cap,div._uicmp_fold:hover div._uicmp_fold_cap_bold,div._uicmp_fold_hidden:hover div._uicmp_fold_cap_bold
+{
+	text-decoration:				underline;
+}
+
+td._uicmp_sep_fold
+{
+	width:							16px;
+}
+
+/* Tab container element */
+div._uicmp_tab,div._uicmp_tab_hidden
+{
+	width:							100%;
+	visibility:						visible;
+	display:						block;
+}
+div._uicmp_tab_hidden
+{
+	visibility:						hidden;
+	display:						none;
+}
+
+td._uicmp_head
+{
+	padding-bottom:					4px;
+	border-bottom:					1px solid #d7d7d7;	/* cute border to create paper effect */
+}
+
+div._uicmp_head,div._uicmp_body,div._uicmp_100p
+{
+	width:							100%;
+}
+
+td._uicmp_title
+{
+	padding-top:					2px;
+	padding-bottom:					6px;
+	padding-left:					12px;
+	padding-right:					12px;
+	_width:							100%;
+}
+
+td._uicmp_buttons
+{
+	vertical-align:					middle;
+}
+
+div._uicmp_title
+{
+	font-size:						18px;
+	font-weight:					bold;
+	cursor:							default;
+	color:							#333333;
+	overflow:						hidden;
+	height:							24px;
+}
+
+/* Basic search form */
+td._uicmp_srch_frm,td._uicmp_buttons
+{
+	padding-top:					2px;
+	padding-bottom:					6px;
+	padding-left:					12px;
+	padding-right:					12px;
+	width:							100%;
+	/*width:							100%;*/
+}
+
+div._uicmp_srch_frm
+{
+	width:							100%;
+}
+
+table._uicmp_search
+{
+	width:							100%;
+}
+
+td._uicmp_search_field
+{
+	padding-right:					8px;
+	/*vertical-align:					middle;*/
+	white-space:					nowrap;
+}
+input._uicmp_search_input,input._uicmp_frm_input
+{
+	width:							360px;
+	-ms-box-sizing:					border-box;
+	-moz-box-sizing:				border-box;
+    -webkit-box-sizing:				border-box;
+}
+input._uicmp_frm_input
+{
+	width:							100%;
+}
+/* Default size of search results container */
+td._uicmp_srch_cnt
+{
+	min-height:						16px;
+	height:							16px;
+	position:						relative;
+}
+div._uicmp_srch_cnt
+{
+	width:							100%;
+}
+/* Cover effect displayed during the refresh method execution */
+div._uicmp_srch_effect
+{
+	position:						absolute;
+	z-index:						103;
+	background-color:				#ffffff;
+	opacity:						0.5;
+	filter:							alpha(opacity=50);
+	-moz-opacity:					0.5;
+	visibility:						hidden;
+	display:						none;
+}
+
+/* Indicator of Ajax status */
+div._uicmp_search_indicator,div._uicmp_search_indicator_hidden,div._uicmp_ind_gray,div._uicmp_ind_green,div._uicmp_ind_red
+{
+	background-color:				#8f5902;
+	border-color:					#8f5902;
+	color:							#ffffff;
+	float:							left;
+	/*background-color:				#ef2929;*/
+	padding:						1px;
+	padding-left:					5px;
+	padding-right:					5px;
+	-moz-border-radius:				2px;
+	-webkit-border-radius:			2px;
+	border-radius:					2px;
+	border-width:					1px;
+	font-weight:					normal;
+	visibility:						visible;
+	white-space:					nowrap;
+}
+div._uicmp_ind_gray
+{
+	background-color:				#555753;
+	border-color:					#555753;
+}
+div._uicmp_ind_green
+{
+	background-color:				#4e9a06;
+	border-color:					#4e9a06;
+}
+div._uicmp_ind_red
+{
+	background-color:				#a40000;
+	border-color:					#a40000;
+}
+
+div._uicmp_search_indicator_hidden
+{
+	visibility:						hidden;
+}
+td._uicmp_resizer
+{
+	padding-top:					6px;
+	/*padding-bottom:					6px;*/
+	padding-left:					12px;
+	padding-right:					12px;
+}
+div._uicmp_resizer_10,div._uicmp_resizer_20,div._uicmp_resizer_30,div._uicmp_resizer_50,
+div._uicmp_resizer_10_on,div._uicmp_resizer_20_on,div._uicmp_resizer_30_on,div._uicmp_resizer_50_on
+{
+	cursor:					pointer;
+	vertical-align:			top;
+	padding-left:			8px;
+	padding-right:			4px;
+	text-align:				center;
+	min-height:				32px;
+	background-image:		url(../img/_uicmp_res_off_10.gif);
+	background-repeat:		no-repeat;
+	background-position:	8px 12px;
+	/*padding-top:			4px;*/
+	margin-left:			0px;
+	width:					16px;
+	color:					#d7d7d7;
+	/*font-weight:			bold;*/
+}
+div._uicmp_resizer_10_on,div._uicmp_resizer_20_on,div._uicmp_resizer_30_on,div._uicmp_resizer_50_on
+{
+	color:					#3465a4;
+}
+div._uicmp_resizer_10:hover,div._uicmp_resizer_20:hover,div._uicmp_resizer_30:hover,div._uicmp_resizer_50:hover
+{
+	color:					#b5b5b5;
+	background-image:		url(../img/_uicmp_res_hov_10.gif);
+}
+div._uicmp_resizer_20
+{
+	background-image:		url(../img/_uicmp_res_off_20.gif);
+}
+div._uicmp_resizer_30
+{
+	background-image:		url(../img/_uicmp_res_off_30.gif);
+}
+div._uicmp_resizer_50
+{
+	background-image:		url(../img/_uicmp_res_off_50.gif);
+}
+div._uicmp_resizer_20:hover
+{
+	background-image:		url(../img/_uicmp_res_hov_20.gif);
+}
+div._uicmp_resizer_30:hover
+{
+	background-image:		url(../img/_uicmp_res_hov_30.gif);
+}
+div._uicmp_resizer_50:hover
+{
+	background-image:		url(../img/_uicmp_res_hov_50.gif);
+}
+div._uicmp_resizer_10_on
+{
+	background-image:		url(../img/_uicmp_res_on_10.gif);
+}
+div._uicmp_resizer_20_on
+{
+	background-image:		url(../img/_uicmp_res_on_20.gif);
+}
+div._uicmp_resizer_30_on
+{
+	background-image:		url(../img/_uicmp_res_on_30.gif);
+}
+div._uicmp_resizer_50_on
+{
+	background-image:		url(../img/_uicmp_res_on_50.gif);
+}
+
+/*td._uicmp_resizer_item
+{
+	vertical-align:			bottom;
+	padding-bottom:			6px;
+}*/
+td._uicmp_gi,td._uicmp_fri
+{
+	padding-right:			8px;
+}
+/* This is to assure tab head section will have always same height in case it
+   contains only title and single-row control panel, e.g. search form */
+td._uicmp_gi,td._uicmp_search_field
+{
+	height:					24px;
+	vertical-align:			middle;
+}
+div._uicmp_gi_txt
+{
+	color:					#b5b5b5;
+}
+/* fri = form row item */
+td._uicmp_gi_chk,td._uicmp_fri
+{
+	vertical-align:			middle;
+}
+/* Description string for form row input (FRI) element */
+td._uicmp_fri_desc
+{
+	font-size:				11px;
+	padding-top:			4px;
+}
+div._uicmp_gi
+{
+	white-space:			nowrap;
+	cursor:					pointer;
+}
+
+/* Group item with Back-To icon */
+div._uicmp_gi_back,div._uicmp_gi_add,div._uicmp_gi_copy,div._uicmp_dlg_close,div._uicmp_gi_close,div._uicmp_gi_now,div._uicmp_gi_right,div._uicmp_gi_cal,div._uicmp_gi_gear,div._uicmp_gi_bottom,div._uicmp_gi_top
+{
+	background-image:		url(../img/_uicmp_ico_back.gif);
+	background-repeat:		no-repeat;
+	background-position:	center left;
+	padding-left:			20px;
+	min-height:				16px;
+	padding-top:			2px;
+}
+div._uicmp_gi_back
+{
+	font-weight:			bold;
+}
+/* Group item with plus sign (Add) */
+div._uicmp_gi_add
+{
+	background-image:		url(../img/_uicmp_ico_add.gif);
+}
+/* Group item with copy action icon */
+div._uicmp_gi_now
+{
+	background-image:		url(../img/_uicmp_ico_now.gif);
+}
+/* Group item with copy action icon */
+div._uicmp_gi_right
+{
+	background-image:		url(../img/_uicmp_ico_right.gif);
+}
+/* Group item with copy action icon */
+div._uicmp_gi_cal
+{
+	background-image:		url(../img/_uicmp_ico_cal.gif);
+}
+/* Gear icon (projects, ...) */
+div._uicmp_gi_gear
+{
+	background-image:		url(../img/_uicmp_ico_gear.gif);
+}
+/* Bottom arrow (to scroll to bottom) */
+div._uicmp_gi_bottom
+{
+	background-image:		url(../img/_uicmp_ico_bottom.gif);
+}
+/* Top arrow (to scroll to top) */
+div._uicmp_gi_top
+{
+	background-image:		url(../img/_uicmp_ico_top.gif);
+}
+/* Group item with close action icon */
+div._uicmp_dlg_close
+{
+	margin-left:			8px;
+	margin-bottom:			8px;
+}
+div._uicmp_gi_close,div._uicmp_dlg_close
+{
+	
+	background-image:		url(../img/_uicmp_ico_close.gif);
+}
+
+td._uicmp_body_frm
+{
+	padding-top:			8px;
+	padding-bottom:			4px;
+}
+
+td._uicmp_frm_prompt,td._uicmp_frm_prompt_above_rest,td._uicmp_frm_prompt_above_1st/*,td._uicmp_frm_prompt_top,td._uicmp_frm_prompt_bottom*/
+{
+	padding:				8px;
+	padding-left:			12px;
+	padding-right:			12px;
+	white-space:			nowrap;
+	vertical-align:			middle;
+}
+/* _above_1st = first from left */
+td._uicmp_frm_prompt_above_rest,td._uicmp_frm_prompt_above_1st
+{
+	padding-bottom:			0px;
+}
+/* rest of them (= not first ones) */
+td._uicmp_frm_prompt_above_rest
+{
+	padding-left:			0px;
+}
+td._uicmp_frm_field,td._uicmp_frm_field_1st,td._uicmp_frm_field_rest/*,td._uicmp_frm_field_top,td._uicmp_frm_field_bottom*/
+{
+	padding:				4px;
+	padding-left:			12px;
+	padding-right:			12px;
+}
+td._uicmp_frm_field_rest
+{
+	padding-left:			0px;
+}
+/* Container for form section header */
+td._uicmp_body_frm_sec_hdr
+{
+	background-color:				#e5e5e5;
+	border-top:						1px dashed #99bbdd;
+	height:							24px;
+	vertical-align:					middle;
+	padding-left:					12px;
+	padding-right:					12px;
+}
+/* Container for one form section header item */
+td._uicmp_body_frm_sec_hdr_item
+{
+	padding-right:					16px;
+	white-space:					nowrap;
+}
+/* Stylesheet of one form section header item */
+div._uicmp_body_frm_sec_hdr_item,div._uicmp_body_frm_sec_hdr_item_cap
+{
+	white-space:					nowrap;
+	height:							16px;
+	padding-top:					2px;
+}
+div._uicmp_body_frm_sec_hdr_item_cap
+{
+	font-size:						14px;
+	font-weight:					bold;
+	padding-top:					0px;
+}
+
+div._uicmp_cdes_cloud
+{
+	margin-top:						4px;
+	overflow:						auto;
+}
+
+div._uicmp_cdes_cloud div._ctx_scheme
+{
+	margin-right:					2px;
+	margin-bottom:					2px;
+}
+/* Form section header strip, has same paper effect as UICMP framework */
+td._uicmp_frm_hdr
+{
+	background-color:				#e7e7e7;
+	/*border-bottom:					1px dashed #99bbdd;*/
+	border-bottom:					1px solid #d7d7d7;
+	border-top:						1px solid #d7d7d7;
+	vertical-align:					middle;
+	padding-left:					12px;
+	padding-right:					12px;
+	height:							24px;
+}
+/* Header spacer to provide extra margin */
+td._uicmp_frm_hdr_vsp
+{
+	height:						8px;
+}
+
+td._uicmp_frm_hdr_item
+{
+	padding-right:					16px;
+	white-space:					nowrap;
+	vertical-align:					middle;
+	/*border:1px dashed #565600;*/
+}
+div._uicmp_frm_hdr_cap
+{
+	font-weight:					bold;
+	height:							16px;
+	/*padding-top:					2px;*/
+	font-size:						14px;
+	/*padding-right:					16px;*/
+}
+
+

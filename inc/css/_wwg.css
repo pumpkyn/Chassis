@@ -1,0 +1,40 @@
+
+/* Container of the widget */
+td._wwg
+{
+	white-space:					nowrap;
+	vertical-align:					top;
+}
+
+/* Style of widgets in POOL_FOOTER */
+td._wwgFooter
+{
+	vertical-align:					bottom;
+	padding-top:					16px;
+}
+
+/* Url <A> type MenuItem */
+a._wwgMi,div._wwgMi
+{
+	color:							#ffffff;
+	text-decoration:				none;
+	cursor:							pointer;
+}
+
+a._wwgMi:hover,div._wwgMi:hover
+{
+	text-decoration:				underline;
+}
+
+/* Javascript type MenuItem */
+div._wwgMi
+{
+
+}
+
+/* Separator cell */
+td._wwgSep
+{
+	padding-left:					8px;
+	padding-right:					8px;
+}

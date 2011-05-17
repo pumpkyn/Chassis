@@ -1,0 +1,38 @@
+{* Context Displaying and Editing Solution (CDES) editor form UI *}
+<td class="_uicmp_body_frm">
+	<table width="100%" cellspacing="0" cellpadding="0">
+		<tr>
+			<td class="_uicmp_frm_prompt">{$CHASSIS_UICMP_MESSAGES.cdesPreview}</td>
+			<td width="100%" class="_uicmp_frm_field">
+					{assign var=USR_CTX value=$USR_UICMP_CMP->getCtx()}
+					{include file="$MFW_TEMPLATES_ROOT/ctx.html"}
+					<div class="_uicmp_data">
+						<div id="{$USR_UICMP_CMP->getHtmlId()}.msg.create">{$CHASSIS_UICMP_MESSAGES.cdesCreateContext}</div>
+						<div id="{$USR_UICMP_CMP->getHtmlId()}.msg.edit">{$CHASSIS_UICMP_MESSAGES.cdesEditContext}</div>
+					</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="_uicmp_frm_prompt">{$CHASSIS_UICMP_MESSAGES.cdesScheme}</td>
+			<td class="_uicmp_frm_field">
+				<select onChange="{$USR_UICMP_CMP->getJsVar()}.preview();" id="{$USR_UICMP_CMP->getHtmlId()}.scheme">
+					{foreach from=$CHASSIS_UICMP_MESSAGES.ctx key=value item=name}
+					<option value="{$value}">{$name}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="_uicmp_frm_prompt">{$CHASSIS_UICMP_MESSAGES.cdesDisplay}</td>
+			<td width="100%" class="_uicmp_frm_field">
+				<input onKeyUp="{$USR_UICMP_CMP->getJsVar()}.preview( );" type="text" class="_uicmp_frm_input" id="{$USR_UICMP_CMP->getHtmlId()}.disp">
+			</td>
+		</tr>
+		<tr>
+			<td class="_uicmp_frm_prompt">{$CHASSIS_UICMP_MESSAGES.cdesDesc}</td>
+			<td class="_uicmp_frm_field">
+				<input type="text" class="_uicmp_frm_input" id="{$USR_UICMP_CMP->getHtmlId()}.desc">
+			</td>
+		</tr>
+	</table>
+</td>

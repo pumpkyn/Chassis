@@ -1,0 +1,41 @@
+{if $USR_LIST_DATA.pager}
+<table width="100%" cellspacing="0" cellpadding="0">
+	<tr>
+		{if $USR_LIST_DATA.messages.listPage}
+		<td class="_list_pager_text">
+			{$USR_LIST_DATA.messages.listPage}:
+		</td>
+		{/if}
+		<td class="_list_pager_text">
+			<table cellspacing="0" cellpadding="0">
+				<tr>
+					{if $USR_LIST_DATA.pager.firstPage!=1}
+					<td class="_list_pi"><div onClick="_uicmp_lookup.lookup( '{$USR_LIST_DATA.instance}' ).browse( 1 );" class="_list_pager_no">1</div></div>
+					{/if}
+					{if $USR_LIST_DATA.pager.firstPage>2}
+					<td class="_list_pi"><div class="_list_pager_dots">...</div></td>
+					{/if}
+					{foreach from=$USR_LIST_DATA.pager.numbers item=number}
+					{if $number!=$USR_LIST_DATA.pager.page}
+					<td class="_list_pi"><div onClick="_uicmp_lookup.lookup( '{$USR_LIST_DATA.instance}' ).browse( {$number} );" class="_list_pager_no">{$number}</div></td>
+					{else}
+					<td class="_list_pi"><div class="_list_pager_act">{$number}</div></td>
+					{/if}
+					{/foreach}
+					{if $USR_LIST_DATA.pager.lastPage<($USR_LIST_DATA.pager.pageCount-1)}
+					<td class="_list_pi"><div class="_list_pager_dots">...</div></td>
+					{/if}
+					{if $USR_LIST_DATA.pager.lastPage!=$USR_LIST_DATA.pager.pageCount}
+					<td class="_list_pi"><div onClick="_uicmp_lookup.lookup( '{$USR_LIST_DATA.instance}' ).browse( {$USR_LIST_DATA.pager.pageCount} );" class="_list_pager_no">{$USR_LIST_DATA.pager.pageCount}</div></div>
+					{/if}
+					<td class="_list_pi">&nbsp;</td>{* MSIE hack to fix distorted last page number *}
+				</tr>
+			</table>
+		</td>
+		<td width="99%"></td>
+		<td class="_list_pager_text">
+			{$USR_LIST_DATA.messages.listItems} <b>{$USR_LIST_DATA.pager.firstItem}</b> {$USR_LIST_DATA.messages.listTo} <b>{$USR_LIST_DATA.pager.lastItem}</b> {$USR_LIST_DATA.messages.listOf} <b>{$USR_LIST_DATA.pager.itemCount}</b>
+		</td>
+	</tr>
+</table>
+{/if}

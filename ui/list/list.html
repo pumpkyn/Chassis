@@ -1,0 +1,51 @@
+{* Template rendering list *}
+
+<table cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+		<td colspan="10" class="_list_pager_row">{include file="$MFW_TEMPLATES_ROOT/list/list_pager.html"}
+			{*<div style="visibility:hidden; display:none" id="mFwListPageCount">{$USR_LIST_DATA.pager.pageCount}</div>*}
+		</td>
+	</tr>
+	<tr>
+		<td class="_list_main">
+			<table cellspacing="0" cellpadding="0" width="100%">
+				<tr>
+				{foreach name=header from=$USR_LIST_DATA.header key=id item=field}
+					<th colspan="{$field.colspan}" width="{$field.width}"{if $field.width!='*'}style="min-width:{$field.width};"{/if} class="_list_header{if $smarty.foreach.header.first} _list_col_first{/if}{if $smarty.foreach.header.last} _list_col_last{/if}">
+						<div {if $field.order==1}onClick="_uicmp_lookup.lookup( '{$USR_LIST_DATA.instance}' ).reorder( '{$field.id}', {if $field.ordered}{if $field.direction=='ASC'}'DESC'{else}'ASC'{/if}{else}'ASC'{/if} );" class="_list_header_ordle{if $field.ordered} {if $field.direction=='ASC'}_list_header_asc{else}_list_header_desc{/if}{/if}"{/if}>{$field.caption}</div>
+					</th>
+				{/foreach}
+				</tr>
+				{foreach name=data from=$USR_LIST_DATA.rows item=row}
+				<tr>
+				{foreach name=cells from=$row key=index item=cell}
+				
+						{if $smarty.foreach.data.last}
+							{assign var=almostAllItemClass value='_list_row_item _list_row_item_last'}
+						{else}
+							{assign var=almostAllItemClass value='_list_row_item'}
+						{/if}
+
+						{assign var=allItemClass value="$almostAllItemClass"}
+						
+						{if $smarty.foreach.cells.first}{assign var=allItemClass value="$almostAllItemClass _list_col_first"}{/if}
+						{if $smarty.foreach.cells.last}{assign var=allItemClass value="$almostAllItemClass _list_col_last"}{/if}
+
+					{include file="$MFW_TEMPLATES_ROOT/list/list_cell.html"}
+				{/foreach}
+				</tr>
+				{/foreach}
+			</table>
+		</td>
+	</tr>
+	{if $USR_LIST_DATA.bp}
+		{assign var=USR_UICMP_CMP value=$USR_LIST_DATA.bp->getUicmp()}
+		{if !$USR_UICMP_CMP->isEmpty()}
+	<tr>
+		<td colspan="10" class="_list_form">
+			<table cellpadding="0" cellspacing="0"><tr>{include file=$USR_UICMP_CMP->getRenderer()}</tr></table>
+		</td>
+	</tr>
+		{/if}
+	{/if}
+</table>

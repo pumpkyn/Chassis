@@ -1,0 +1,22 @@
+{* Group item template *}
+
+{if $USR_UICMP_ITEM->getWhat() == 'txt'}
+	<div id="{$USR_UICMP_ITEM->getHtmlId()}" class="_uicmp_gi_txt{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}">{$USR_UICMP_ITEM->getTitle()}</div>
+{elseif $USR_UICMP_ITEM->getWhat() == 'ind'}
+	<div id="{$USR_UICMP_ITEM->getHtmlId()}"{if $USR_UICMP_ITEM->getClass()} class="{$USR_UICMP_ITEM->getClass()}"{/if}>{$USR_UICMP_ITEM->getTitle()}</div>
+{elseif $USR_UICMP_ITEM->getWhat() == 'bt'}
+	<input id="{$USR_UICMP_ITEM->getHtmlId()}" type="button" {if $USR_UICMP_ITEM->getAction()} onClick="{$USR_UICMP_ITEM->getAction()}"{/if} class="_uicmp_gi{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}" value="{$USR_UICMP_ITEM->getTitle()}"/>
+{elseif $USR_UICMP_ITEM->getWhat() == 'chk'}
+	<div id="{$USR_UICMP_ITEM->getHtmlId()}">
+		<table cellspacing="0" cellpadding="0">
+			<tr>
+				<td class="_uicmp_gi_chk"><input id="{$USR_UICMP_ITEM->getHtmlId()}.box" type="checkbox" checked="checked" {if $USR_UICMP_ITEM->getAction()} onChange="{$USR_UICMP_ITEM->getAction()}"{/if} class="_uicmp_gi{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}"/></td>
+				<td class="_uicmp_gi_chk"><div id="{$USR_UICMP_ITEM->getHtmlId()}.txt" onClick="document.getElementById('{$USR_UICMP_ITEM->getHtmlId()}.box').click();" class="_uicmp_blue">{$USR_UICMP_ITEM->getTitle()}</div></td>
+			</tr>
+		</table>
+	</div>
+{else} {* == 'a' *}
+	<div{if $USR_UICMP_ITEM->getAction()} onClick="{$USR_UICMP_ITEM->getAction()}"{/if} class="_uicmp_gi{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}">
+		{$USR_UICMP_ITEM->getTitle()}
+	</div>
+{/if}

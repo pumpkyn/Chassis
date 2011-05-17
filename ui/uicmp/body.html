@@ -1,0 +1,10 @@
+{* UICMP tab body component *}
+<div class="_uicmp_body" id="{$USR_UICMP_BODY->getHtmlId()}:div">
+	<table cellspacing="0" cellpadding="0" width="100%" class="_uicmp">
+	{assign var='USR_UICMP_CMP' value=$USR_UICMP_BODY->getFirst()}
+	{while $USR_UICMP_CMP}
+		<tr>{include file=$USR_UICMP_CMP->getRenderer()}</tr>
+		{assign var='USR_UICMP_CMP' value=$USR_UICMP_BODY->getNext()}
+	{/while}
+	</table>
+</div>
