@@ -103,14 +103,12 @@ class _app_registry
 	/**
 	 * Singleton interface.
 	 *
-	 * @return <_app_registry>
+	 * @return _app_registry
 	 */
 	public static function getInstance( )
 	{
 		if ( static::$instance == NULL )
-		{
 			static::$instance = new static( );
-		}
 
 		return static::$instance;
 	}

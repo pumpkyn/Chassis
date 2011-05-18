@@ -187,13 +187,13 @@ class _session extends Config
 	/**
 	 * Performs login operation.
 	 *
-	 * @param <string> $appName identifier of user solution
+	 * @param <string> $ns namespace,identifier of user solution
 	 * @param <string> $username login
 	 * @param <string> $password password
 	 * @param <bool> $auto autologin flag
 	 * @return <bool>
 	 */
-	public function login ( $appName, $username, $password, $auto = FALSE )
+	public function login ( $ns, $username, $password, $auto = FALSE )
 	{
 		$hash =  _fw_hash_passwd( $password );
 
@@ -231,7 +231,7 @@ class _session extends Config
 
 			_db_query( "INSERT INTO `" . self::T_LOGINS . "`
 						SET `" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\",
-						`" . self::F_APP . "` = \"" . _db_escape( $appName ) . "\",
+						`" . self::F_NS . "` = \"" . _db_escape( $ns ) . "\",
 						`" . self::F_STAMP . "` = NOW()" );
 			return true;
 		}
