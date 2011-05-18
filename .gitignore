@@ -1,0 +1,7 @@
+# 3rd party files
+3rd/
+inc/3rd/
+
+# temp files
+tmp/smarty_cache/*
+tmp/smarty_cmpl/*
