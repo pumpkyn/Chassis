@@ -13,6 +13,6 @@ Collection of resources usable for development of multiuser web applications:
 Detailed information about the framework, its features, usage and installation
 please visit project Wiki:
 
-    https://github.com/pumpkyn/Chassis/wiki
+    [[https://github.com/pumpkyn/Chassis/wiki]]
 
 
