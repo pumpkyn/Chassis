@@ -1,5 +1,8 @@
 <?php
 
+require_once CHASSIS_CFG . 'class.Config.php';
+require_once CHASSIS_LIB . 'session/_session_wrapper.php';
+
 /**
  * @file _settings.php
  * @author giorno
@@ -10,10 +13,6 @@
  * is configured only by scope of the settings. Security identifiers are
  * extracted internaly from _session_wrapper instance.
  */
-
-require_once CHASSIS_CFG . 'class.Config.php';
-require_once CHASSIS_LIB . 'session/_session_wrapper.php';
-
 abstract class _settings extends Config
 {
 	/**
@@ -28,7 +27,7 @@ abstract class _settings extends Config
 	 * Database table to operate on. Its structure should be consistent with
 	 * tSettings table.
 	 *
-	 * @var <string>
+	 * @var string
 	 */
 	protected $tableName = self::T_SETTINGS;
 
@@ -37,36 +36,36 @@ abstract class _settings extends Config
 	 * will be user Id, for SESSION scope session Id. GLOBAL scope does not use
 	 * identifier as it is reserved for solution wide settings.
 	 * 
-	 * @var <mixed> 
+	 * @var mixed
 	 */
 	protected $id = NULL;
 
 	/**
 	 * Scope of the instance. NULL value indicates security problem.
 	 * 
-	 * @var <char>
+	 * @var char
 	 */
 	protected $scope = NULL;
 
 	/**
 	 * Namespace. Additional index for database table.
 	 *
-	 * @var <string>
+	 * @var string
 	 */
 	protected $ns = NULL;
 
 	/**
 	 * Internal cache for settings.
 	 *
-	 * @var <array>
+	 * @var array
 	 */
 	protected $table = NULL;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @param <char> $scope defines scope of instance
-	 * @param <string> $ns namespace (e.g. solution)
+	 * @param char $scope defines scope of instance
+	 * @param string $ns namespace (e.g. solution)
 	 */
 	public function __construct ( $scope, $ns )
 	{
@@ -101,11 +100,11 @@ abstract class _settings extends Config
 	 * settings presets SQL file, binds table name and namespace and runs
 	 * queries to create globally defined defaults.
 	 * 
-	 * @param <string> $file path to SQL file with default settings
-	 * @param <string> $ns namespace to clean and replace
-	 * @param <bool> $tr true if caller use transaction
-	 * @param <string> $table table to modify, default taken from framework config
-	 * @return <bool>
+	 * @param string $file path to SQL file with default settings
+	 * @param string $ns namespace to clean and replace
+	 * @param bool $tr true if caller use transaction
+	 * @param string $table table to modify, default taken from framework config
+	 * @return bool
 	 */
 	public static function run ( $file, $ns, $tr = true, $table = self::T_SETTINGS )
 	{
@@ -132,7 +131,7 @@ abstract class _settings extends Config
 	}
 
 	/**
-	 * Load all settings to inner array.
+	 * Load all settings to internal array.
 	 */
 	public function load ( )
 	{
@@ -159,16 +158,12 @@ abstract class _settings extends Config
 	/**
 	 * Saves value of setting in transaction.
 	 *
-	 * @param key key
-	 * @param value value
+	 * @param string $key identifier of setting entry
+	 * @param mixed $value value of setting
 	 */
 	public function saveOne ( $key, $value )
 	{
 		_db_query( "BEGIN" );
-			/*_db_query( "DELETE FROM `" . self::T_SETTINGS . "`
-						WHERE `" . self::F_ID . "` = \"" . _db_escape( $this->id ) ."\" AND `" . self::F_NS . "` = \"" . _db_escape( $this->ns ) . "\" AND `" . self::F_SCOPE . "` = \"" . _db_escape( $this->scope ) . "\" AND `" . self::F_KEY . "` = \"" . _db_escape( $key ) . "\"" );
-			_db_query( "INSERT INTO `" . self::T_SETTINGS . "`
-						SET `" . self::F_KEY . "` = \"" . _db_escape( $key ) . "\", `" . self::F_VALUE . "` = \"" . _db_escape( $value ) . "\", `" . self::F_ID . "` = \"" . _db_escape( $this->id ) ."\", `" . self::F_NS . "` = \"" . _db_escape( $this->ns ) . "\", `" . self::F_SCOPE . "` = \"" . _db_escape( $this->scope ) . "\"" );*/
 			$this->saveAtom( $key, $value );
 		_db_query( "COMMIT" );
 	}
@@ -176,8 +171,8 @@ abstract class _settings extends Config
 	/**
 	 * Transaction-less
 	 *
-	 * @param <type> $key
-	 * @param <type> $value
+	 * @param string $key identifier of setting entry
+	 * @param mixed $value value of setting
 	 */
 	private function saveAtom ( $key, $value )
 	{
@@ -189,58 +184,9 @@ abstract class _settings extends Config
 	}
 
 	/**
-	 * Saves configuration of list.
+	 * Read access interface. Returns kery referenced value from internal array.
 	 *
-	 * @param <type> $id
-	 * @param <type> $keywords
-	 * @param <type> $order
-	 * @param <type> $dir
-	 * @param <type> $page
-	 */
-	public function saveListCfg ( $id, $keywords, $order, $dir, $page )
-	{
-		_db_query( "BEGIN" );
-			$this->saveAtom( 'list.' . $id . '.k', $keywords );
-			$this->saveAtom( 'list.' . $id . '.o', $order );
-			$this->saveAtom( 'list.' . $id . '.d', $dir );
-			$this->saveAtom( 'list.' . $id . '.p', $page );
-		_db_query( "COMMIT" );
-	}
-
-	/**
-	 * Returns array with list configuration.
-	 * 
-	 * @param <string> $id list configuration identifier
-	 * @return <array>
-	 */
-	public function getListCfg ( $id )
-	{
-		return Array(	'k' => $this->get( 'list.' . $id . '.k' ),
-						'p' => $this->get( 'list.' . $id . '.p' ),
-						'o' => $this->get( 'list.' . $id . '.o' ),
-						'd' => $this->get( 'list.' . $id . '.d' ));
-	}
-
-
-	/**
-	 * Creates default setting for the list configuration.
-	 *
-	 * @param <string> $id identifier of list configuration
-	 * @param <string> $order default order field
-	 * @param <string> $dir default order direction
-	 */
-	public function presetListCfg ( $id, $order = '', $dir = 'ASC' )
-	{
-		$this->table['_list_cfg_' . $id . '_keywords'] = '';
-		$this->table['_list_cfg_' . $id . '_page'] = 1;
-		$this->table['_list_cfg_' . $id . '_order'] = $order;
-		$this->table['_list_cfg_' . $id . '_dir'] = $dir;
-	}
-
-	/**
-	 * Return value by key.
-	 *
-	 * @param key key
+	 * @param string $key
 	 * @return mixed
 	 */
 	public function get ( $key )
@@ -248,7 +194,7 @@ abstract class _settings extends Config
 		if ( array_key_exists( $key, $this->table ) )
 			return $this->table[$key];
 		else
-			return null;
+			return NULL;
 	}
 }
 
