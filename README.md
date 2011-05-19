@@ -11,8 +11,6 @@ Collection of resources usable for development of multiuser web applications:
 * Smarty templates
 
 Detailed information about the framework, its features, usage and installation
-please visit project Wiki:
-
-    [[https://github.com/pumpkyn/Chassis/wiki]]
+please visit project Wiki: https://github.com/pumpkyn/Chassis/wiki
 
 
