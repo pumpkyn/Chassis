@@ -1,4 +1,12 @@
 
+/**
+ * @file _wwg.css
+ * @author giorno
+ * @package Chassis
+ *
+ * Stylesheet for framework web widgets.
+ */
+ 
 /* Container of the widget */
 td._wwg
 {
@@ -13,24 +21,34 @@ td._wwgFooter
 	padding-top:					16px;
 }
 
+ /* Top row - items like Main Page, Logout, etc. */
+td._wwgMi,td._wwgMenu
+{
+	padding-top:					5px;
+	padding-left:					16px;
+	padding-right:					16px;
+	height:							16px;
+}
+td._wwgMenu
+{
+ 	padding-bottom:					12px;
+}
+
+
 /* Url <A> type MenuItem */
 a._wwgMi,div._wwgMi
 {
 	color:							#ffffff;
 	text-decoration:				none;
 	cursor:							pointer;
+	font-weight:					bold;
 }
-
-a._wwgMi:hover,div._wwgMi:hover
+a._wwgMi:hover,div._wwgMi:hover,div._wwgMiIe
 {
 	text-decoration:				underline;
+	color:							#ffffff;
 }
 
-/* Javascript type MenuItem */
-div._wwgMi
-{
-
-}
 
 /* Separator cell */
 td._wwgSep

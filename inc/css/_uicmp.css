@@ -2,6 +2,7 @@
 /**
  * @file _uicmp.css
  * @author giorno
+ * @package Chassis
  * @subpackage UICMP
  *
  * Styles for UICMP components.
@@ -268,7 +269,7 @@ div._uicmp_srch_effect
 }
 
 /* Indicator of Ajax status */
-div._uicmp_search_indicator,div._uicmp_search_indicator_hidden,div._uicmp_ind_gray,div._uicmp_ind_green,div._uicmp_ind_red
+div._uicmp_search_indicator,div._uicmp_search_indicator_hidden,div._uicmp_ind_gray,div._uicmp_ind_green,div._uicmp_ind_red,div._uicmp_ind_yellow,div._uicmp_ind_blue
 {
 	background-color:				#8f5902;
 	border-color:					#8f5902;
@@ -300,6 +301,17 @@ div._uicmp_ind_red
 {
 	background-color:				#a40000;
 	border-color:					#a40000;
+}
+div._uicmp_ind_yellow
+{
+	background-color:				#ecd94f;
+	border-color:					#fce94f;
+}
+div._uicmp_ind_blue
+{
+	background-color:				#4e9a06;
+	border-color:					#4e9a06;
+	color:							#ffffff;
 }
 
 div._uicmp_search_indicator_hidden
@@ -589,3 +601,10 @@ div._uicmp_frm_hdr_cap
 }
 
 
+/* Information of zero matches to search conditions */
+td._uicmp_srch_zero
+{
+	padding:						12px;
+	padding-bottom:					64px;
+	/*font-size:						14px;*/
+}

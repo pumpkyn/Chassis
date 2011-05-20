@@ -90,7 +90,7 @@ class _uicmp_tab extends _uicmp_comp
 
 			/**
 			 * Tab interface may be used also by SkyDome dialogs, for which
-			 * there is usually no Javscript instance created.
+			 * there is usually no Javascript instance created.
 			 *
 			 * @todo is this still true?
 			 */

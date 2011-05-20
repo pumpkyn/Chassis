@@ -1,16 +1,16 @@
 {* Template rendering MenuItem web widget *}
 <td class="_wwg">
 	{if $item->getType()=='js'}
-		<div onClick="{$item->getValue()}" onMouseOver="if ( BrowserDetect.browser == 'Explorer' ) this.className='gtdTopRow gtdTopRowIe {$item->getClass()}';" onMouseOut="if ( BrowserDetect.browser == 'Explorer' ) this.className='gtdTopRow {$item->getClass()}';" class="gtdTopRow {$item->getClass()}">{$item->getTitle()}</div>
+		<div onClick="{$item->getValue()}" onMouseOver="if ( BrowserDetect.browser == 'Explorer' ) this.className='_wwgMi _wwgMiIe {$item->getClass()}';" onMouseOut="if ( BrowserDetect.browser == 'Explorer' ) this.className='_wwgMi {$item->getClass()}';" class="_wwgMi {$item->getClass()}">{$item->getTitle()}</div>
 	{/if}
 </td>
 {if $anc.type=='js'}
-	<td class="gtdBarItem{if $smarty.foreach.anchors.first}First{/if}" nowrap="nowrap">
-		<div onClick="{$anc.value}" onMouseOver="if ( BrowserDetect.browser == 'Explorer' ) this.className='gtdTopRow gtdTopRowIe {$anc.class}';" onMouseOut="if ( BrowserDetect.browser == 'Explorer' ) this.className='gtdTopRow {$anc.class}';" class="gtdTopRow {$anc.class}">{$anc.title}</div>
+	<td class="_wwg" nowrap="nowrap">
+		<div onClick="{$anc.value}" onMouseOver="if ( BrowserDetect.browser == 'Explorer' ) this.className='_wwgMi _wwgMiIe {$anc.class}';" onMouseOut="if ( BrowserDetect.browser == 'Explorer' ) this.className='_wwgMi {$anc.class}';" class="_wwgMi {$anc.class}">{$anc.title}</div>
 	</td>
 {elseif $anc.type=='url'}
-	<td class="gtdBarItem{if $smarty.foreach.anchors.first}First{/if}" nowrap="nowrap">
-		<a class="gtdTopRow" href="{$anc.value}">{$anc.title}</a>
+	<td class="_wwg" nowrap="nowrap">
+		<a class="_wwgMi" href="{$anc.value}">{$anc.title}</a>
 	</td>
 {else}
 {/if}
