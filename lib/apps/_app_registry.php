@@ -316,8 +316,8 @@ class _app_registry
 	 */
 	public function render (  )
 	{
-		_smarty_wrapper::getInstance( )->getEngine( )->registerObject( 'MFW_OBJ_APPS_REGISTRY', $this, NULL, FALSE );
-		_smarty_wrapper::getInstance( )->getEngine( )->assign( 'MFW_DEPLOYMENT_MAGIC', time( ) );
+		_smarty_wrapper::getInstance( )->getEngine( )->registerObject( 'USR_APPS_REGISTRY', $this, NULL, FALSE );
+		_smarty_wrapper::getInstance( )->getEngine( )->assign( 'USR_APPS_MAGIC', time( ) );
 	}
 
 	/**
