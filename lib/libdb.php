@@ -24,7 +24,18 @@ function _db_connect ( $server, $user, $passwd, $db )
 
 	$__SQL_CONN = mysql_connect( $server, $user, $passwd );
 
-	mysql_select_db( $db, $__SQL_CONN );
+	if ( $__SQL_CONN )
+	{
+		$db_ok = mysql_select_db( $db, $__SQL_CONN );
+		if ( !$db_ok )
+		{
+			_db_close( );
+			$__SQL_CONN = NULL;
+			return false;
+		}
+	}
+	
+	return $__SQL_CONN;
 }
 
 /**
