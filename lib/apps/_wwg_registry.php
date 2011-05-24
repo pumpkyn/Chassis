@@ -174,7 +174,11 @@ class _wwg_registry
 		 * There is no custom layout, widgets are served as they were registered.
 		 */
 		$this->iter = $pool;
-		return reset( $this->pools[$pool] );
+		
+		if ( is_array( $this->pools[$pool] ) )
+			return reset( $this->pools[$pool] );
+		else
+			return NULL;
 	}
 
 	/**
