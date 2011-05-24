@@ -8,13 +8,13 @@
 	{while $USR_UICMP_DLG}
 	<div id="{$USR_UICMP_DLG->getHtmlId()}" class="_sd_dlg">
 		<table cellspacing="0" cellpadding="0" width="100%" class="_uicmp">
-			{include file="$MFW_TEMPLATES_ROOT/uicmp/x_dlgTop.html"}
+			{include file="$CHASSIS_UI_ROOT/uicmp/x_dlgTop.html"}
 			<tr>
 				<td colspan="3" class="_sd_dlg_bg">
 					{include file=$USR_UICMP_DLG->getRenderer()}
 				</td>
 			</tr>
-			{include file="$MFW_TEMPLATES_ROOT/uicmp/x_dlgBottom.html"}
+			{include file="$CHASSIS_UI_ROOT/uicmp/x_dlgBottom.html"}
 		</table>
 	</div>
 		{assign var='USR_UICMP_DLG' value=$USR_UICMP_DLGS->getNext()}

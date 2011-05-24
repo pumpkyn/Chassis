@@ -1,19 +1,19 @@
 {* Template generating content of UICMP Tab widget *}
 <div id="{$USR_UICMP_TAB->getHtmlId()}" class="{if $USR_UICMP_TAB->isHidden()}_uicmp_tab_hidden{else}_uicmp_tab{/if}" >
 	<table width="100%" cellspacing="0" cellpadding="0" class="_uicmp">
-		{include file="$MFW_TEMPLATES_UICMP/x_tabTop.html"}
+		{include file="$CHASSIS_UI_UICMP/x_tabTop.html"}
 		<tr>
 			<td colspan="3" class="_uicmp_head">
 				{assign var='USR_UICMP_HEAD' value=$USR_UICMP_TAB->getHead()}
-				{include file="$MFW_TEMPLATES_UICMP/head.html"}
+				{include file="$CHASSIS_UI_UICMP/head.html"}
 			</td>
 		</tr>
 		<tr>
 			<td colspan="3" class="_uicmp_body">
 				{assign var='USR_UICMP_BODY' value=$USR_UICMP_TAB->getBody()}
-				{include file="$MFW_TEMPLATES_UICMP/body.html"}
+				{include file="$CHASSIS_UI_UICMP/body.html"}
 			</td>
 		</tr>
-		{include file="$MFW_TEMPLATES_UICMP/x_tabBottom.html"}
+		{include file="$CHASSIS_UI_UICMP/x_tabBottom.html"}
 	</table>
 </div>

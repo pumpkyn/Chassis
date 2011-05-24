@@ -21,7 +21,7 @@
 {elseif $cell->manager=='manBadge'}
 	<td width="1%" class="{$allItemClass} _list_row_item_icon {*$cell->data.class*}">
 		{assign var='USR_CTX' value=$cell->data.ctx}
-		{include file="$MFW_TEMPLATES_ROOT/ctx.html"}
+		{include file="$CHASSIS_UI_ROOT/ctx.html"}
 	</td>
 {elseif $cell->manager=='manCheckbox'}
 	<td width="1%" class="{$allItemClass} _list_row_item_chkbox{* {$cell->data.class}*}">
@@ -34,7 +34,7 @@
 			{if $cell->data.ctxs}
 				{foreach from=$cell->data.ctxs item=USR_CTX}
 					{*assign var='USR_CTX' value=$context*}
-					{include file="$MFW_TEMPLATES_ROOT/ctx.html"}
+					{include file="$CHASSIS_UI_ROOT/ctx.html"}
 				{/foreach}
 			{/if}
 			<span class="_list_deco_title">{$cell->data.title} </span>

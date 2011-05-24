@@ -1,5 +1,7 @@
 <?php
 
+require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
+
 /**
  * @file _uicmp_title.php
  * @author giorno
@@ -8,24 +10,21 @@
  *
  * Class representing caption of the tab.
  */
-
-require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
-
 class _uicmp_title extends _uicmp_comp
 {
 	/**
 	 * Text string to display.
 	 *
-	 * @var <string>
+	 * @var string
 	 */
 	public $title = null;
 
 	/**
 	 * Contructor.
 	 *
-	 * @param <_uicmp_head> $parent reference to parent widget
-	 * @param <string> $id identifier of the component
-	 * @param <string> $title text of the title
+	 * @param _uicmp_head $parent reference to parent widget
+	 * @param string $id identifier of the component
+	 * @param string $title text of the title
 	 */
 	public function __construct( &$parent, $id, $title )
 	{
@@ -43,7 +42,7 @@ class _uicmp_title extends _uicmp_comp
 	/**
 	 * Returns text to be displayed.
 	 *
-	 * @return <string>
+	 * @return string
 	 */
 	public function getTitle( ) { return $this->title; }
 }

@@ -17,14 +17,14 @@ abstract class _uicmp_comp extends _vcmp_comp
 	 * Type of the item. Each instance/class is responsible for setting this
 	 * value.
 	 *
-	 * @var <string>
+	 * @var string
 	 */
 	protected $type = null;
 
 	/**
 	 * Ide of the element. Its HTML id is composed from this.
 	 *
-	 * @var <string>
+	 * @var string
 	 */
 	public $id = NULL;
 
@@ -32,15 +32,15 @@ abstract class _uicmp_comp extends _vcmp_comp
 	 * Path to Smarty template rendering the item. This is set in the UICMP
 	 * components classes.
 	 *
-	 * @var <string>
+	 * @var string
 	 */
 	protected $renderer = NULL;
 
 	/**
 	 * Contructor.
 	 *
-	 * @param <_uicmp_comp> $parent parent component instance
-	 * @param <string> $id identifier of the component
+	 * @param _uicmp_comp $parent parent component instance
+	 * @param string $id identifier of the component
 	 */
 	public function  __construct ( &$parent, $id = NULL )
 	{
@@ -51,15 +51,17 @@ abstract class _uicmp_comp extends _vcmp_comp
 	/**
 	 * RO interface to $type member. Return value identifies default template
 	 *
-	 * @return <string>
+	 * @return string
 	 */
 	public function type ( ) { return $this->type; }
 
 	/**
 	 * Returns HTML id for the element. Lowercase 'm' letter at the beginning of
 	 * the string is to conform specification: http://www.w3.org/TR/html4/types.html#type-id
+	 * 
+	 * @todo produce ID's as hashes to obsfucate content
 	 *
-	 * @return <string>
+	 * @return string
 	 */
 	public function getHtmlId ( )
 	{
@@ -71,25 +73,23 @@ abstract class _uicmp_comp extends _vcmp_comp
 	 * Clibs up parents' hierarchy and returns requirer instance from top parent
 	 * (_uicmp_layout).
 	 *
-	 * @return <Requirer>
+	 * @return _requirer
 	 */
-	protected function getRequirer ( ) { return $this->parent->getRequirer( ); }
+	public function getRequirer ( ) { return $this->parent->getRequirer( ); }
 
 	/**
 	 * Path to Smarty template responsible for item rendering.
 	 *
-	 * @return <string>
+	 * @return string
 	 */
 	public function getRenderer ( ) { return $this->renderer; }
 
 	/**
 	 * Returns Id of the item.
 	 *
-	 * @return <string>
+	 * @return string
 	 */
 	public function getId ( ) { return $this->id; }
-
-	
 
 }
 

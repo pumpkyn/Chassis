@@ -61,9 +61,7 @@ class _smarty_wrapper
 	public static function getInstance ( )
 	{
 		if ( self::$instance == null )
-		{
 			self::$instance = new _smarty_wrapper( );
-		}
 
 		return self::$instance;
 	}
@@ -122,14 +120,14 @@ class _smarty_wrapper
 		if ( ( $this->smarty != null ) && ( !$this->done ) )
 		{
 			/* Framework templates directories */
-			$this->smarty->assign( 'MFW_TEMPLATES_ROOT', CHASSIS_UI );
-			$this->smarty->assign( 'MFW_TEMPLATES_UICMP', CHASSIS_UICMP );
+			$this->smarty->assign( 'CHASSIS_UI_ROOT', CHASSIS_UI );
+			$this->smarty->assign( 'CHASSIS_UI_UICMP', CHASSIS_UICMP );
 
 			/* User templates directory */
-			$this->smarty->assign( 'MFW_TEMPLATES_USRDIR', $this->smarty->template_dir );
+			$this->smarty->assign( 'CHASSIS_UI_USRDIR', $this->smarty->template_dir );
 
 			/* Display main Smarty template = content file */
-			$this->smarty->assign( 'MFW_TEMPLATES_INDEX', $this->index );
+			$this->smarty->assign( 'CHASSIS_UI_INDEX', $this->index );
 			$this->smarty->display( $this->index );
 			
 			$this->done = true;

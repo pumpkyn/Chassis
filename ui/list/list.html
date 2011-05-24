@@ -2,7 +2,7 @@
 
 <table cellspacing="0" cellpadding="0" width="100%">
 	<tr>
-		<td colspan="10" class="_list_pager_row">{include file="$MFW_TEMPLATES_ROOT/list/list_pager.html"}
+		<td colspan="10" class="_list_pager_row">{include file="$CHASSIS_UI_ROOT/list/list_pager.html"}
 			{*<div style="visibility:hidden; display:none" id="mFwListPageCount">{$USR_LIST_DATA.pager.pageCount}</div>*}
 		</td>
 	</tr>
@@ -31,7 +31,7 @@
 						{if $smarty.foreach.cells.first}{assign var=allItemClass value="$almostAllItemClass _list_col_first"}{/if}
 						{if $smarty.foreach.cells.last}{assign var=allItemClass value="$almostAllItemClass _list_col_last"}{/if}
 
-					{include file="$MFW_TEMPLATES_ROOT/list/list_cell.html"}
+					{include file="$CHASSIS_UI_ROOT/list/list_cell.html"}
 				{/foreach}
 				</tr>
 				{/foreach}

@@ -3,7 +3,7 @@
 {assign var='USR_UICMP_CTXS' value=$USR_UICMP_CMP->getCtxs()}
 {if $USR_UICMP_CTXS}
 	{foreach from=$USR_UICMP_CTXS item=USR_CTX}
-		{include file="$MFW_TEMPLATES_ROOT/ctx.html"}
+		{include file="$CHASSIS_UI_ROOT/ctx.html"}
 	{/foreach}
 {else}e
 	{*noctxs*}

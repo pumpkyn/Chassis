@@ -182,13 +182,18 @@ div._uicmp_head,div._uicmp_body,div._uicmp_100p
 	width:							100%;
 }
 
-td._uicmp_title
+td._uicmp_title,td._uicmp_info
 {
 	padding-top:					2px;
 	padding-bottom:					6px;
 	padding-left:					12px;
 	padding-right:					12px;
 	_width:							100%;
+}
+td._uicmp_info
+{
+	padding-top:					0px;
+	padding-bottom:					2px;
 }
 
 td._uicmp_buttons
@@ -204,6 +209,10 @@ div._uicmp_title
 	color:							#333333;
 	overflow:						hidden;
 	height:							24px;
+}
+div._uicmp_info
+{
+
 }
 
 /* Basic search form */

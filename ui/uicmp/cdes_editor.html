@@ -5,7 +5,7 @@
 			<td class="_uicmp_frm_prompt">{$CHASSIS_UICMP_MESSAGES.cdesPreview}</td>
 			<td width="100%" class="_uicmp_frm_field">
 					{assign var=USR_CTX value=$USR_UICMP_CMP->getCtx()}
-					{include file="$MFW_TEMPLATES_ROOT/ctx.html"}
+					{include file="$CHASSIS_UI_ROOT/ctx.html"}
 					<div class="_uicmp_data">
 						<div id="{$USR_UICMP_CMP->getHtmlId()}.msg.create">{$CHASSIS_UICMP_MESSAGES.cdesCreateContext}</div>
 						<div id="{$USR_UICMP_CMP->getHtmlId()}.msg.edit">{$CHASSIS_UICMP_MESSAGES.cdesEditContext}</div>
