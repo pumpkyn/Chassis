@@ -57,6 +57,24 @@ CREATE TABLE IF NOT EXISTS `tUsers` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=28 ;
 
 --
+-- Table structure for table `tSignTokens`
+--
+
+CREATE TABLE IF NOT EXISTS `tSignTokens` (
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `clid` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `uid` bigint(20) NOT NULL,
+  `valid` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Constraints for dumped tables
+--
+
+
+--
 -- Constraints for table `tLogins`
 --
 ALTER TABLE `tLogins`
@@ -67,3 +85,9 @@ ALTER TABLE `tLogins`
 --
 ALTER TABLE `tSessions`
   ADD CONSTRAINT `tSessions_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `tUsers` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tSignTokens`
+--
+ALTER TABLE `tSignTokens`
+  ADD CONSTRAINT `tSignTokens_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `tUsers` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;
