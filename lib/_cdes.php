@@ -1,13 +1,5 @@
 <?php
 
-/**
- * @file _cdes.php
- * @author giorno
- * @package Chassis
- *
- * Class for CDES (Context Displaying and Editing Solution) backend operations.
- */
-
 require_once CHASSIS_CFG . 'class.Config.php';
 require_once CHASSIS_LIB . 'class.Wa.php';
 require_once CHASSIS_LIB . 'libdb.php';
@@ -16,7 +8,15 @@ require_once CHASSIS_LIB . 'list/_list_builder.php';
 require_once CHASSIS_LIB . 'list/_list_cell.php';
 
 require_once CHASSIS_LIB . 'ui/_ctx.php';
+require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
 
+/**
+ * @file _cdes.php
+ * @author giorno
+ * @package Chassis
+ *
+ * Class for CDES (Context Displaying and Editing Solution) backend operations.
+ */
 class _cdes
 {
 	/*
@@ -77,7 +77,6 @@ class _cdes
 	/**
 	 * Perform search on contexts.
 	 *
-	 * @param <string> $id id of the list configuration
 	 * @param <_list_cfg> $list_cfg backend for saving configuration of the list
 	 * @param <string> $js_id search solution client side id (for _list_builder)
 	 * @param <string> $cdes_ed Javascript variable for client side of editor solution
@@ -132,9 +131,25 @@ class _cdes
 
 		/**
 		 * There is no match for search parameters.
+		 * 
+		 * @todo rethink if this breaks view concept.
 		 */
 		if ( $itemCount < 1 )
-			return false;
+		{
+			if ( trim( $keyword ) != '' )
+			{
+				$empty = new _list_empty( $this->messages['cdesEmpty'] );
+				$empty->add( $this->messages['cdesOSearch'], "_uicmp_lookup.lookup( '{$js_id}' ).focus();" );
+				$empty->add( $this->messages['cdesOShowAll'], "_uicmp_lookup.lookup( '{$js_id}' ).showAll();" );
+			}
+			else
+			{
+				$empty = new _list_empty( $this->messages['cdesNoMatch'] );
+				$empty->add( $this->messages['cdesOCreate'], "{$cdes_ed}.create();" );
+			}
+			$empty->render( );
+			return;// false;
+		}
 
 		$res = _db_query( "SELECT * FROM `" . _db_escape( $this->tableName ) . "` WHERE `" . self::F_CTXUID . "` = \"" . _db_escape( $this->UID ) . "\" {$where} ORDER BY {$orderBy}
 							LIMIT " . _db_escape( $firstItem ) . "," . _db_escape( $pageSize ) );
@@ -160,7 +175,11 @@ class _cdes
 			}
 		}
 
-		return $builder->export( );
+		//return $builder->export( );
+		
+		_smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'USR_LIST_DATA', $builder->export( ) );
+		_smarty_wrapper::getInstance( )->setContent( CHASSIS_UI . '/list/list.html' );
+		_smarty_wrapper::getInstance( )->render( );
 	}
 
 	/**
