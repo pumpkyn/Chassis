@@ -5,6 +5,9 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
+ * 
+ * @todo as it already contains all framework localization it should be named
+ *        so and placed one dir upwards (apply for all languages)
  *
  * English language messages for UICMP framework.
  */
@@ -22,6 +25,8 @@ $_uicmp_i18n['listOf']				= 'of';
 $_uicmp_i18n['listTo']				= '-';
 $_uicmp_i18n['listItems']			= 'Records';
 $_uicmp_i18n['listPage']			= 'Page';
+$_uicmp_i18n['listEmptyOptions']	= 'You may want to';
+$_uicmp_i18n['listEmptyLastOpt']	= 'or';
 
 /**
  * Lists Batch Processing (BP) form.
@@ -48,6 +53,11 @@ $_uicmp_i18n['cdesDesc']			= 'Description';
 $_uicmp_i18n['cdesContext']			= 'Label';
 $_uicmp_i18n['cdesRemove']			= 'Remove';
 $_uicmp_i18n['cdesQuestion']		= 'Do you really want to remove context <b>%s</b>? This operation cannot be undone.';
+$_uicmp_i18n['cdesEmpty']			= 'You do not have any labels created.';
+$_uicmp_i18n['cdesNoMatch']			= 'Not match found for search request.';
+$_uicmp_i18n['cdesOCreate']			= 'Create new label';
+$_uicmp_i18n['cdesOShowAll']		= 'Show all labels';
+$_uicmp_i18n['cdesOSearch']			= 'Change keywords and search again';
 
 /**
  * Contexts + CDES.
