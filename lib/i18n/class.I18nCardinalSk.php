@@ -10,7 +10,7 @@
  * similar .
  */
 
-require_once CHASSIS_I18N . 'class.I18nCardinal.php';
+require_once CHASSIS_LIB . 'i18n/class.I18nCardinal.php';
 
 class I18nCardinalSk extends I18nCardinal
 {
