@@ -1,5 +1,7 @@
 <?PHP
 
+require_once CHASSIS_LIB . 'list/_list_i18n.php';
+
 /**
  * @file _list_descriptor.php
  * @author giorno
@@ -12,7 +14,7 @@
  *
  * Constant values may be used in frontend template hence need to be synced.
  */
-class _list_descriptor
+class _list_descriptor extends _list_i18n
 {
 	/**
 	 * Internal representation of fields (in header).
@@ -22,8 +24,9 @@ class _list_descriptor
 	/**
 	 * Constructor.
 	 */
-	public function __construct ( )
+	public function __construct ( $lang )
 	{
+		parent::__construct( $lang );
 		$this->fields = null;
 	}
 

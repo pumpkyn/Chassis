@@ -46,29 +46,18 @@ class _list_builder extends _list_descriptor
 	 * point.
 	 */
 	private $jumpers = NULL;
-
-	/**
-	 * Associative array of localization messages.
-	 * 
-	 * @var <array>
-	 */
-	private $messages = NULL;
 	
 	/**
 	 * Constructor.
+	 * 
+	 * @param string $client_id client search instance name
+	 * @param string $lang two-character code of language for localization
 	 */
 	public function __construct ( $client_id, $lang = 'en' )
 	{
-		parent::__construct( );
+		parent::__construct( $lang );
 		$this->rows = null;
 		$this->client_var = $client_id;
-
-		$i18n = CHASSIS_I18N . 'uicmp/' . $lang . '.php';
-		if (file_exists( $i18n ) )
-		{
-			include $i18n;
-			$this->messages = $_uicmp_i18n;
-		}
 	}
 
 	/**
