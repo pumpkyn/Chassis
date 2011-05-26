@@ -130,7 +130,7 @@ class _session extends Config
 				$this->signed = true;
 
 				_db_query( "UPDATE `" . self::T_SESSIONS . "`
-							SET `" . self::F_VALID . "` = (NOW() + INTERVAL " . self::SESSIONEXPIRATION * 60 . " SECOND)
+							SET `" . self::F_VALID . "` = (NOW() + INTERVAL " . self::SESSIONEXPIRATION * 60 . " MINUTE)
 							WHERE `" . self::F_SID . "` = \"" . _db_escape( $this->sessionId ) . "\"
 							AND `" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\"");
 
