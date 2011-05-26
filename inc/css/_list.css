@@ -260,3 +260,10 @@ td._list_pi
 {
 	vertical-align:					middle;
 }
+
+/* Information of zero matches to search conditions */
+td._list_empty
+{
+	padding:						12px;
+	padding-bottom:					64px;
+}

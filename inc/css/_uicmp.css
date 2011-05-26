@@ -598,22 +598,10 @@ td._uicmp_frm_hdr_item
 	padding-right:					16px;
 	white-space:					nowrap;
 	vertical-align:					middle;
-	/*border:1px dashed #565600;*/
 }
 div._uicmp_frm_hdr_cap
 {
 	font-weight:					bold;
 	height:							16px;
-	/*padding-top:					2px;*/
 	font-size:						14px;
-	/*padding-right:					16px;*/
-}
-
-
-/* Information of zero matches to search conditions */
-td._uicmp_srch_zero
-{
-	padding:						12px;
-	padding-bottom:					64px;
-	/*font-size:						14px;*/
 }
