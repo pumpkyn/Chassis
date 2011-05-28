@@ -228,6 +228,7 @@ class _app_registry
 	 */
 	public function exec( $id )
 	{
+		
 		if ( !is_array( $this->apps) ) return false;
 
 		if ( ( !is_null( $id ) && array_key_exists( $id, $this->apps ) ) )
@@ -235,13 +236,18 @@ class _app_registry
 			$this->executed = $id;
 			return $this->apps[$id]->exec( );
 		}
-		elseif ( array_key_exists( $this->default, $this->apps ) )
+		elseif ( ( !is_null( $this->default ) ) && ( array_key_exists( $this->default, $this->apps ) ) )
 		{
 			$this->executed = $this->default;
 			return $this->apps[$this->default]->exec( );
 		}
 		else
-			return false;
+		{
+			$app = reset( $this->apps );
+			$this->executed = key( $this->apps );
+			return $app->exec( );
+		}
+		
 	}
 
 	/**
