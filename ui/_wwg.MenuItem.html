@@ -1,6 +1,0 @@
-{* Template rendering MenuItem web widget *}
-<td class="_wwg">
-	{if $item->getType()==MenuItem::TYPE_JS}
-		<div onClick="{$item->getValue()}" onMouseOver="if ( BrowserDetect.browser == 'Explorer' ) this.className='_wwgMi _wwgMiIe {$item->getClass()}';" onMouseOut="if ( BrowserDetect.browser == 'Explorer' ) this.className='_wwgMi {$item->getClass()}';" class="_wwgMi {$item->getClass()}">{$item->getTitle()}</div>
-	{/if}
-</td>
