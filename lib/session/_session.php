@@ -183,6 +183,35 @@ class _session extends Config
 
 		return false;
 	}
+	
+	/**
+	 * Checks if password for the signed user is correct or not.
+	 * 
+	 * @param string $password plain password
+	 * @return bool 
+	 */
+	public function checkPassword ( $password )
+	{
+		if ( is_null( $this->UID ) )
+			return false;
+		
+		return ( $this->UID == (int)_db_1field ( "SELECT `" . self::F_UID . "`
+												FROM `" . self::T_USERS . "`
+												WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\"
+												AND `" . self::F_PASSWD . "` = \"" . _db_escape( _fw_hash_passwd( $password  ) ) . "\"" ) );
+	}
+	
+	/**
+	 * Sets new password for signed user.
+	 * 
+	 * @param string $password plain new password
+	 */
+	public function setPassword ( $password )
+	{
+		_db_query( "UPDATE `" . self::T_USERS . "`
+						SET `" . self::F_PASSWD . "` = \"" . _db_escape( _fw_hash_passwd( $password  ) ) . "\"
+						WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\"" );
+	}
 
 	/**
 	 * Performs login operation.
