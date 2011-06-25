@@ -7,6 +7,9 @@
  * 
  * Configuration of Chassis Framework core database tables and fields names,
  * cookies used for session tracing and framework specific constants.
+ * 
+ * @todo rethink name of the class, it may be misleading as it is uncertain
+ * config of what it refers to
  */
 
 class Config
