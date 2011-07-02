@@ -440,7 +440,7 @@ div._uicmp_gi
 }
 
 /* Group item with Back-To icon */
-div._uicmp_gi_back,div._uicmp_gi_add,div._uicmp_gi_copy,div._uicmp_dlg_close,div._uicmp_gi_close,div._uicmp_gi_now,div._uicmp_gi_right,div._uicmp_gi_cal,div._uicmp_gi_gear,div._uicmp_gi_bottom,div._uicmp_gi_top
+div._uicmp_gi_back,div._uicmp_gi_add,div._uicmp_gi_copy,div._uicmp_dlg_close,div._uicmp_gi_close,div._uicmp_gi_now,div._uicmp_gi_right,div._uicmp_gi_cal,div._uicmp_gi_gear,div._uicmp_gi_bottom,div._uicmp_gi_top,div._uicmp_gi_refresh
 {
 	background-image:		url(../img/_uicmp_ico_back.gif);
 	background-repeat:		no-repeat;
@@ -487,6 +487,11 @@ div._uicmp_gi_bottom
 div._uicmp_gi_top
 {
 	background-image:		url(../img/_uicmp_ico_top.gif);
+}
+/* Top arrow (to scroll to top) */
+div._uicmp_gi_refresh
+{
+	background-image:		url(../img/_uicmp_ico_refresh.gif);
 }
 /* Group item with close action icon */
 div._uicmp_dlg_close
