@@ -78,9 +78,9 @@ class _list_cell
 	 * @param class custom CSS class
 	 * @return array
 	 */
-	public static function Text ( $text, $class = '' )
+	public static function Text ( $text, $class = '', $align = 'left' )
 	{
-		return Array( 'text' => $text, 'class' => $class );
+		return Array( 'text' => $text, 'class' => $class, 'align' => $align );
 	}
 
 	/**

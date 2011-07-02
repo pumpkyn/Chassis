@@ -49,6 +49,7 @@ class _list_descriptor extends _list_i18n
 									'caption' => $caption,
 									'width' => $width,
 									'colspan' => $colspan,
+									'align' => $align,
 									'order' => $order,
 									'ordered' => $ordered,
 									'direction' => $direction );
