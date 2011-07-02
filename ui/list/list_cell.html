@@ -1,6 +1,6 @@
 {* Rendering of single list row cell item *}
 {if $cell->manager=='manDefault'}
-	<td class="{$allItemClass} {$cell->data.class}" nowrap="nowrap" align="left">{$cell->data.text}{if $cell->data.text==''}&nbsp;{/if}</td>
+	<td class="{$allItemClass} {$cell->data.class}" nowrap="nowrap" align="{$cell->data.align}">{$cell->data.text}{if $cell->data.text==''}&nbsp;{/if}</td>
 {elseif $cell->manager=='manEmail'}
 	<td class="{$allItemClass}" nowrap="nowrap" align="left"><a href="mailto:{$cell->data.text}" class="iFwListAction">{$cell->data.text}</a></td>
 {elseif $cell->manager=='manJavascript'}

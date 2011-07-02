@@ -11,7 +11,7 @@
 			<table cellspacing="0" cellpadding="0" width="100%">
 				<tr>
 				{foreach name=header from=$USR_LIST_DATA.header key=id item=field}
-					<th colspan="{$field.colspan}" width="{$field.width}"{if $field.width!='*'}style="min-width:{$field.width};"{/if} class="_list_header{if $smarty.foreach.header.first} _list_col_first{/if}{if $smarty.foreach.header.last} _list_col_last{/if}">
+					<th align="{$field.align}" colspan="{$field.colspan}" width="{$field.width}"{if $field.width!='*'}style="min-width:{$field.width};"{/if} class="_list_header{if $smarty.foreach.header.first} _list_col_first{/if}{if $smarty.foreach.header.last} _list_col_last{/if}">
 						<div {if $field.order==1}onClick="_uicmp_lookup.lookup( '{$USR_LIST_DATA.instance}' ).reorder( '{$field.id}', {if $field.ordered}{if $field.direction=='ASC'}'DESC'{else}'ASC'{/if}{else}'ASC'{/if} );" class="_list_header_ordle{if $field.ordered} {if $field.direction=='ASC'}_list_header_asc{else}_list_header_desc{/if}{/if}"{/if}>{$field.caption}</div>
 					</th>
 				{/foreach}
