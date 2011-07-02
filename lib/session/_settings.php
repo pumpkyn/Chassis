@@ -191,7 +191,7 @@ abstract class _settings extends Config
 	 */
 	public function get ( $key )
 	{
-		if ( array_key_exists( $key, $this->table ) )
+		if ( ( is_array( $this->table ) ) && ( array_key_exists( $key, $this->table ) ) )
 			return $this->table[$key];
 		else
 			return NULL;
