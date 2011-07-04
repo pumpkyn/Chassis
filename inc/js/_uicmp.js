@@ -2,7 +2,9 @@
 /**
  * @file _uicmp.js
  * @author giorno
+ * @package Chassis
  * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
  *
  * Logic for UICMP components. Represents Javascript counterpart for PHP
  * components.
@@ -527,7 +529,7 @@ function _uicmp_cdes_remove( data )
 	client_var.remove( data['id'], data['list'] );
 }
 
-function _uicmp_cdes_editor ( id, layout, tabId, captionId, previewId, /*captionId,*/ ind, url, params )
+function _uicmp_cdes_editor ( id, layout, tabId, captionId, previewId, ind, url, params )
 {
 	var me = this;
 	this.id = id;
@@ -950,7 +952,8 @@ function _uicmp_ind ( id, sep_id, messages )
 	this.hide = function ( )
 	{
 		clearTimeout( this.timer );
-		document.getElementById( me.sep_id ).style.visibility = 'hidden';
+		if ( this.sep_id != null )
+			document.getElementById( me.sep_id ).style.visibility = 'hidden';
 		document.getElementById( me.id ).style.visibility = 'hidden';
 	};
 
@@ -958,17 +961,18 @@ function _uicmp_ind ( id, sep_id, messages )
 	{
 		this.hide( );
 		this.opacity( me.id, 1 );
-		this.opacity( me.sep_id, 1 );
+		if ( this.sep_id != null )
+			this.opacity( me.sep_id, 1 );
 		var el = document.getElementById( me.id );
 		if ( this.messages[msg] )
 			el.innerHTML = this.messages[msg];
 
-		document.getElementById( me.sep_id ).style.visibility = 'visible';
+		if ( this.sep_id != null )
+			document.getElementById( me.sep_id ).style.visibility = 'visible';
 		el.style.visibility = 'visible';
 		
 		if ( style )
 			el.className = style;
-		//this.fade( );
 	};
 	
 	this.fade = function ( msg, style )
@@ -990,7 +994,8 @@ function _uicmp_ind ( id, sep_id, messages )
 	{
 		var _this = this;
 		this.opacity( this.id, level );
-		this.opacity( this.sep_id, level );
+		if ( this.sep_id != null )
+			this.opacity( this.sep_id, level );
 
 		var delay = 50;
 
@@ -1007,7 +1012,8 @@ function _uicmp_ind ( id, sep_id, messages )
 		else
 		{
 			this.opacity( id, 0 );
-			this.opacity( sep_id, 0 );
+			if ( this.sep_id != null )
+				this.opacity( sep_id, 0 );
 			clearTimeout( this.timer );
 			this.timer = null;
 		}
