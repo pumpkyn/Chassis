@@ -527,6 +527,9 @@ function _uicmp_cdes_remove( data )
 {
 	var client_var = data['client_var'];
 	client_var.remove( data['id'], data['list'] );
+
+	if ( typeof data['cb'] !== 'undefined' )
+		data['cb']();	
 }
 
 function _uicmp_cdes_editor ( id, layout, tabId, captionId, previewId, ind, url, params )

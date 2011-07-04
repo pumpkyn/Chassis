@@ -77,18 +77,19 @@ class _cdes
 	/**
 	 * Perform search on contexts.
 	 *
-	 * @param <_list_cfg> $list_cfg backend for saving configuration of the list
-	 * @param <string> $js_id search solution client side id (for _list_builder)
-	 * @param <string> $cdes_ed Javascript variable for client side of editor solution
-	 * @param <int> $pageSize number of entries per page
-	 * @param <int> $pager_half half-size of pager
-	 * @param <string> $keyword search phrase
-	 * @param <int> $page page of the results list to display
-	 * @param <string> $order field to order list by
-	 * @param <string> $dir direction of ordering
-	 * @return <mixed> array with results or false
+	 * @param _list_cfg $list_cfg backend for saving configuration of the list
+	 * @param string $js_id search solution client side id (for _list_builder)
+	 * @param string $cdes_ed Javascript variable for client side of editor solution
+	 * @param int $pageSize number of entries per page
+	 * @param int $pager_half half-size of pager
+	 * @param string $keyword search phrase
+	 * @param int $page page of the results list to display
+	 * @param string $order field to order list by
+	 * @param string $dir direction of ordering
+	 * @param string $rm_cb extra callback to be called after remove operation 
+	 * @return mixed array with results or false
 	 */
-	public function display( $list_cfg, $js_id, $cdes_ed, $pageSize, $pager_half, $keyword, $page, $order = self::F_CTXNAME, $dir = 'ASC' )
+	public function display( $list_cfg, $js_id, $cdes_ed, $pageSize, $pager_half, $keyword, $page, $order = self::F_CTXNAME, $dir = 'ASC', $rm_cb = '' )
 	{
 		if ( $dir != 'DESC' ) $dir = 'ASC';
 
@@ -168,7 +169,7 @@ class _cdes
 									new _list_cell(	_list_cell::Text(	$row[self::F_CTXDESC] ),
 													_list_cell::MAN_DEFAULT ),
 
-									new _list_cell(	_list_cell::Code(	"var data = new Array();data['id']=" . $row[self::F_CTXID] . ";data['client_var']={$cdes_ed};data['list']=_uicmp_lookup.lookup('{$js_id}');var yes = new _sd_dlg_bt ( _uicmp_cdes_remove, '{$this->messages['bpYes']}', data );var no = new _sd_dlg_bt ( null, '{$this->messages['bpNo']}', null );_wdg_dlg_yn.show( '{$this->messages['bpWarning']}', '" . sprintf( $this->messages['cdesQuestion'], Wa::JsStringEscape( $row[self::F_CTXNAME], ENT_QUOTES ) ) . "', yes, no );",
+									new _list_cell(	_list_cell::Code(	"var data = new Array();data['id']=" . $row[self::F_CTXID] . ";data['client_var']={$cdes_ed};data['list']=_uicmp_lookup.lookup('{$js_id}'); " . ( ( $rm_cb != '' ) ? "data['cb']= {$rm_cb};" : "" ) . "var yes = new _sd_dlg_bt ( _uicmp_cdes_remove, '{$this->messages['bpYes']}', data );var no = new _sd_dlg_bt ( null, '{$this->messages['bpNo']}', null );_wdg_dlg_yn.show( '{$this->messages['bpWarning']}', '" . sprintf( $this->messages['cdesQuestion'], Wa::JsStringEscape( $row[self::F_CTXNAME], ENT_QUOTES ) ) . "', yes, no );",
 										/*"ctxHelper.removeAsk( " . $row[self::F_CTXID] . ", 'ctxList" . $row[self::F_CTXID] . "' );",*/
 																		$this->messages['cdesRemove'] ),
 													_list_cell::MAN_ICONREMOVE ) );
