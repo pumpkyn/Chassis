@@ -247,12 +247,13 @@ class _session extends Config
 			 */
 			if ( $auto )
 			{
+				$ipAddr = $_SERVER['REMOTE_ADDR'];
 				$this->alToken = _fw_rand_hash( );
 				_db_query( "INSERT INTO `" . self::T_SIGNTOKENS . "`
 							SET `" . self::F_TOKEN . "` = \"" . _db_escape( $this->alToken ) . "\",
 							`" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\",
 							`" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\",
-							`" . self::F_IP . "` = \"" . _db_escape( ipAddr ) . "\",
+							`" . self::F_IP . "` = \"" . _db_escape( $ipAddr ) . "\",
 							`" . self::F_VALID . "` = (NOW() + INTERVAL " . self::COOKIE_EXPIRATION * 24 * 60 * 60 . " SECOND) ");
 				_fw_set_cookie( self::COOKIE_TOKENID, $this->alToken, time( ) + self::COOKIE_EXPIRATION * 24 * 60 * 60 );
 			}
