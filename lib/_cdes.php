@@ -139,13 +139,13 @@ class _cdes
 		{
 			if ( trim( $keyword ) != '' )
 			{
-				$empty = new _list_empty( $this->messages['cdesEmpty'] );
+				$empty = new _list_empty( $this->messages['cdesNoMatch'] );
 				$empty->add( $this->messages['cdesOSearch'], "_uicmp_lookup.lookup( '{$js_id}' ).focus();" );
 				$empty->add( $this->messages['cdesOShowAll'], "_uicmp_lookup.lookup( '{$js_id}' ).showAll();" );
 			}
 			else
 			{
-				$empty = new _list_empty( $this->messages['cdesNoMatch'] );
+				$empty = new _list_empty( $this->messages['cdesEmpty'] );
 				$empty->add( $this->messages['cdesOCreate'], "{$cdes_ed}.create();" );
 			}
 			$empty->render( );

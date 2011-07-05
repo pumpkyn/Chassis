@@ -83,7 +83,8 @@ function _uicmp_layout (  )
 	{
 		if ( this.tabs[id] )
 		{
-			this.tabs[this.current].hide( );
+			if (typeof this.tabs[this.current] !== 'undefined')
+				this.tabs[this.current].hide( );
 			this.tabs[id].show( );
 			this.current = id;
 			this.stack.push( id );
