@@ -5,6 +5,6 @@
 	{foreach from=$USR_UICMP_CTXS item=USR_CTX}
 		{include file="$CHASSIS_UI_ROOT/ctx.html"}
 	{/foreach}
-{else}e
-	{*noctxs*}
+{else}
+	{$CHASSIS_UICMP_MESSAGES.cdesNoCtxs}
 {/if}

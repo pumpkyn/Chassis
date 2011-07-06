@@ -58,6 +58,7 @@ $_uicmp_i18n['cdesNoMatch']			= 'Not match found for search request.';
 $_uicmp_i18n['cdesOCreate']			= 'Create new label';
 $_uicmp_i18n['cdesOShowAll']		= 'Show all labels';
 $_uicmp_i18n['cdesOSearch']			= 'Change keywords and search again';
+$_uicmp_i18n['cdesNoCtxs']			= 'No contexts available';
 
 /**
  * Contexts + CDES.
