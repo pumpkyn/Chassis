@@ -5,11 +5,11 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
  *
  * Virtual component interface, common ancestor to all components in UICMP
  * framework, virtual and/or UI.
  */
-
 abstract class _vcmp_comp
 {
 	/**
@@ -48,6 +48,20 @@ abstract class _vcmp_comp
 	 * @var <string>
 	 */
 	protected $jsPrefix = NULL;
+	
+	/**
+	 * Ajax server URL.
+	 * 
+	 * @var string
+	 */
+	protected $url = NULL;
+	
+	/**
+	 * Ajax request base set of parameters. Associative array.
+	 * 
+	 * @var array
+	 */
+	protected $params = NULL;
 
 	/**
 	 * Constructor.
@@ -58,6 +72,26 @@ abstract class _vcmp_comp
 	{
 		$this->parent = $parent;
 	}
+	
+	/**
+	 * Sets Ajax related properties.
+	 * 
+	 * @param string $url string
+	 * @param array $params array of common request parameters
+	 */
+	public function setAjaxProperties ( $url, $params )
+	{
+		$this->url		= $url;
+		$this->params	= $params;
+	}
+	
+	/**
+	 * Returns Javascript initialization code for associative array or Ajax
+	 * request properties.
+	 * 
+	 * @return string 
+	 */
+	public function getJsAjaxParams ( ) { return self::toJsArray( $this->params ); }
 
 	/**
 	 * Detects if particular flag is set for the component.
