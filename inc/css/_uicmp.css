@@ -4,6 +4,7 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
  *
  * Styles for UICMP components.
  */
@@ -249,7 +250,7 @@ input._uicmp_search_input,input._uicmp_frm_input
 	-moz-box-sizing:				border-box;
     -webkit-box-sizing:				border-box;
 }
-input._uicmp_frm_input
+input._uicmp_frm_input,select._uicmp_frm_input
 {
 	width:							100%;
 }
