@@ -5,15 +5,17 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
+
+/**
  * Contexts cloud, a subcomponent for application forms. Provides UI and
  * Javascript logic on per instance basis. It can be rendered separately, i.e.
  * outside _uicmp_layout scope, for such use there is not need to specify
  * parent.
  */
-
-require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
-
 class _uicmp_cdes_cloud extends _uicmp_comp
 {
 	/**
@@ -29,15 +31,22 @@ class _uicmp_cdes_cloud extends _uicmp_comp
 	 * @var <string>
 	 */
 	protected $prefix = NULL;
+	
+	/**
+	 * Messages displayed in case no contexts are available.
+	 * 
+	 * @var string 
+	 */
+	protected $error_msg = NULL;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param <mixed> $parent parent component instance, may be NULL
-	 * @param <string> $id identifier of the component
-	 * @param <string> $js_var name of client side instance variable
-	 * @param <array> $ctxs array of all aplicable contexts
-	 * @param <string> $prefix prefix for contexts' HTML ID's
+	 * @param mixed $parent parent component instance, may be NULL
+	 * @param string $id identifier of the component
+	 * @param string $js_var name of client side instance variable
+	 * @param array $ctxs array of all aplicable contexts
+	 * @param string $prefix prefix for contexts' HTML ID's
 	 */
 	public function  __construct ( $parent, $id, $js_var, $ctxs, $prefix )
 	{
@@ -59,6 +68,13 @@ class _uicmp_cdes_cloud extends _uicmp_comp
 				$this->ctxs[$id]->act = $this->jsVar . '.set( \'' . $id . '\' );';
 			}
 	}
+	
+	/**
+	 * Sets error message.
+	 *
+	 * @param string $msg string to set as error message.
+	 */
+	public function setErrorMsg ( $msg ) { $this->error_msg = $msg; }
 
 	/**
 	 * Dummy implementation to conform abstract parent.
@@ -68,10 +84,20 @@ class _uicmp_cdes_cloud extends _uicmp_comp
 	/**
 	 * Provides list of contexts.
 	 *
-	 * @return <array>
+	 * @return array
 	 * @todo rewrite to use iterator pattern (getFirst/getNext)
 	 */
 	public function getCtxs ( ) { return $this->ctxs; }
+	
+	/**
+	 * Provides error message.
+	 *
+	 * @return string
+	 * @todo make use of some global framework i18n object
+	 */
+	public function getErrorMsg ( ) { return $this->error_msg; }
+	
+	
 }
 
 ?>

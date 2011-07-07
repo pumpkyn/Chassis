@@ -1,4 +1,11 @@
-{* Cloud of contexts *}
+{* Renders cloud of contexts.
+ *
+ * @file index.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
 
 {assign var='USR_UICMP_CTXS' value=$USR_UICMP_CMP->getCtxs()}
 {if $USR_UICMP_CTXS}
@@ -6,5 +13,5 @@
 		{include file="$CHASSIS_UI_ROOT/ctx.html"}
 	{/foreach}
 {else}
-	{$CHASSIS_UICMP_MESSAGES.cdesNoCtxs}
+	{$USR_UICMP_CMP->getErrorMsg()}
 {/if}
