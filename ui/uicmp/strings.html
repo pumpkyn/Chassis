@@ -1,0 +1,12 @@
+{* Renders serialized strings. PHP instance should be referenced by Smarty
+ * variable $USR_UICMP_STRINGS to avoid conflicts with other components
+ * templates.
+ *
+ * @file strings.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+ 
+ <div id="{$USR_UICMP_STRINGS->getHtmlId()}" class="_uicmp_data">{$USR_UICMP_STRINGS->get()}</div>

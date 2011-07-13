@@ -1045,3 +1045,41 @@ function _list_bp_checked ( chkboxes )
 
 	return ret;
 }
+
+/**
+ * Client side parser and provider for data delivered by server side
+ * _uicmp_strings serializer.
+ * 
+ * @param string id HTML ID of data container
+ */
+function _uicmp_strings ( id )
+{
+	/**
+	 * Internal representation for data. Multi-dimensional associative array.
+	 */
+	this.data = null;
+	
+	/**
+	 * Parse plain text object provided in HTML element (usually hidden <DIV>).
+	 */
+	this.parse = function ( )
+	{
+		var el = document.getElementById( id );
+		if ( el )
+		{
+			/**
+			 * Local variable is provided here so this code is independent from
+			 * any variable which could have been implemented by server side
+			 * logic.
+			 */
+			var plain = 'var data = ' + el.innerHTML;
+			eval( plain );
+			this.data =	data;
+		}
+	};
+	
+	/**
+	 * Parse data on class instantiation.
+	 */
+	this.parse( );
+}

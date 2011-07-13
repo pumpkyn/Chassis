@@ -126,8 +126,8 @@ abstract class _vcmp_comp
 	 * Compose Javascript Object/associative array with parameters from PHP
 	 * array structure.
 	 *
-	 * @param <array> $struct input structure, PHP array
-	 * @return <string> Javascript literal
+	 * @param array $struct input structure, PHP array
+	 * @return string Javascript literal
 	 */
 	public static function toJsArray ( $struct )
 	{
@@ -135,7 +135,15 @@ abstract class _vcmp_comp
 		{
 			$pairs = NULL;
 			foreach ( $struct as $key => $val )
-				$pairs[] = "{$key}: \"{$val}\"";
+			{
+				/**
+				 * Recursive application onto subarrays.
+				 */
+				if ( is_array( $val ) )
+					$pairs[] = "{$key}: " . self::toJsArray( $val );
+				else
+					$pairs[] = "{$key}: \"{$val}\"";
+			}
 
 			return "{ " . implode( ', ', $pairs ) . " }";
 		}
