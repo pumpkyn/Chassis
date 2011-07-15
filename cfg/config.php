@@ -4,6 +4,7 @@
  * @file config.php
  * @author giorno
  * @package Chassis
+ * @license Apache License, Version 2.0, see LICENSE file
  *
  * Self-configuration of Chassis Framework.
  */

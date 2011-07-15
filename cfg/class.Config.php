@@ -4,14 +4,16 @@
  * @file class.Config.php
  * @author giorno
  * @package Chassis
- * 
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+/**
  * Configuration of Chassis Framework core database tables and fields names,
  * cookies used for session tracing and framework specific constants.
  * 
  * @todo rethink name of the class, it may be misleading as it is uncertain
  * config of what it refers to
  */
-
 class Config
 {
 	/**
