@@ -5,14 +5,16 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Implementation of additional item, which can be placed into resizer row. This
- * is usually to provide additional actions specific for given tab component.
- * GI stands for 'group item'.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
 
+/**
+ * Implementation of additional item, which can be placed into resizer row. This
+ * is usually to provide additional actions specific for given tab component.
+ * GI stands for 'group item'.
+ */
 class _uicmp_gi extends _uicmp_comp
 {
 	/**

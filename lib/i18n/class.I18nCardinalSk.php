@@ -5,13 +5,15 @@
  * @author giorno
  * @package Chassis
  * @subpackage I18N
- * 
- * Specialization of class I18nCardinal for Slovak language and languages sharing
- * similar .
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'i18n/class.I18nCardinal.php';
 
+/**
+ * Specialization of class I18nCardinal for Slovak language and languages sharing
+ * similar .
+ */
 class I18nCardinalSk extends I18nCardinal
 {
 	/**

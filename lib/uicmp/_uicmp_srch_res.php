@@ -5,14 +5,16 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- * 
- * UICMP component for search list resizer. This component is mainly used for
- * resizing lists with search results, but it can contain additional items. Part
- * of search solution.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . "uicmp/_uicmp_pool.php";
 
+/**
+ * UICMP component for search list resizer. This component is mainly used for
+ * resizing lists with search results, but it can contain additional items. Part
+ * of search solution.
+ */
 class _uicmp_srch_res extends _uicmp_pool
 {
 	/**

@@ -5,6 +5,7 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
  * 
  * @todo as it already contains all framework localization it should be named
  *        so and placed one dir upwards (apply for all languages)

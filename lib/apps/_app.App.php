@@ -1,15 +1,18 @@
 <?php
+
 /**
  * @file _app.App.php
  * @author giorno
  * @package Chassis
  * @subpackage Apps
- *
- * Abstract class providing interface to application instance.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'apps/_app_registry.php';
 
+/**
+ * Abstract class providing interface to application instance.
+ */
 abstract class App
 {
 	/**

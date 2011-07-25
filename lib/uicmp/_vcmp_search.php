@@ -5,20 +5,21 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_srch_frm.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_srch_res.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_srch_cnt.php';
+
+/**
  * Virtual component to create and connect components used for searching. This
  * does not implement any common UICMP interface.
  *
  * Visual search elements are search form, container for result list and
  * list resizer.
  */
-
-require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
-
-require_once CHASSIS_LIB . 'uicmp/_uicmp_srch_frm.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_srch_res.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_srch_cnt.php';
-
 class _vcmp_search extends _vcmp_comp
 {
 	/**

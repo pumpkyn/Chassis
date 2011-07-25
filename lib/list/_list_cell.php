@@ -1,17 +1,19 @@
-<?PHP
+<?php
 
 /**
  * @file _list_cell.php
  * @author giorno
  * @package Chassis
  * @subpackage List
- * 
- * Class to provide instance of cell in tables (lists). For special applications
- * child class is recommended to be created.
- */
+ * @license Apache License, Version 2.0, see LICENSE file
+*/ 
 
 require_once CHASSIS_LIB . 'ui/_ctx.php';
 
+/** 
+ * Class to provide instance of cell in tables (lists). For special applications
+ * child class is recommended to be created.
+ */
 class _list_cell
 {
 	/**

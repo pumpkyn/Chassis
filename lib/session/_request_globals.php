@@ -5,11 +5,13 @@
  * @author giorno
  * @package Chassis
  * @subpackage Session
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+/**
  * Singleton keeping variables, which are supposed to be available throughout
  * whole solution.
  */
-
 class _request_globals
 {
 	/**

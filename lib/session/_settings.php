@@ -1,14 +1,17 @@
 <?php
 
-require_once CHASSIS_CFG . 'class.Config.php';
-require_once CHASSIS_LIB . 'session/_session_wrapper.php';
-
 /**
  * @file _settings.php
  * @author giorno
  * @package Chassis
  * @subpackage Session
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_CFG . 'class.Config.php';
+require_once CHASSIS_LIB . 'session/_session_wrapper.php';
+
+/**
  * Class responsible for accessing and manipulating variable scope settings. It
  * is configured only by scope of the settings. Security identifiers are
  * extracted internaly from _session_wrapper instance.

@@ -5,16 +5,18 @@
  * @author giorno
  * @package Chassis
  * @subpackage List
- *
- * Quasi virtual component creating layout for Batch Processing (BP) form in
- * lists. It creates actual UI by calling UICMP API. As handled content is
- * delivered in Ajax session, client side logic is not OO.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'uicmp/_uicmp_buttons.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_gi.php';
 require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
 
+/**
+ *Quasi virtual component creating layout for Batch Processing (BP) form in
+ * lists. It creates actual UI by calling UICMP API. As handled content is
+ * delivered in Ajax session, client side logic is not OO.
+ */
 class _list_bp
 {
 	/**

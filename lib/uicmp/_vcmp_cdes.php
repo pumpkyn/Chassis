@@ -5,13 +5,7 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Virtual component for creating Context Displaying and Editing Solutions
- * (CDES). This comprises creation of UICMP (1) tab with search solution for
- * contexts and (2) context editor. Another part of framework should provide
- * Ajax server side processing implementation and it is responsibility of
- * application to arrange proper configuration of the component and its Ajax
- * channel.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
@@ -20,6 +14,14 @@ require_once CHASSIS_LIB . 'uicmp/_uicmp_buttons.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_gi.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_gi_ind.php';
 
+/**
+ * Virtual component for creating Context Displaying and Editing Solutions
+ * (CDES). This comprises creation of UICMP (1) tab with search solution for
+ * contexts and (2) context editor. Another part of framework should provide
+ * Ajax server side processing implementation and it is responsibility of
+ * application to arrange proper configuration of the component and its Ajax
+ * channel.
+ */
 class _vcmp_cdes extends _vcmp_comp
 {
 	/**

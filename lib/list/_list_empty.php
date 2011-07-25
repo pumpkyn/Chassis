@@ -1,13 +1,16 @@
 <?php
 
-require_once CHASSIS_LIB . 'list/_list_i18n.php';
-
 /**
  * @file _list_empty.php
  * @author giorno
  * @package Chassis
  * @subpackage List
- * 
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . 'list/_list_i18n.php';
+
+/** 
  * Data abstraction for UI element showing empty result set message and offers
  * options.
  */

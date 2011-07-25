@@ -1,13 +1,17 @@
 <?php
 
-require_once CHASSIS_LIB . "uicmp/_uicmp_title.php";
 
 /**
  * @file _uicmp_info.php
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . "uicmp/_uicmp_title.php";
+
+/**
  * Specialization of UICMP title component to provide informational message in
  * tab head or body.
  */

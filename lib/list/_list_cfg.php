@@ -5,12 +5,14 @@
  * @author giorno
  * @package Chassis
  * @subpackage List
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+ 
+/**
  * Class responsible for management of list of search results configuration
  * (page, order, ...). De facto wrapper of settings instance and methods
  * responsible for list configuration.
  */
-
 class _list_cfg
 {
 	/**

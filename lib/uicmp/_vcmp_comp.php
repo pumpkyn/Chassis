@@ -6,7 +6,9 @@
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
- *
+ */
+
+/** 
  * Virtual component interface, common ancestor to all components in UICMP
  * framework, virtual and/or UI.
  */

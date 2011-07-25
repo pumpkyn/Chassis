@@ -5,11 +5,13 @@
  * @author giorno
  * @package Chassis
  * @subpackage UI
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+/** 
  * Structure used for visual representation of single context. Its members are
  * public so they can be accessed directly from Smarty templates.
  */
-
 class _ctx
 {
 	/**

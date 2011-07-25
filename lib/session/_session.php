@@ -5,14 +5,16 @@
  * @author giorno
  * @package Chassis
  * @subpackage Session.
- *
- * Session tracking instance.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_CFG . 'class.Config.php';
 require_once CHASSIS_LIB . 'libfw.php';
 require_once CHASSIS_LIB . 'libdb.php';
 
+/**
+ * Session tracking instance.
+ */
 class _session extends Config
 {
 	/**

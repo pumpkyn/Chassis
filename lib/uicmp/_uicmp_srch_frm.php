@@ -5,14 +5,16 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Simple form for searching by single keyword. It is derived from _uicmp_pool
- * component due to its need to use _uicmp_gi_ind and separator for
- * indicator of outgoing Ajax request. Part of search solution.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . "uicmp/_uicmp_pool.php";
 
+/**
+ * Simple form for searching by single keyword. It is derived from _uicmp_pool
+ * component due to its need to use _uicmp_gi_ind and separator for
+ * indicator of outgoing Ajax request. Part of search solution.
+ */
 class _uicmp_srch_frm extends _uicmp_pool
 {
 	/**

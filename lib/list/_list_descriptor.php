@@ -1,13 +1,16 @@
-<?PHP
-
-require_once CHASSIS_LIB . 'list/_list_i18n.php';
+<?php 
 
 /**
  * @file _list_descriptor.php
  * @author giorno
  * @package Chassis
  * @subpackage List
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . 'list/_list_i18n.php';
+
+/**
  * Class to encapsulate methods for manipulating list descriptors. Descriptor
  * is an array describing structure of list header. Descriptor and header are
  * interexchangeable terms. One item of header is called field.

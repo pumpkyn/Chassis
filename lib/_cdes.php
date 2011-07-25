@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * @file _cdes.php
+ * @author giorno
+ * @package Chassis
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
 require_once CHASSIS_CFG . 'class.Config.php';
 require_once CHASSIS_LIB . 'class.Wa.php';
 require_once CHASSIS_LIB . 'libdb.php';
@@ -11,10 +18,6 @@ require_once CHASSIS_LIB . 'ui/_ctx.php';
 require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
 
 /**
- * @file _cdes.php
- * @author giorno
- * @package Chassis
- *
  * Class for CDES (Context Displaying and Editing Solution) backend operations.
  */
 class _cdes

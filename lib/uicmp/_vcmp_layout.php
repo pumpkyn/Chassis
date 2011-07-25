@@ -5,11 +5,13 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+/**
  * Common functionality for top level UICMP containers: _uicmp_layout (ordinary
  * in-page placed UI) and _uicmp_dlgs (for SkyDome dialogs).
  */
-
 abstract class _vcmp_layout
 {
 	/**

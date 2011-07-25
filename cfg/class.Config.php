@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 /**
  * @file class.Config.php

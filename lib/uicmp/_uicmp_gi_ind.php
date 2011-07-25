@@ -5,14 +5,16 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Specialized group item to provide both, server and client side of component
- * providing status information. Used for forms in head section of the
- * _uicmp_tab to show Ajax request status, information about form events, etc.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'uicmp/_uicmp_gi.php';
 
+/**
+ * Specialized group item to provide both, server and client side of component
+ * providing status information. Used for forms in head section of the
+ * _uicmp_tab to show Ajax request status, information about form events, etc.
+ */
 class _uicmp_gi_ind extends _uicmp_gi
 {
 	/**

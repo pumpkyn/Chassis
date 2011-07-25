@@ -5,15 +5,17 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Context editor component for Context Displaying and Editing Solution (CDES).
- *
- * @todo automatic update of the form caption
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'ui/_ctx.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
 
+/**
+ * Context editor component for Context Displaying and Editing Solution (CDES).
+ *
+ * @todo automatic update of the form caption
+ */
 class _uicmp_cdes_editor extends _uicmp_comp
 {
 	/**

@@ -4,12 +4,14 @@
  * @file _uicmp_fold_sep.php
  * @author giorno
  * @package Chassis
- *
- * Dummy component to create gap between folds.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
 
+/**
+ * Dummy component to create gap between folds.
+ */
 class _uicmp_fold_sep extends _uicmp_comp
 {
 	/**

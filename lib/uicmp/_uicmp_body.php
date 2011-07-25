@@ -5,12 +5,14 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * UICMP abstraction of tab body section.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
-
+ 
 require_once CHASSIS_LIB . "uicmp/_uicmp_pool.php";
 
+/** 
+ * UICMP abstraction of tab body section.
+ */
 class _uicmp_body extends _uicmp_pool
 {
 	/**

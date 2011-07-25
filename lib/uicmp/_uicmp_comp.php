@@ -5,12 +5,14 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Common ancestor to all UICMP components.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
 
+/**
+ * Common ancestor to all UICMP components.
+ */
 abstract class _uicmp_comp extends _vcmp_comp
 {
 	/**

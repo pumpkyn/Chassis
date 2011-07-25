@@ -1,13 +1,14 @@
 <?php
+
 /**
  * @file _wwg.Wwg.php
  * @author giorno
  * @package Chassis
  * @subpackage Apps
+ * @license Apache License, Version 2.0, see LICENSE file
  *
  * Interface and common functionality for web widget derivations.
  */
-
 abstract class Wwg
 {
 	/**

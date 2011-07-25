@@ -5,12 +5,14 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Class representing tab fold element.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
 
+/**
+ * Class representing tab fold element.
+ */
 class _uicmp_fold extends _uicmp_comp
 {
 	/**

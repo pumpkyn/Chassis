@@ -5,12 +5,14 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Abstract container component providing supercomponent feature.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
 
+/**
+ * Abstract container component providing supercomponent feature.
+ */
 abstract class _uicmp_pool extends _uicmp_comp
 {
 	/**

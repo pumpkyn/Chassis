@@ -5,12 +5,14 @@
  * @author jstanik
  * @package Chassis
  * @subpackage Apps
- *
- * Object representing dynamic dummy web widget, the spacer.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
 
+/**
+ *  Object representing dynamic dummy web widget, the spacer.
+ */
 class Spacer extends Wwg
 {
 	/**

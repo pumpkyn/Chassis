@@ -5,13 +5,15 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Dummy tab widget to carry instance of _uicmp_fold_sep.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
 require_once CHASSIS_LIB . "uicmp/_uicmp_fold_sep.php";
 
+/**
+ * Dummy tab widget to carry instance of _uicmp_fold_sep.
+ */
 class _uicmp_tab_sep extends _uicmp_comp
 {
 	/**

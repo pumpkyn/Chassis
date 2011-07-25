@@ -5,7 +5,10 @@
  * @author giorno
  * @package Chassis
  * @subpackage List
- * 
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+/**
  * Common ancestor to all List objects, which have to carry their own
  * localization (from framework i18n files).
  */

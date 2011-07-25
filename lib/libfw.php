@@ -1,10 +1,13 @@
-<?PHP
+<?php
 
 /**
  * @file libfw.php
  * @author giorno
  * @package Chassis
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+/**
  * Common used algorithms of the framework and its users.
  */
 

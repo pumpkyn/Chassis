@@ -5,12 +5,14 @@
  * @author giorno
  * @package Chassis
  * @subpackage Session
- *
- * Factory method to provide all scopes available _session instance.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
-
+ 
 require_once CHASSIS_LIB . 'session/_session.php';
 
+ /** 
+  * Factory method to provide all scopes available _session instance.
+ */
 class _session_wrapper
 {
 	/**

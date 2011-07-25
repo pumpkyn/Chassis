@@ -5,14 +5,16 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- * 
- * Special component holding references to dialog widgets, their templates and
- * internal data are used in rendering. There is usually only one instance at
- * the time.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'uicmp/_vcmp_layout.php';
 
+/**
+ * Special component holding references to dialog widgets, their templates and
+ * internal data are used in rendering. There is usually only one instance at
+ * the time.
+ */
 class _uicmp_dlgs extends _vcmp_layout
 {
 	/**

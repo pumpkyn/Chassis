@@ -5,17 +5,18 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Overall uicmps layout container class. Using this class assumes that there is
- * going to be always only one instance of this class.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
 require_once CHASSIS_LIB . "uicmp/_uicmp_tab.php";
 require_once CHASSIS_LIB . "uicmp/_uicmp_tab_sep.php";
-
 require_once CHASSIS_LIB . "uicmp/_vcmp_layout.php";
 
+/**
+ * Overall uicmps layout container class. Using this class assumes that there is
+ * going to be always only one instance of this class.
+ */
 class _uicmp_layout extends _vcmp_layout
 {	
 	/**

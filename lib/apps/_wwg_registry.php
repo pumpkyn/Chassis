@@ -1,15 +1,18 @@
 <?php
+
 /**
  * @file _wwg_registry.php
  * @author giorno
  * @package Chassis
  * @subpackage Apps
- *
- * Singleton holding definitions of web widgets layouts.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
 
+/**
+ * Singleton holding definitions of web widgets layouts.
+ */
 class _wwg_registry
 {
 	/**

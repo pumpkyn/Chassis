@@ -1,16 +1,18 @@
-<?PHP
-
-require_once CHASSIS_CFG . "class.Config.php";
+<?php
 
 /**
  * @file class.Wa.php
  * @author giorno
  * @package Chassis
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_CFG . "class.Config.php";
+
+/**
  * Workarounds PHP library. Some of methods has counterpart written in
  * Javascript. Some code is taked from various sources.
  */
-
 class Wa extends Config
 {
 	/*

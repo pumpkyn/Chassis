@@ -1,18 +1,21 @@
 <?php
+
 /**
  * @file _smarty_wrapper.php
  * @author giorno
  * @package Chassis
  * @subpackage UI
- * 
- * Wrapper class for configuring and maintaining Smarty template engine instance
- * for framework purposes. Singleton pattern is used as this wrapper may be used
- * by several other objects.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_CFG . 'config.php';
 require_once CHASSIS_3RD . 'Smarty/Smarty.class.php';
 
+/**
+ * Wrapper class for configuring and maintaining Smarty template engine instance
+ * for framework purposes. Singleton pattern is used as this wrapper may be used
+ * by several other objects.
+ */
 class _smarty_wrapper
 {
 	/**

@@ -1,13 +1,18 @@
 <?php
 
-require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
+
 
 /**
  * @file _app_registry.php
  * @author giorno
  * @package Chassis
  * @subpackage Apps
- * 
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
+
+/** 
  * Static class keeping information about applications using the framework and
  * providing interface to manage the registry. This is a central repository for
  * all applications instances, so it can be used to call applications from

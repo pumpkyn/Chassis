@@ -5,12 +5,14 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Container for search results. Part of search solution.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
 
+/**
+ * Container for search results. Part of search solution.
+ */
 class _uicmp_srch_cnt extends _uicmp_comp
 {
 	/**

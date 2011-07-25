@@ -1,10 +1,13 @@
-<?PHP
+<?php
 
 /**
  * @file libdb.php
  * @author giorno
  * @package Chassis
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+/**
  * API for access to the MySQL database. Backend may change, and this library should
  * be changed respectively.
  */

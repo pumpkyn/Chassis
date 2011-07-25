@@ -5,13 +5,15 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Component displaying group of buttons in header section of the _uicmp_tab
- * component.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'uicmp/_uicmp_pool.php';
 
+/** 
+ * Component displaying group of buttons in header section of the _uicmp_tab
+ * component.
+ */
 class _uicmp_buttons extends _uicmp_pool
 {
 	/**

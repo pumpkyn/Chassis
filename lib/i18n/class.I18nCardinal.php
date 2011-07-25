@@ -5,11 +5,13 @@
  * @author giorno
  * @package Chassis
  * @subpackage I18N
- * 
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+ 
+/**
  * Parent to all localization classes handling amount information. It implements
  * logic for English language (use only three strings).
  */
-
 class I18nCardinal
 {
 	/*

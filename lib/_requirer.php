@@ -4,10 +4,12 @@
  * @file _requirer.php
  * @author giorno
  * @package Chassis
- *
- * Object encapsulating resource requirements. This aims to be user independent.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
+/** 
+ * Object encapsulating resource requirements. This aims to be user independent.
+ */
 class _requirer
 {
 	/**

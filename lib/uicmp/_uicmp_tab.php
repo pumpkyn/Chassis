@@ -5,14 +5,16 @@
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
- *
- * Class representing single tab widget.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
 require_once CHASSIS_LIB . "uicmp/_uicmp_fold.php";
 require_once CHASSIS_LIB . "uicmp/_vcmp_search.php";
 
+/**
+ * Class representing single tab widget.
+ */
 class _uicmp_tab extends _uicmp_comp
 {
 	/**

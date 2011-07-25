@@ -1,21 +1,23 @@
-<?PHP
+<?php
 
 /**
  * @file _list_builder.php
  * @author giorno
  * @package Chassis
  * @subpackage List
- *
- * Class to encapsulate methods for manipulating list. It means composing
- * all data and their output to be at disposal for higher level (UI frontend).
- * This encapsulates _list_descriptor class to provide complete list with both,
- * header and data.
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . "list/_list_descriptor.php";
 require_once CHASSIS_LIB . "list/_list_cell.php";
 require_once CHASSIS_LIB . "list/_list_bp.php";
 
+/**
+ * Class to encapsulate methods for manipulating list. It means composing
+ * all data and their output to be at disposal for higher level (UI frontend).
+ * This encapsulates _list_descriptor class to provide complete list with both,
+ * header and data.
+ */
 class _list_builder extends _list_descriptor
 {
 	/**
