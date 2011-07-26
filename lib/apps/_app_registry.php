@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * @file _app_registry.php
  * @author giorno
