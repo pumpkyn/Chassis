@@ -1,0 +1,20 @@
+{* Renders form item.
+ *
+ * @file fi.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+
+{if $USR_UICMP_FI->getType()==_uicmp_fi::TEXT}
+<tr>
+	<td>{$USR_UICMP_FI->getPrompt()}</td>
+	<td><input type="text" id="{$USR_UICMP_FI->getHtmlId()}" value="{$USR_UICMP_FI->getPrompt()}"></td>
+</tr>
+{elseif $USR_UICMP_FI->getType()==_uicmp_fi::PASSWORD}
+<tr>
+	<td>{$USR_UICMP_FI->getPrompt()}</td>
+	<td><input type="password" id="{$USR_UICMP_FI->getHtmlId()}"></td>
+</tr>
+{/if}

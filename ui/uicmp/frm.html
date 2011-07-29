@@ -1,0 +1,18 @@
+{* Renders simple form.
+ *
+ * @file frm.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+ 
+<td>
+	<table cellspacing="0" cellpadding="0">
+		{assign var=USR_UICMP_FI value=$USR_UICMP_CMP->getFirst( )}
+		{while $USR_UICMP_FI}
+			{include file=$USR_UICMP_FI->getRenderer( )}
+			{assign var=USR_UICMP_FI value=$USR_UICMP_CMP->getNext( )}
+		{/while}
+	</table>
+</td>
