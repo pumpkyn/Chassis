@@ -10,6 +10,13 @@
 		<table cellspacing="0" cellpadding="0" width="100%" class="_uicmp">
 			{include file="$CHASSIS_UI_ROOT/uicmp/x_dlgTop.html"}
 			<tr>
+				<td colspan="3" class="_sd_dlg_bg _sd_close">
+					<div class="_uicmp_blue _uicmp_dlg_close" id="{$USR_UICMP_DLG->getHtmlId()}.btClose" onClick="{$USR_UICMP_DLG->getJsVar()}.close( );">
+						{$CHASSIS_UICMP_MESSAGES.sd.close}
+					</div>
+				</td>
+			</tr>
+			<tr>
 				<td colspan="3" class="_sd_dlg_bg">
 					{include file=$USR_UICMP_DLG->getRenderer()}
 				</td>

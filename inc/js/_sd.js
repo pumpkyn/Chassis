@@ -1,3 +1,4 @@
+
 /**
  * @file _sd.js
  * @package Chassis
@@ -17,7 +18,8 @@
 var _sd_padding = 64;
 
 /**
- * Parking position coordinate value for "invisible widgets".
+ * Parking position coordinate value for "invisible widgets". Negative value so
+ * it does not influence display status of horizontal scrollbar.
  */
 var _sd_parking = -2048;
 
@@ -61,11 +63,17 @@ function _wdg ( )
 _sd_dome.prototype = new _wdg;
 
 /**
- * Virtual board used for explicit widgets emulating modal dialogs or to provide
- * dashboard feature.
+ * SkyDome - a virtual board used for explicit widgets emulating modal dialogs
+ * or to provide dashboard feature. Should be instantiated after page is
+ * rendered.
  */
 function _sd_dome ( id )
 {
+	/**
+	 * Copy scope.
+	 */
+	var me = this;
+	
 	/**
 	 * Identifier of Sky Dome instance.
 	 */
@@ -80,9 +88,18 @@ function _sd_dome ( id )
 	 * Building HTML container.
 	 */
 	this.el = document.createElement( 'div' );
-	this.el.setAttribute( 'id', this.html_id );
-	this.el.className = '_sd_dome';
-	//this.el.innerHTML = 'www';
+		this.el.setAttribute( 'id', this.html_id );
+		/**
+		 * Close SkyDome instance and all widgets on it when user clicks on dark
+		 * matter.
+		 */
+		this.el.onclick = function ( )
+		{
+			for ( i = 0; i < me.items.length; ++i )
+				me.items[i].hide( );
+			me.hide( );
+		};
+		this.el.className = '_sd_dome';
 
 	/**
 	 * Apparently it is not that easy to append directly into body tag.
@@ -109,16 +126,16 @@ function _sd_dome ( id )
 			this.resize( true );
 	};
 
-	this.park = function ( )
-	{
-		this.el.style.left			= _sd_parking;
-	};
+	/**
+	 * Move element away into parking coordinate.
+	 */
+	this.park = function ( ) { this.el.style.left = _sd_parking; };
 
 	/**
 	 * Hide Sky Dome canvas.
 	 */
 	this.hide = function ( )
-	{
+	{			
 		this.listener.active		= false;
 		this.el.style.visibility	= 'hidden';
 		this.el.style.display		= 'none';
@@ -507,6 +524,9 @@ function _sd_simple_ctrl ( parent, html_id )
 	this.sky_dome = parent;
 	this.html_id = html_id;
 
+	/**
+	 * Register into SkyDome.
+	 */
 	if ( this.sky_dome != null )
 		this.sky_dome.items[this.sky_dome.items.length] = this;
 

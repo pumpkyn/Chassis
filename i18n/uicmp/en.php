@@ -102,4 +102,9 @@ $_uicmp_i18n['srch']['executing']	= $_uicmp_i18n['cdes']['executing'];
 $_uicmp_i18n['srch']['executed']	= $_uicmp_i18n['cdes']['executed'];
 $_uicmp_i18n['srch']['e_unknown']	= $_uicmp_i18n['cdes']['e_unknown'];
 
+/**
+ * SkyDome messages.
+ */
+$_uicmp_i18n['sd']['close']			= 'Close';
+
 ?>

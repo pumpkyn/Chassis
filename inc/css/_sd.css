@@ -1,4 +1,12 @@
-/* Stylesheet for Chassis Framework widgets (SD - SkyDome) */
+
+/**
+ * @file _sd.css
+ * @author giorno
+ * @package Chassis
+ * @license Apache License, Version 2.0, see LICENSE file
+ *
+ * Stylesheet for Chassis Framework dynamic widgets (SD - SkyDome)
+ */
 
 div._sd_dome
 {
@@ -14,39 +22,39 @@ div._sd_dome
 
 div._sd_dlg
 {
-	position:			absolute;
-	z-index:			102;
-	left:				-1000px;
-	top:				-100px;
-	visibility:			hidden;
+	position:					absolute;
+	z-index:					102;
+	left:						-1000px;
+	top:						-100px;
+	visibility:					hidden;
 }
 
 /* Corners of dialog widget */
 td._sd_dlg_lt,td._sd_dlg_rt,td._sd_dlg_lb,td._sd_dlg_rb
 {
-	background:			url(../img/_uicmp_dlg.gif) no-repeat top left;
-	width:				8px;
-	height:				8px;
+	background:					url(../img/_uicmp_dlg.gif) no-repeat top left;
+	width:						8px;
+	height:						8px;
 }
 td._sd_dlg_rt
 {
-	background:			url(../img/_uicmp_dlg.gif) no-repeat top right;
+	background:					url(../img/_uicmp_dlg.gif) no-repeat top right;
 }
 td._sd_dlg_lb
 {
-	background:			url(../img/_uicmp_dlg.gif) no-repeat bottom left;
+	background:					url(../img/_uicmp_dlg.gif) no-repeat bottom left;
 }
 td._sd_dlg_rb
 {
-	background:			url(../img/_uicmp_dlg.gif) no-repeat bottom right;
+	background:					url(../img/_uicmp_dlg.gif) no-repeat bottom right;
 }
 td._sd_dlg_bg,td._sd_dlg_t,td._sd_dlg_b
 {
-	background-color:				white;
+	background-color:			white;
 }
 td._sd_dlg_t,td._sd_dlg_b
 {
-	width:							100%;
+	width:						100%;
 }
 /*
  * Firefox hack for above
@@ -57,21 +65,27 @@ td._sd_dlg_t,td._sd_dlg_b
 /* Main content */
 td._sd_dlg_cont
 {
-	padding-left:		4px;
-	padding-right:		4px;
-	padding-bottom:		4px;
+	padding-left:				4px;
+	padding-right:				4px;
+	padding-bottom:				4px;
 }
 
 /* Box caption */
 td._sd_dlg_yn_head
 {
-	font-weight:		bold;
-	/*padding-top:		4px;*/
-	padding-top:					0px;
-	padding-bottom:					6px;
-	padding-left:					12px;
-	font-size:			18px;
-	color:				#870000;
+	font-weight:				bold;
+	padding-top:				0px;
+	padding-bottom:				6px;
+	padding-left:				12px;
+	font-size:					18px;
+	color:						#870000;
+}
+
+/* Container for close button */
+td._sd_close
+{
+	padding-top:				1px;
+	padding-left:				3px;
 }
 
 td._sd_dlg_bt
@@ -79,9 +93,7 @@ td._sd_dlg_bt
 	color:						#003387;
 	font-weight:				bold;
 	padding:					8px;
-	padding-bottom:					4px;
-	/*padding-left:				8px;
-	padding-right:				8px;*/
+	padding-bottom:				4px;
 }
 td._sd_dlg_bt input
 {
