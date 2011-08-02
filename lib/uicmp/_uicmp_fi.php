@@ -117,6 +117,11 @@ class _uicmp_fi extends _uicmp_comp
 	 * @return string
 	 */
 	public function getDesc ( ) { return $this->desc; }
+	
+	/**
+	 * Dummy implementation to conform abstract parent.
+	 */
+	public function generateJs () { }
 }
 
 ?>
