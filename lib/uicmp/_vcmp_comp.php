@@ -6,6 +6,12 @@
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
+ * 
+ * @todo rewrite whole UICMP to automatically register to parent in case that
+ * proper action is known (by instanceof operator on parent value)
+ * 
+ * @todo rename generateJs to more proper name, as it does not generate only
+ * Javascript code
  */
 
 /** 
