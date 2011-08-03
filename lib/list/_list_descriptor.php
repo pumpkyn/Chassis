@@ -26,10 +26,12 @@ class _list_descriptor extends _list_i18n
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param _i18n_loader $i18n_loader instance of localization provider
 	 */
-	public function __construct ( $lang )
+	public function __construct ( $i18n_loader )
 	{
-		parent::__construct( $lang );
+		parent::__construct( $i18n_loader );
 		$this->fields = null;
 	}
 

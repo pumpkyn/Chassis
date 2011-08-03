@@ -62,22 +62,28 @@ abstract class _vcmp_layout
 	/**
 	 * Localization messages.
 	 *
-	 * @var <array>
+	 * @var array
 	 */
 	protected $messages = NULL;
 
-	public function  __construct ( $requirer = NULL, $lang = 'en' )
+	/**
+	 * Constructor.
+	 * 
+	 * @param _requirer $requirer requirer instance
+	 * @param _i18n_loader $i18n_loader instance of localization provider
+	 */
+	public function  __construct ( $requirer, $i18n_loader )
 	{
 		$this->uicmps		= Array( );
 		$this->requirer		= $requirer;
 
-		$i18n = CHASSIS_I18N . 'uicmp/' . $lang . '.php';
+		/*$i18n = CHASSIS_I18N . 'uicmp/' . $lang . '.php';
 		if ( file_exists( $i18n ) )
 			include $i18n;
 		else
-			include CHASSIS_I18N . 'uicmp/en.php';
+			include CHASSIS_I18N . 'uicmp/en.php';*/
 
-		$this->messages = $_uicmp_i18n;
+		$this->messages = $i18n_loader->msg( );
 	}
 
 	/**

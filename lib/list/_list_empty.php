@@ -34,11 +34,11 @@ class _list_empty extends _list_i18n
 	 * Constructor.
 	 * 
 	 * @param string $message informational text to be displayed above list of options
-	 * @param
+	 * @param _i18n_loader $i18n_loader instance of localization provider
 	 */
-	public function __construct( $message, $lang = 'en' )
+	public function __construct( $message, $i18n_loader )
 	{
-		parent::__construct( $lang );
+		parent::__construct( $i18n_loader );
 		$this->message = $message;
 	}
 	

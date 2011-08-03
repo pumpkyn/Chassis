@@ -46,7 +46,7 @@ class _uicmp_fi extends _uicmp_comp
 	 * 
 	 * @var int 
 	 */
-	protected $type = self::TEXT;
+	protected $itype = self::TEXT;
 	
 	/**
 	 * Text displayed before the form element to indicate its purpose.
@@ -82,7 +82,7 @@ class _uicmp_fi extends _uicmp_comp
 	public function __construct( &$parent, $id, $prompt, $value, $desc = '', $type = self::TEXT )
 	{
 		parent::__construct( $parent, $parent->getId( ) . '.' . $id );
-		$this->type		= $type;
+		$this->itype	= $type;
 		$this->prompt	= $prompt;
 		$this->value	= $value;
 		$this->desc		= $desc;
@@ -95,7 +95,7 @@ class _uicmp_fi extends _uicmp_comp
 	 * 
 	 * @return int 
 	 */
-	public function getType ( ) { return $this->type; }
+	public function getIType ( ) { return $this->itype; }
 	
 	/**
 	 * Getter for prompt string.

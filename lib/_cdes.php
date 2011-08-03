@@ -53,28 +53,48 @@ class _cdes
 	 */
 	public $Errors = null;
 
-	/*
-	 * UserId.
+	/**
+	 * User ID.
+	 * 
+	 * @var int
 	 */
 	protected $UID = null;
 
+	/**
+	 * Localization messages.
+	 * 
+	 * @var array
+	 */
 	protected $messages = NULL;
 
-	/*
-	 * Set database table as contexts storage.
+	/**
+	 * Localization loader.
+	 * 
+	 * @var _i18n_loader 
 	 */
-	function __construct ( $UID, $table, $lang = 'en' )
+	protected $i18n_loader = NULL;
+	
+	/**
+	 * Constructor. Sets database table as contexts storage.
+	 * 
+	 * @param int $UID user ID
+	 * @param string $table name of contexts database table
+	 * @param _i18n_loader $i18n_loader instance of localization provider
+	 */
+	function __construct ( $UID, $table, $i18n_loader )
 	{
-		$this->UID = $UID;
-		$this->tableName = $table;
+		$this->i18n_loader	= $i18n_loader;
+		$this->UID			= $UID;
+		$this->tableName	= $table;
 
-		$i18n = CHASSIS_I18N . 'uicmp/' . $lang . '.php';
+		/*$i18n = CHASSIS_I18N . 'uicmp/' . $lang . '.php';
 		if (file_exists( $i18n ) )
 			include $i18n;
 		else
 			include CHASSIS_I18N . 'uicmp/en.php';
 
-		$this->messages = $_uicmp_i18n;
+		$this->messages = $_uicmp_i18n;*/
+		$this->messages		= $i18n_loader->msg( );
 	}
 
 	/**
@@ -112,7 +132,7 @@ class _cdes
 		/**
 		 * Create list builder and it header.
 		 */
-		$builder = new _list_builder( $js_id );
+		$builder = new _list_builder( $js_id, $this->i18n_loader );
 			$builder->addField( self::F_CTXNAME, $this->messages['cdesContext'], '150px', 1, 'left', true, ( $order == self::F_CTXNAME ), $dir );
 			$builder->addField( self::F_CTXDESC, $this->messages['cdesDesc'], '*', 1, '', false );
 			$builder->addField( '__rem', '', '0px', 1, '', false );
@@ -142,13 +162,13 @@ class _cdes
 		{
 			if ( trim( $keyword ) != '' )
 			{
-				$empty = new _list_empty( $this->messages['cdesNoMatch'] );
+				$empty = new _list_empty( $this->messages['cdesNoMatch'], $this->i18n_loader );
 				$empty->add( $this->messages['cdesOSearch'], "_uicmp_lookup.lookup( '{$js_id}' ).focus();" );
 				$empty->add( $this->messages['cdesOShowAll'], "_uicmp_lookup.lookup( '{$js_id}' ).showAll();" );
 			}
 			else
 			{
-				$empty = new _list_empty( $this->messages['cdesEmpty'] );
+				$empty = new _list_empty( $this->messages['cdesEmpty'], $this->i18n_loader );
 				$empty->add( $this->messages['cdesOCreate'], "{$cdes_ed}.create();" );
 			}
 			$empty->render( );

@@ -18,22 +18,15 @@ require_once CHASSIS_LIB . 'uicmp/_vcmp_layout.php';
 class _uicmp_dlgs extends _vcmp_layout
 {
 	/**
-	 * Array of registered dialogs.
-	 *
-	 * @var <array>
-	 */
-	//protected $dlgs = NULL;
-
-	/**
 	 * Constructor. Creates empty array of uicmps. Each layout should contain at
 	 * least one tab.
 	 *
-	 * @param <_requirer> $requirer reference to requirer instance
-	 * @param <string> $lang two-character language code for localization messages
+	 * @param _requirer $requirer reference to requirer instance
+	 * @param _i18n_loader $i18n_loader instance of localization provider
 	 */
-	public function  __construct ( $requirer = NULL, $lang = 'en' )
+	public function  __construct ( $requirer, $i18n_loader )
 	{
-		parent::__construct( $requirer, $lang );
+		parent::__construct( $requirer, $i18n_loader );
 
 		if ( !is_null( $requirer ) )
 			$requirer->call( _vcmp_layout::RES_BODYCHILD, array( CHASSIS_UICMP . 'dlgs.html', '' ) );

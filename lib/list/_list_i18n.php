@@ -24,16 +24,16 @@ class _list_i18n
 	/**
 	 * Constructor.
 	 * 
-	 * @param string $lang two-character code of language
+	 * @param _i18n_loader $i18n_loader instance of localization provider
 	 */
-	public function __construct ( $lang = 'en' )
+	public function __construct ( $i18n_loader )
 	{
-		$i18n = CHASSIS_I18N . 'uicmp/' . $lang . '.php';
+		/*$i18n = CHASSIS_I18N . 'uicmp/' . $lang . '.php';
 		if (file_exists( $i18n ) )
 		{
-			include $i18n;
-			$this->messages = $_uicmp_i18n;
-		}
+			include $i18n;*/
+			$this->messages = $i18n_loader->msg( );
+		//}
 	}
 	
 	/**

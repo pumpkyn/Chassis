@@ -23,12 +23,12 @@ class _uicmp_layout extends _vcmp_layout
 	 * Constructor. Creates empty array of uicmps. Each layout should contain at
 	 * least one tab.
 	 *
-	 * @param <_requirer> $requirer reference to requirer instance
-	 * @param <string> $lang two-character language code for localization messages
+	 * @param _requirer $requirer reference to requirer instance
+	 * @param _i18n_loader $i18n_loader instance of localization provider
 	 */
-	public function  __construct ( $requirer = NULL, $lang = 'en' )
+	public function  __construct ( $requirer, $i18n_loader )
 	{
-		parent::__construct( $requirer, $lang );
+		parent::__construct( $requirer, $i18n_loader );
 	}
 
 	/**

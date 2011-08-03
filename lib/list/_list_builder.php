@@ -53,11 +53,11 @@ class _list_builder extends _list_descriptor
 	 * Constructor.
 	 * 
 	 * @param string $client_id client search instance name
-	 * @param string $lang two-character code of language for localization
+	 * @param _i18n_loader $i18n_loader instance of localization provider
 	 */
-	public function __construct ( $client_id, $lang = 'en' )
+	public function __construct ( $client_id, $i18n_loader )
 	{
-		parent::__construct( $lang );
+		parent::__construct( $i18n_loader );
 		$this->rows = null;
 		$this->client_var = $client_id;
 	}
