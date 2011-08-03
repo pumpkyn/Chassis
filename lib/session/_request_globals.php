@@ -59,14 +59,17 @@ class _request_globals
 	}
 
 	/**
-	 * Read interface for variable.
+	 * Read interface for variable stored in internal storage.
 	 * 
-	 * @param <string> $key
-	 * @return <mixed>
+	 * @param string $key
+	 * @return mixed
 	 */
 	public function get ( $key )
 	{
-		return $this->storage[$key];
+		if (array_key_exists( $key, $this->storage ) )
+			return $this->storage[$key];
+		else
+			return NULL;
 	}
 }
 

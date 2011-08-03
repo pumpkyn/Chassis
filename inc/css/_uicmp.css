@@ -536,6 +536,12 @@ td._uicmp_frm_field,td._uicmp_frm_field_1st,td._uicmp_frm_field_rest/*,td._uicmp
 	padding-left:			12px;
 	padding-right:			12px;
 }
+td._uicmp_frm_fdesc
+{
+	padding-left:			12px;
+	font-size:				11px;
+	padding-bottom:			4px;
+}
 td._uicmp_frm_field_rest
 {
 	padding-left:			0px;

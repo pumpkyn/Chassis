@@ -543,31 +543,16 @@ function _sd_simple_ctrl ( parent, html_id )
 			var width = content.offsetWidth;
 			container.style.width = width + 'px';
 		}
-
-		//
-
-		//container.style.width	= width + 'px';
-		//container.style.top		= ( 2 * _sd_padding ) + 'px';	// necessary for creating gap between bottom edges of dialog and document
-		//container.style.left	= _sd_padding + 'px';
-
-		//scroll( 0, 0 );
-		//this.skyDome.resize( false );
-		//container.style.top		= _sd_padding + 'px';			// creating gap
-
-		/*var width = document.body.offsetWidth / 4;
-
-		if ( width < _sd_dlg_minw )
-			width = _sd_dlg_minw;*/
-
-		//container.style.width = width + 'px';
-
-		var left = ( document.body.offsetWidth - container.offsetWidth ) / 2;
-		//alert(left + 'px');
-		container.style.left = left + 'px';
-		container.style.top = _sd_padding + 'px';
-
+		
+		container.style.top		= ( 2 * _sd_padding ) + 'px';	// necessary for creating gap between bottom edges of dialog and document
 
 		scroll( 0, 0 );
+		this.sky_dome.resize( false );
+
+		var left = ( document.body.offsetWidth - container.offsetWidth ) / 2;
+
+		container.style.left = left + 'px';
+		container.style.top = _sd_padding + 'px';
 	};
 
 	/**
