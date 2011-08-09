@@ -1,0 +1,34 @@
+{* Dynamic dialog content. This template is supposed to be used to render
+ * specializations of _uicmp_tab, which are to be rendered on dynamic dialogs.
+ *
+ * @file dlg.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+<div id="{$USR_UICMP_DLG->getHtmlId()}.cnt" class="_uicmp_100p">
+	<table cellspacing="0" cellpadding="0" width="100%" class="_uicmp">
+		<tr>
+			<td>
+				<table width="100%" cellspacing="0" cellpadding="0" class="_uicmp">
+					<tr>
+						<td colspan="3" cclass="_uicmp_head">
+							{assign var='USR_UICMP_HEAD' value=$USR_UICMP_DLG->getHead()}
+							{include file="$CHASSIS_UI_UICMP/head.html"}
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" class="_uicmp_body">
+							{assign var='USR_UICMP_BODY' value=$USR_UICMP_DLG->getBody()}
+							{include file="$CHASSIS_UI_UICMP/body.html"}
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		{*<tr>
+			<td height="16"></td>
+		</tr>*}
+	</table>
+</div>
