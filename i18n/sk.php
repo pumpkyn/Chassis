@@ -2,11 +2,11 @@
 
 /**
  * @file en.php
- * @author giorno
+ * @author pumpkyn
  * @package Chassis
  * @license Apache License, Version 2.0, see LICENSE file
  * 
- * English language messages for Chassis framework resources.
+ * Slovak language messages for Chassis framework resources.
  */
 
 /**
