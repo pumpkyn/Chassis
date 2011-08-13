@@ -247,6 +247,7 @@ input._uicmp_search_input,input._uicmp_frm_input
 {
 	width:							360px;
 	-ms-box-sizing:					border-box;
+	box-sizing:					border-box;
 	-moz-box-sizing:				border-box;
     -webkit-box-sizing:				border-box;
 }
@@ -438,6 +439,11 @@ div._uicmp_gi
 {
 	white-space:			nowrap;
 	cursor:					pointer;
+}
+
+/* Button element */
+input._uicmp_gi_bt
+{
 }
 
 /* Group item with Back-To icon */

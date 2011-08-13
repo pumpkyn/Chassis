@@ -5,7 +5,7 @@
 {elseif $USR_UICMP_ITEM->getWhat() == 'ind'}
 	<div id="{$USR_UICMP_ITEM->getHtmlId()}"{if $USR_UICMP_ITEM->getClass()} class="{$USR_UICMP_ITEM->getClass()}"{/if}>{$USR_UICMP_ITEM->getTitle()}</div>
 {elseif $USR_UICMP_ITEM->getWhat() == 'bt'}
-	<input id="{$USR_UICMP_ITEM->getHtmlId()}" type="button" {if $USR_UICMP_ITEM->getAction()} onClick="{$USR_UICMP_ITEM->getAction()}"{/if} class="_uicmp_gi{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}" value="{$USR_UICMP_ITEM->getTitle()}"/>
+	<input id="{$USR_UICMP_ITEM->getHtmlId()}" type="button" {if $USR_UICMP_ITEM->getAction()} onClick="{$USR_UICMP_ITEM->getAction()}"{/if} class="_uicmp_gi_bt{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}" value="{$USR_UICMP_ITEM->getTitle()}"/>
 {elseif $USR_UICMP_ITEM->getWhat() == 'chk'}
 	<div id="{$USR_UICMP_ITEM->getHtmlId()}">
 		<table cellspacing="0" cellpadding="0">
