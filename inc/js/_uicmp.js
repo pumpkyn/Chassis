@@ -273,11 +273,24 @@ function _uicmp_search ( id, tabId, ind, url, params, config, formId, container_
 			disableSelection( el );
 	};
 
+	/**
+	 * Put cursor into the search box.
+	 */
 	this.focus = function ( )
 	{
 		var el = document.getElementById( this.formId + ':input' );
-		if ( el )
+		try
+		{
+			if ( el )
 			el.focus( );
+		}
+		catch( ex )
+		{
+			/**
+			 * This happens only in MSIE due to inability to focus on invisible
+			 * elements, e.g. in dynamic dialogs.
+			 */
+		}
 	};
 	
 	/**
