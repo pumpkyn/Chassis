@@ -12,8 +12,8 @@
 /**
  * Search solution.
  */
-$__chassis_msg['srchBtSearch']		= 'Hledaj';
-$__chassis_msg['srchBtShowAll']		= 'Zobraz všechno';
+$__chassis_msg['srchBtSearch']		= 'Hledej';
+$__chassis_msg['srchBtShowAll']		= 'Zobraz vše';
 
 /**
  * List subpackage.
@@ -28,13 +28,13 @@ $__chassis_msg['listEmptyLastOpt']	= 'nebo';
 /**
  * Lists Batch Processing (BP) form.
  */
-$__chassis_msg['bpAll']				= 'Označ všechno';
-$__chassis_msg['bpNone']				= 'Odznač všechno';
+$__chassis_msg['bpAll']				= 'Označ vše';
+$__chassis_msg['bpNone']				= 'Odznač vše';
 $__chassis_msg['bpYes']				= 'Ano';
 $__chassis_msg['bpNo']				= 'Ne';
 $__chassis_msg['bpWarning']			= 'Varování';
 
-$__chassis_msg['formBtBack']			= 'Spět';
+$__chassis_msg['formBtBack']			= 'Zpět';
 $__chassis_msg['formBtSave']			= 'Uložit';
 
 /**
@@ -49,13 +49,13 @@ $__chassis_msg['cdesDisplay']			= 'Zobrazit text';
 $__chassis_msg['cdesDesc']			= 'Popis';
 $__chassis_msg['cdesContext']			= 'Nálepka';
 $__chassis_msg['cdesRemove']			= 'Odstranit';
-$__chassis_msg['cdesQuestion']		= 'Skutočne chcete zmazat obsah? <b>%s</b>? This operation cannot be undone.';
+$__chassis_msg['cdesQuestion']		= 'Skutočne chcete zmazat obsah? <b>%s</b>? Tato operace je nevratná.';
 $__chassis_msg['cdesEmpty']			= 'Nejsou vytvořené žádne nálepky.';
-$__chassis_msg['cdesNoMatch']			= 'Vyhledávání bolo neúspěšné.';
+$__chassis_msg['cdesNoMatch']			= 'Vyhledávání bylo neúspěšné.';
 $__chassis_msg['cdesOCreate']			= 'Vytvořit nálepku';
 $__chassis_msg['cdesOShowAll']		= 'Zobrazit všechny nálepky';
 $__chassis_msg['cdesOSearch']			= 'Změnit výraz a hledat znovu';
-$__chassis_msg['cdesNoCtxs']			= 'Žiadny obsah nie je dostupný';
+$__chassis_msg['cdesNoCtxs']			= 'Žádny obsah není dostupný';
 
 /**
  * Contexts + CDES.

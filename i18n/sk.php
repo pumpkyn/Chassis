@@ -49,7 +49,7 @@ $__chassis_msg['cdesDisplay']			= 'Zobraziť text';
 $__chassis_msg['cdesDesc']			= 'Popis';
 $__chassis_msg['cdesContext']			= 'Nálepka';
 $__chassis_msg['cdesRemove']			= 'Odstrániť';
-$__chassis_msg['cdesQuestion']		= 'Skutočne chcete zmazať obsah <b>%s</b>? This operation cannot be undone.';
+$__chassis_msg['cdesQuestion']		= 'Skutočne chcete zmazať obsah <b>%s</b>? Táto operácia je nevratná.';
 $__chassis_msg['cdesEmpty']			= 'Nie sú vytvorené žiadne nálepky.';
 $__chassis_msg['cdesNoMatch']			= 'Vyhľadávanie bolo neúspešné.';
 $__chassis_msg['cdesOCreate']			= 'Vytvoriť nálepku';
@@ -83,7 +83,7 @@ $__chassis_msg['cdes']['executing']	= 'Vykonávam...';
 $__chassis_msg['cdes']['executed']	= 'Vykonané';
 $__chassis_msg['cdes']['e_format']	= 'Chyba: nesprávny obsah ' . $__chassis_msg['cdesDisplay'] . '!';
 $__chassis_msg['cdes']['e_exists']	= 'Chyba: obsah už existuje!';
-$__chassis_msg['cdes']['e_unknown']	= 'Chyba: chyba neznáma! Kontaktujte administrátorov.';
+$__chassis_msg['cdes']['e_unknown']	= 'Chyba: chyba neznáma! Kontaktujte správcov.';
 
 /**
  * Search solution status messages.
