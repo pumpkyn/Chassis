@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @file en.php
+ * @file cs.php
  * @author pumpkyn
  * @package Chassis
  * @license Apache License, Version 2.0, see LICENSE file
  * 
- * Slovak language messages for Chassis framework resources.
+ * Czech language messages for Chassis framework resources.
  */
 
 /**
