@@ -10,7 +10,7 @@
 require_once CHASSIS_CFG . "class.Config.php";
 
 /**
- * Workarounds PHP library. Some of methods has counterpart written in
+ * Workarounds PHP library class. Some of methods has counterpart written in
  * Javascript. Some code is taked from various sources.
  */
 class Wa extends Config
@@ -22,6 +22,33 @@ class Wa extends Config
 	static function PlusSignWaDecode ( $data )
 	{
 		return str_replace( self::XMLREPLACEMENT_PLUSSIGN, "+", $data );
+	}
+	
+	/**
+	 * Shortens string to have no more than requested number of characters.
+	 * 
+	 * @param string $string input string
+	 * @param int $size desired length
+	 * @return string
+	 */
+	static function CutString( $string, $size )
+	{
+		if ( $size <= 3 )
+			return $string;
+		
+		if ( strlen( $string ) <= $size )
+			return $string;
+		
+		for ( $i = $size - 3; $i >= 0; --$i )
+		{
+			if ( $string[$i] == ' ' )
+				break;
+		}
+		
+		if ( $i > 0 )
+			return substr( $string, 0, ( $i - 1 ) ) . '...';
+		else
+			return substr( $string, 0, $size ) . '...';
 	}
 
 	/**
