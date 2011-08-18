@@ -19,30 +19,30 @@ class Config
 	/**
 	 * Database tables and fields names
 	 */
-	const T_USERS				= 'tUsers';
+	const T_USERS				= 'core_users';
 	const F_UID					= 'uid';
 	const F_LOGIN				= 'login';
 	const F_PASSWD				= 'passwd';
 	const F_EMAIL				= 'email';
 	const F_ENABLED				= 'enabled';
 	
-	const T_SESSIONS			= 'tSessions';
+	const T_SESSIONS			= 'core_sessions';
 	const F_SID					= 'sid';
 	const F_CLID				= 'clid';
 	const F_IP					= 'ip';
 	const F_VALID				= 'valid';
 
-	const T_SETTINGS			= 'tSettings';
+	const T_SETTINGS			= 'core_settings';
 	const F_SCOPE				= 'scope';
 	const F_NS					= 'ns';
 	const F_KEY					= 'key';
 	const F_VALUE				= 'value';
 	const F_ID					= 'id';
 
-	const T_SIGNTOKENS			= 'tSignTokens';
+	const T_SIGNTOKENS			= 'core_autologin';
 	const F_TOKEN				= 'token';
 
-	const T_LOGINS				= 'tLogins';
+	const T_LOGINS				= 'core_logins';
 	const F_APP					= 'app';
 	const F_STAMP				= 'stamp';
 

@@ -5,9 +5,9 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Table structure for table `tLogins`
+-- Table structure for table `core_logins`
 --
-CREATE TABLE IF NOT EXISTS `tLogins` (
+CREATE TABLE IF NOT EXISTS `core_logins` (
   `uid` bigint(20) NOT NULL,
   `ns` char(64) COLLATE utf8_unicode_ci NOT NULL,
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS `tLogins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Table structure for table `tSessions`
+-- Table structure for table `core_sessions`
 --
-CREATE TABLE IF NOT EXISTS `tSessions` (
+CREATE TABLE IF NOT EXISTS `core_sessions` (
   `sid` char(32) COLLATE utf8_unicode_ci NOT NULL,
   `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `clid` char(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS `tSessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Table structure for table `tSettings`
+-- Table structure for table `core_settings`
 --
-CREATE TABLE IF NOT EXISTS `tSettings` (
+CREATE TABLE IF NOT EXISTS `core_settings` (
   `scope` enum('G','U','S') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'U',
   `id` char(32) COLLATE utf8_unicode_ci NOT NULL,
   `ns` char(64) COLLATE utf8_unicode_ci NOT NULL,
@@ -42,9 +42,9 @@ CREATE TABLE IF NOT EXISTS `tSettings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Table structure for table `tUsers`
+-- Table structure for table `core_users`
 --
-CREATE TABLE IF NOT EXISTS `tUsers` (
+CREATE TABLE IF NOT EXISTS `core_users` (
   `uid` bigint(20) NOT NULL AUTO_INCREMENT,
   `login` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `passwd` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -57,10 +57,10 @@ CREATE TABLE IF NOT EXISTS `tUsers` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=28 ;
 
 --
--- Table structure for table `tSignTokens`
+-- Table structure for table `core_autologin`
 --
 
-CREATE TABLE IF NOT EXISTS `tSignTokens` (
+CREATE TABLE IF NOT EXISTS `core_autologin` (
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `clid` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -75,19 +75,19 @@ CREATE TABLE IF NOT EXISTS `tSignTokens` (
 
 
 --
--- Constraints for table `tLogins`
+-- Constraints for table `core_logins`
 --
-ALTER TABLE `tLogins`
-  ADD CONSTRAINT `tLogins_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `tUsers` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `core_logins`
+  ADD CONSTRAINT `core_logins_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `core_users` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tSessions`
+-- Constraints for table `core_sessions`
 --
-ALTER TABLE `tSessions`
-  ADD CONSTRAINT `tSessions_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `tUsers` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `core_sessions`
+  ADD CONSTRAINT `core_sessions_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `core_users` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tSignTokens`
+-- Constraints for table `core_autologin`
 --
-ALTER TABLE `tSignTokens`
-  ADD CONSTRAINT `tSignTokens_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `tUsers` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `core_autologin`
+  ADD CONSTRAINT `core_autologin_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `core_users` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;

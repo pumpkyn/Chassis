@@ -28,7 +28,7 @@ abstract class _settings extends Config
 
 	/**
 	 * Database table to operate on. Its structure should be consistent with
-	 * tSettings table.
+	 * core_settings table.
 	 *
 	 * @var string
 	 */
