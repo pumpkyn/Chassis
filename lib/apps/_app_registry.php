@@ -102,11 +102,28 @@ class _app_registry
 	 * @var array
 	 */
 	protected $bodyChildren = NULL;
+	
+	/**
+	 * String appended to client side resources (JS, CSS) to control browser
+	 * caching of those. Shoul be explicitly set by user for deployments to
+	 * make client side faster; automatic value (UNIX timestamp) for development
+	 * (which makes browser to always get latest version).
+	 * 
+	 * @var string 
+	 */
+	protected $magic = NULL;
 
 	/**
-	 * Prevent access to instantiation and cloning.
+	 * Private constructor with default initializations.
 	 */
-	private function __construct ( ) { }
+	private function __construct ( )
+	{
+		$this->magic = time( );
+	}
+		
+	/**
+	 * Prevent cloning.
+	 */
 	private function __clone ( ) { }
 
 	/**
@@ -121,6 +138,13 @@ class _app_registry
 
 		return static::$instance;
 	}
+	
+	/**
+	 * Method to explicitly override automatic magic string.
+	 * 
+	 * @param string $magic 
+	 */
+	public function setMagic( $magic ) { $this->magic = $magic; }
 
 	/**
 	 * Registers new application into the registry and informs it about this
@@ -361,7 +385,7 @@ class _app_registry
 	public function render (  )
 	{
 		_smarty_wrapper::getInstance( )->getEngine( )->registerObject( 'USR_APPS_REGISTRY', $this, NULL, FALSE );
-		_smarty_wrapper::getInstance( )->getEngine( )->assign( 'USR_APPS_MAGIC', time( ) );
+		_smarty_wrapper::getInstance( )->getEngine( )->assign( 'USR_APPS_MAGIC', $this->magic );
 	}
 
 	/**
