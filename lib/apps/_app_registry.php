@@ -380,7 +380,6 @@ class _app_registry
 	 * Populates Smarty template engine with objects required in render phase.
 	 *
 	 * @param Smarty $smarty Smarty class instance
-	 * @todo change deployment to static value when deploying
 	 */
 	public function render (  )
 	{
