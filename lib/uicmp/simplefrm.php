@@ -1,52 +1,32 @@
 <?php
 
 /**
- * @file _uicmp_fi.php
+ * @file simplefrm.php
  * @author giorno
  * @package Chassis
+ * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
+namespace io\creat\chassis\uicmp;
+
+require_once CHASSIS_LIB . 'uicmp/common.php';
+require_once CHASSIS_LIB . 'uicmp/pool.php';
+require_once CHASSIS_LIB . 'uicmp/uicmp.php';
 
 /**
  * Component representing form item.
  * 
  * @todo onClick, onChange, onKey* event callbacks
  */
-class _uicmp_fi extends _uicmp_comp
-{
-	/**
-	 * Simple text input.
-	 */
-	const TEXT		= 0;
-	
-	/**
-	 * Password field. Value for it is ignored.
-	 */
-	const PASSWORD	= 1;
-	
-	/**
-	 * Checkbox field. Value is boolean. Description for it is ignored.
-	 */
-	const CHECKBOX	= 2;
-	
-	/**
-	 * Multioption chooser. 
-	 */
-	const SELECT	= 3;
-	
-	/**
-	 * Textarea.
-	 */
-	const TEXTAREA	= 4;
-	
+class frmitem extends uicmp implements \_uicmp
+{	
 	/**
 	 * Type of the form item. See class constants for values.
 	 * 
 	 * @var int 
 	 */
-	protected $itype = self::TEXT;
+	protected $itype = self::FIT_TEXT;
 	
 	/**
 	 * Text displayed before the form element to indicate its purpose.
@@ -72,14 +52,14 @@ class _uicmp_fi extends _uicmp_comp
 	/**
 	 * Constructor.
 	 * 
-	 * @param _uicmp_frm $parent form component
+	 * @param simplefrm $parent form component
 	 * @param string $id id of the component, suffix to parent ID
 	 * @param string $prompt prompt string
 	 * @param mixed $value value of the item
 	 * @param string $desc description of the item
 	 * @param int $type type of the item
 	 */
-	public function __construct( &$parent, $id, $prompt, $value, $desc = '', $type = self::TEXT )
+	public function __construct( &$parent, $id, $prompt, $value, $desc = '', $type = self::FIT_TEXT )
 	{
 		parent::__construct( $parent, $parent->getId( ) . '.' . $id );
 		$this->itype	= $type;
@@ -121,7 +101,40 @@ class _uicmp_fi extends _uicmp_comp
 	/**
 	 * Dummy implementation to conform abstract parent.
 	 */
-	public function generateJs () { }
+	public function generateReqs () { }
+}
+
+/**
+ * Component representing universal form body.
+ */
+class simplefrm extends pool
+{
+	/**
+	 * Constructor.
+	 * 
+	 * @param _uicmp_body $parent parent component, the tab body
+	 * @param string $id identifier of the component
+	 */
+	public function __construct( &$parent, $id )
+	{
+		parent::__construct( $parent, $id );
+		$this->jsPrefix		= '_uicmp_frm_i:';
+		$this->renderer		= CHASSIS_UI . 'uicmp/frm.html';
+	}
+	
+	/**
+	 * Adds new component into the form.
+	 * 
+	 * @param frmitem $item form component
+	 */
+	public function add( &$item )
+	{
+		/**
+		 * Allow to add only form item components.
+		 */
+		if ( $item instanceof frmitem )
+			parent::add( $item );
+	}
 }
 
 ?>

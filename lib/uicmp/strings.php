@@ -1,14 +1,15 @@
 <?php
 
 /**
- * @file _uicmp_comp.php
+ * @file strings.php
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
  */
+namespace io\creat\chassis\uicmp;
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
+require_once CHASSIS_LIB . 'uicmp/uicmp.php';
 
 /**
  * Provides serialized array of strings for client side UI to be parsed by
@@ -17,17 +18,19 @@ require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
  * this solution does not require extra request (optimization) and bundles data
  * into appropriate UICMP component instance UI code (maintainability).
  */
-class _uicmp_strings extends _uicmp_comp
+class strings extends uicmp
 {
 	/**
 	 * Multidimensional associative array of strings.
+	 * 
+	 * @var array
 	 */
 	protected $messages = NULL;
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param _uimcp_comp $parent parent component, used to conform UICMP concept
+	 * @param uicmp $parent parent component, used to conform UICMP concept
 	 * @param string $id identifier of component
 	 * @param array $messages strings to be provided
 	 */
@@ -44,12 +47,12 @@ class _uicmp_strings extends _uicmp_comp
 	 * 
 	 * @return string 
 	 */
-	public function get ( ) { return $this->generateJsArray( $this->messages ); }
+	public function get ( ) { return self::toJsArray( $this->messages ); }
 	
 	/**
 	 * Dummy implementation to conform abstract parent.
 	 */
-	public function generateJs ( ) { }
+	public function generateReqs ( ) { }
 }
 
 ?>

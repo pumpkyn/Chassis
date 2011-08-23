@@ -1,19 +1,21 @@
 <?php
 
 /**
- * @file _uicmp_comp.php
+ * @file uicmp.php
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
+namespace io\creat\chassis\uicmp;
+
+require_once CHASSIS_LIB . 'uicmp/vcmp.php';
 
 /**
  * Common ancestor to all UICMP components.
  */
-abstract class _uicmp_comp extends _vcmp_comp
+abstract class uicmp extends vcmp
 {
 	/**
 	 * Type of the item. Each instance/class is responsible for setting this
@@ -51,13 +53,6 @@ abstract class _uicmp_comp extends _vcmp_comp
 	}
 
 	/**
-	 * RO interface to $type member. Return value identifies default template
-	 *
-	 * @return string
-	 */
-	public function type ( ) { return $this->type; }
-
-	/**
 	 * Returns HTML id for the element. Lowercase 'm' letter at the beginning of
 	 * the string is to conform specification: http://www.w3.org/TR/html4/types.html#type-id
 	 * 
@@ -68,12 +63,12 @@ abstract class _uicmp_comp extends _vcmp_comp
 	public function getHtmlId ( )
 	{
 		$first = strtoupper( $this->type[0] );
-		return ( ( ( $first < 'A' ) || ( $first > 'Z' ) ) ? 'm' : '' ) . $this->type . ':' . $this->id;
+		return ( ( ( $first < 'A' ) || ( $first > 'Z' ) ) ? 'm' : '' ) . str_replace( '\\', ':', $this->type ) . ':' . $this->id;
 	}
 
 	/**
 	 * Clibs up parents' hierarchy and returns requirer instance from top parent
-	 * (_uicmp_layout).
+	 * (e.g. layout instance).
 	 *
 	 * @return _requirer
 	 */

@@ -1,69 +1,111 @@
 <?php
 
 /**
- * @file _uicmp_tab.php
+ * @file tab.php
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
-require_once CHASSIS_LIB . "uicmp/_uicmp_fold.php";
-require_once CHASSIS_LIB . "uicmp/_vcmp_search.php";
+namespace io\creat\chassis\uicmp;
+
+require_once CHASSIS_LIB . "uicmp/uicmp.php";
+require_once CHASSIS_LIB . "uicmp/pool.php";
+require_once CHASSIS_LIB . "uicmp/fold.php";
+require_once CHASSIS_LIB . "uicmp/vsearch.php";
+
+/**
+ * UICMP component for tab head section.
+ */
+class head extends pool
+{
+	/**
+	 * Constructor.
+	 *
+	 * @param tab $parent reference to tab component instance
+	 * @param string $id identifier of the component
+	 */
+	public function __construct ( &$parent, $id )
+	{
+		parent::__construct( $parent, $id );
+		$this->type		= __CLASS__;
+		$this->renderer	= CHASSIS_UI . 'uicmp/head.html';
+	}
+}
+
+/** 
+ * UICMP component for tab body section.
+ */
+class body extends pool
+{
+	/**
+	 * Constructor.
+	 *
+	 * @param tab $parent reference to tab component instance
+	 * @param string $id identifier of the component
+	 */
+	public function __construct ( &$parent, $id )
+	{
+		parent::__construct( $parent, $id );
+		$this->type		= __CLASS__;
+		$this->renderer	= CHASSIS_UI . 'uicmp/body.html';
+	}
+}
 
 /**
  * Class representing single tab widget.
  */
-class _uicmp_tab extends _uicmp_comp
+class tab extends uicmp
 {
 	/**
 	 * Defines whether tab has visible fold or not.
 	 * 
-	 * @var <uiTabFold>
+	 * @var fold
 	 */
 	protected $fold = NULL;
 
 	/**
-	 * Rendered visibility of the tab.
+	 * Rendered initial visibility of the tab. Only one tab within layout
+	 * container should be visible.
 	 * 
-	 * @var <bool>
+	 * @var bool
 	 */
 	protected $hidden = TRUE;
 
 	/**
 	 * Indicates if tab can be put onto stack and used by Back buttons.
 	 *
-	 * @var <bool>
+	 * @var bool
 	 */
 	protected $stackable = TRUE;
 
 	/**
 	 * Header section of the tab.
 	 * 
-	 * @var <_uicmp_head>
+	 * @var head
 	 */
 	protected $head = NULL;
 
 	/**
 	 * Main section of the tab.
 	 *
-	 * @var <_uicmp_body>
+	 * @var body
 	 */
 	protected $body = NULL;
 
 	/**
 	 * Array of virtual components assigned to tab.
 	 *
-	 * @var <array>
+	 * @var array
 	 */
 	protected $vcmps = NULL;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param <_uicmp_layout> $parent reference to layout instance
-	 * @param <string> $id identifier of the component
+	 * @param vlayout $parent reference to layout instance
+	 * @param string $id identifier of the component
 	 */
 	public function  __construct ( &$parent, $id )
 	{
@@ -76,7 +118,7 @@ class _uicmp_tab extends _uicmp_comp
 	 * Implementation of virtual method. Registers Javascript code for <head>
 	 * element.
 	 */
-	public function generateJs ( )
+	public function generateReqs ( )
 	{
 		$requirer = $this->getRequirer( );
 		
@@ -85,7 +127,7 @@ class _uicmp_tab extends _uicmp_comp
 			if ( !is_null( $this->fold ) )
 			{
 				$foldId= '\'' . $this->fold->getHtmlId( ) . '\'';
-				$this->fold->generateJs( );
+				$this->fold->generateReqs( );
 			}
 			else
 				$foldId= 'null';
@@ -97,70 +139,70 @@ class _uicmp_tab extends _uicmp_comp
 			 * @todo is this still true?
 			 */
 			//if ( !is_null( $this->parent->getJsVar( ) ) )
-				$requirer->call( _uicmp_layout::RES_JSPLAIN, $this->parent->getJsVar( ) . '.addTab( \'' . $this->getHtmlId( ) . '\', ' . ( ( $this->isHidden( ) ) ? 'true' : 'false' ) . ', ' . ( ( $this->isStackable( ) ) ? 'true' : 'false' ) . ', ' . $foldId . ' );' );
+				$requirer->call( vlayout::RES_JSPLAIN, $this->parent->getJsVar( ) . '.addTab( \'' . $this->getHtmlId( ) . '\', ' . ( ( $this->isHidden( ) ) ? 'true' : 'false' ) . ', ' . ( ( $this->isStackable( ) ) ? 'true' : 'false' ) . ', ' . $foldId . ' );' );
 
 			/**
 			 * Generate Javascript for head and body sections of the tab.
 			 */
 			if ( !is_null( $this->head ) )
-				$this->head->generateJs( );
+				$this->head->generateReqs( );
 
 			if ( !is_null( $this->body ) )
-				$this->body->generateJs( );
+				$this->body->generateReqs( );
 
 			/**
 			 * Generate Javascript for virtual components.
 			 */
 			if ( is_array( $this->vcmps ) )
 				foreach ( $this->vcmps as $vcmp )
-					$vcmp->generateJs( );
+					$vcmp->generateReqs( );
 		}
 	}
 
 	/**
 	 * Created Fold component for the tab and returns its reference.
 	 *
-	 * @param <string> $title text to display
-	 * @return <_uicmp_fold>
+	 * @param string $title text to display
+	 * @return fold
 	 */
 	public function createFold ( $title )
 	{
-		$this->fold = new _uicmp_fold( $this, $this->id . '.Fold', $title );
+		$this->fold = new fold( $this, $this->id . '.Fold', $title );
 		return $this->fold;
 	}
 
 	/**
 	 * Creates search solution for the tab.
 	 *
-	 * @param <string> $id identifier of search instance
-	 * @param <flags> $flags flags for the search solution
-	 * @param <string> $url base URL for sending Ajax requests
-	 * @param <array> $params array of additional parameters for Ajax request
-	 * @param <array> $config search client instance configuration
-	 * @param <int> $resizerSize size for resizer
-	 * @return <_vcmp_comp> refence to stored virtual component
+	 * @param string $id identifier of search instance
+	 * @param flags $flags flags for the search solution
+	 * @param string $url base URL for sending Ajax requests
+	 * @param array $params array of additional parameters for Ajax request
+	 * @param array $config search client instance configuration
+	 * @param int $resizerSize size for resizer
+	 * @return vsearch refence to stored virtual component
 	 */
-	public function createSearch ( $id, $flags, $url, $params, $config, $resizerSize ) { return $this->addVcmp( new _vcmp_search( $id, $this, $flags, $url, $params, $config, $resizerSize ) ); }
+	public function createSearch ( $id, $flags, $url, $params, $config, $resizerSize ) { return $this->addVcmp( new vsearch( $id, $this, $flags, $url, $params, $config, $resizerSize ) ); }
 
 	/**
 	 * Attach virtual component to the tab.
 	 *
-	 * @param <_vcmp_comp> $vcmp virtual component
-	 * @return <_vcmp_comp> refence to stored virtual component
+	 * @param vcmp $vcmp virtual component
+	 * @return vcmp refence to stored virtual component
 	 */
 	public function addVcmp ( $vcmp ) { $this->vcmps[] = $vcmp; return $vcmp; }
 
 	/**
 	 * Sets fold component for the tab.
 	 *
-	 * @param <_uicmp_fold> $fold
+	 * @param fold $fold
 	 */
 	public function setFold ( &$fold ) { $this->fold = $fold; }
 
 	/**
 	 * Returns reference to tab fold component.
 	 *
-	 * @return <_uicmp_fold>
+	 * @return fold
 	 */
 	public function getFold ( ) { return $this->fold; }
 
@@ -182,29 +224,26 @@ class _uicmp_tab extends _uicmp_comp
 	/**
 	 * Returns visibility of the component.
 	 *
-	 * @return <bool>
+	 * @return bool
 	 */
 	public function isHidden ( ) { return $this->hidden; }
 
 	/**
 	 * Returns stackability of the component.
 	 *
-	 * @return <bool>
+	 * @return bool
 	 */
 	public function isStackable ( ) { return $this->stackable; }
 
 	/**
 	 * Read interface and lazy initialization of tab header section.
 	 * 
-	 * @return <_uicmp_head>
+	 * @return head
 	 */
 	public function getHead ( )
 	{
 		if ( is_null( $this->head ) )
-		{
-			require_once CHASSIS_LIB . 'uicmp/_uicmp_head.php';
-			$this->head = new _uicmp_head( $this, $this->id . '.Head' );
-		}
+			$this->head = new head( $this, $this->id . '.Head' );
 
 		return $this->head;
 	}
@@ -212,15 +251,12 @@ class _uicmp_tab extends _uicmp_comp
 	/**
 	 * Read interface and lazy initialization of tab body section.
 	 * 
-	 * @return <_uicmp_body>
+	 * @return body
 	 */
 	public function getBody ( )
 	{
 		if ( is_null( $this->body ) )
-		{
-			require_once CHASSIS_LIB . 'uicmp/_uicmp_body.php';
-			$this->body = new _uicmp_body( $this, $this->id . '.Body' );
-		}
+			$this->body = new body( $this, $this->id . '.Body' );
 
 		return $this->body;
 	}
@@ -228,12 +264,9 @@ class _uicmp_tab extends _uicmp_comp
 	/**
 	 * Read interface for _uicmp_layout Javascript variable name.
 	 *
-	 * @return <string>
+	 * @return string
 	 */
-	public function getLayoutJsVar ( )
-	{
-		return $this->parent->getJsVar();
-	}
+	public function getLayoutJsVar ( ) { return $this->parent->getJsVar(); }
 }
 
 ?>

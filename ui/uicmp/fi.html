@@ -7,18 +7,17 @@
  * @license Apache License, Version 2.0, see LICENSE file
  *}
 
-{if $USR_UICMP_FI->getIType()==_uicmp_fi::TEXT}
+{if $USR_UICMP_FI->getIType()==_uicmp::FIT_TEXT}
 <tr>
 	<td class="_uicmp_frm_prompt">{$USR_UICMP_FI->getPrompt()}</td>
 	<td class="_uicmp_frm_field" width="100%">
 		<input type="text" class="_uicmp_frm_input" id="{$USR_UICMP_FI->getHtmlId()}" value="{$USR_UICMP_FI->getValue()}">
 	</td>
 </tr>
-{elseif $USR_UICMP_FI->getIType()==_uicmp_fi::PASSWORD}
+{elseif $USR_UICMP_FI->getIType()==_uicmp::FIT_PASSWORD}
 <tr>
 	<td class="_uicmp_frm_prompt">{$USR_UICMP_FI->getPrompt()}</td>
 	<td class="_uicmp_frm_field" width="100%"><input type="password" class="_uicmp_frm_input" id="{$USR_UICMP_FI->getHtmlId()}"></td>
 </tr>
 {/if}
-
 {if $USR_UICMP_FI->getDesc()}<tr><td></td><td class="_uicmp_frm_fdesc" >{$USR_UICMP_FI->getDesc()}</td></tr>{/if}

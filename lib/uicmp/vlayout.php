@@ -1,46 +1,48 @@
 <?php
 
 /**
- * @file _vcmp_layout.php
+ * @file vlayout.php
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
+namespace io\creat\chassis\uicmp;
+
 /**
- * Common functionality for top level UICMP containers: _uicmp_layout (ordinary
- * in-page placed UI) and _uicmp_dlgs (for SkyDome dialogs).
+ * Virtual layout. Common functionality for top level UICMP containers: layout
+ * (ordinary in-page placed UI) and dlgs (for SkyDome dialogs).
  */
-abstract class _vcmp_layout
+abstract class vlayout
 {
 	/**
 	 * Resource types used by UICMP widgets.
 	 */
-	const RES_JS		= 'resJavascript';
-	const RES_CSS		= 'resCss';
-	const RES_ONLOAD	= 'resOnLoad';
-	const RES_JSPLAIN	= 'resJsPlain';
-	const RES_BODYCHILD	= 'resBodyChild';
+	const RES_JS		= 1;
+	const RES_CSS		= 2;
+	const RES_ONLOAD	= 4;
+	const RES_JSPLAIN	= 8;
+	const RES_BODYCHILD	= 16;
 
 	/**
-	 * Array of virtual components assigned directly to layout.
+	 * Virtual components driven by this layout.
 	 *
-	 * @var <array>
+	 * @var array
 	 */
 	protected $vcmps = NULL;
 
 	/**
-	 * uicmps driven by this layout.
+	 * Visual components driven by and rendered in this layout.
 	 * 
-	 * @var <array>
+	 * @var array
 	 */
 	public $uicmps = null;
 
 	/**
 	 * Requirer instance used for resource requirements.
 	 *
-	 * @var <Requirer>
+	 * @var _requirer
 	 */
 	protected $requirer = NULL;
 
@@ -48,14 +50,14 @@ abstract class _vcmp_layout
 	 * Last integer part of layout Id to be used to generate unique global
 	 * Javascript variable representing layout instance on the other side.
 	 *
-	 * @var <int>
+	 * @var int
 	 */
 	protected static $lastId = 0;
 
 	/**
 	 * Name for Javascript variable representing layout on the other side.
 	 *
-	 * @var <string>
+	 * @var string
 	 */
 	protected $jsVar = NULL;
 
@@ -74,30 +76,22 @@ abstract class _vcmp_layout
 	 */
 	public function  __construct ( $requirer, $i18n_loader )
 	{
-		$this->uicmps		= Array( );
-		$this->requirer		= $requirer;
-
-		/*$i18n = CHASSIS_I18N . 'uicmp/' . $lang . '.php';
-		if ( file_exists( $i18n ) )
-			include $i18n;
-		else
-			include CHASSIS_I18N . 'uicmp/en.php';*/
-
-		$this->messages = $i18n_loader->msg( );
+		$this->requirer	= $requirer;
+		$this->messages	= $i18n_loader->msg( );
 	}
 
 	/**
 	 * Attach virtual component to the tab.
 	 *
-	 * @param <_vcmp_comp> $vcmp virtual component
+	 * @param vcmp $vcmp virtual component
 	 */
 	public function addVcmp ( $vcmp ) { $this->vcmps[] = $vcmp; }
 
 	/**
 	 * Append tab created outside of this class. Usable for user components
-	 * derived from _uicmp_tab.
+	 * derived from tab component.
 	 *
-	 * @param <_uicmp_tab> $tab
+	 * @param uicmp $uicmp reference to visual component instance
 	 */
 	public function addUicmp ( &$uicmp ) { $this->uicmps[] = $uicmp; }
 
@@ -122,14 +116,14 @@ abstract class _vcmp_layout
 		 */
 		if ( is_array( $this->uicmps ) )
 			foreach ( $this->uicmps as $tab )
-				$tab->generateJs( );
+				$tab->generateReqs( );
 
 		/**
 		 * Generate Javascript for virtual components.
 		 */
 		if ( is_array( $this->vcmps ) )
 			foreach ( $this->vcmps as $vcmp )
-				$vcmp->generateJs( );
+				$vcmp->generateReqs( );
 	}
 
 	/**
@@ -143,7 +137,7 @@ abstract class _vcmp_layout
 	{
 		if ( is_null( $this->jsVar ) )
 		{
-			$this->jsVar = '_uicmp_layout_i_' . static::$lastId++;
+			$this->jsVar = 'uicmp_layout_i_' . static::$lastId++;
 
 			if ( !is_null( $this->requirer ) )
 				$this->requirer->call( static::RES_JSPLAIN,	'var ' . $this->jsVar . ' = new _uicmp_layout( );' );
@@ -155,21 +149,21 @@ abstract class _vcmp_layout
 	/**
 	 * This method must have same signature as one defined in _uicmp_layoutItem class.
 	 *
-	 * @return <Requirer>
+	 * @return _requirer
 	 */
 	public function getRequirer ( ) { return $this->requirer; }
 
 	/**
 	 * Returns array of localization messages.
 	 *
-	 * @return <array>
+	 * @return array
 	 */
-	public function getMessages ( ) { return $this->messages; }
+	public function getMsgs ( ) { return $this->messages; }
 
 	/**
-	 * Returns first tab in the table.
+	 * Iterator interface. Returns first tab in the table.
 	 *
-	 * @return <uiTab>
+	 * @return uicmp
 	 */
 	public function getFirst ( )
 	{
@@ -180,9 +174,9 @@ abstract class _vcmp_layout
 	}
 
 	/**
-	 * Returns next tab in the table.
+	 * Iterator interface. Returns next tab in the table.
 	 *
-	 * @return <uiTab>
+	 * @return uicmp
 	 */
 	public function getNext ( )
 	{

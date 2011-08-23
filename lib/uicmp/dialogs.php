@@ -1,21 +1,23 @@
 <?php
 
 /**
- * @file _uicmp_dlgs.php
+ * @file dialogs.php
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . 'uicmp/_vcmp_layout.php';
+namespace io\creat\chassis\uicmp;
+
+require_once CHASSIS_LIB . 'uicmp/vlayout.php';
 
 /**
  * Special component holding references to dialog widgets, their templates and
  * internal data are used in rendering. There is usually only one instance at
  * the time.
  */
-class _uicmp_dlgs extends _vcmp_layout
+class dialogs extends vlayout
 {
 	/**
 	 * Constructor. Creates empty array of uicmps. Each layout should contain at
@@ -29,7 +31,7 @@ class _uicmp_dlgs extends _vcmp_layout
 		parent::__construct( $requirer, $i18n_loader );
 
 		if ( !is_null( $requirer ) )
-			$requirer->call( _vcmp_layout::RES_BODYCHILD, array( CHASSIS_UICMP . 'dlgs.html', '' ) );
+			$requirer->call( vlayout::RES_BODYCHILD, array( CHASSIS_UICMP . 'dlgs.html', '' ) );
 	}
 
 	public function init ( )
@@ -40,7 +42,7 @@ class _uicmp_dlgs extends _vcmp_layout
 		 */
 		if ( is_array( $this->uicmps ) )
 			foreach ( $this->uicmps as $tab )
-				$tab->generateJs( );
+				$tab->generateReqs( );
 	}
 }
 

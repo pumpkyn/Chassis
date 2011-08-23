@@ -2,20 +2,22 @@
 
 
 /**
- * @file _uicmp_info.php
+ * @file info.php
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . "uicmp/_uicmp_title.php";
+namespace io\creat\chassis\uicmp;
+
+require_once CHASSIS_LIB . "uicmp/headline.php";
 
 /**
  * Specialization of UICMP title component to provide informational message in
  * tab head or body.
  */
-class _uicmp_info extends _uicmp_title
+class info extends headline
 {
 	/**
 	 * Additional stylesheet class.
@@ -27,7 +29,7 @@ class _uicmp_info extends _uicmp_title
 	/**
 	 * Contructor.
 	 *
-	 * @param _uicmp_head $parent reference to parent widget
+	 * @param head $parent reference to parent widget
 	 * @param string $id identifier of the component
 	 * @param string $title text of the title
 	 * @param string $class additional CSS class name(s)

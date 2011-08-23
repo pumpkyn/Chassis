@@ -1,14 +1,16 @@
 <?php
 
 /**
- * @file _uicmp_cdes_cloud.php
+ * @file cdescloud.php
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
+namespace io\creat\chassis\uicmp;
+
+require_once CHASSIS_LIB . 'uicmp/uicmp.php';
 
 /**
  * Contexts cloud, a subcomponent for application forms. Provides UI and
@@ -16,19 +18,19 @@ require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
  * outside _uicmp_layout scope, for such use there is not need to specify
  * parent.
  */
-class _uicmp_cdes_cloud extends _uicmp_comp
+class cdescloud extends uicmp
 {
 	/**
 	 * Array of _ctx object instances to be displayed in the cloud.
 	 *
-	 * @var <array>
+	 * @var array
 	 */
 	protected $ctxs = NULL;
 
 	/**
 	 * Prefix for _ctx instances HTML ID's.
 	 *
-	 * @var <string>
+	 * @var string
 	 */
 	protected $prefix = NULL;
 	
@@ -79,7 +81,7 @@ class _uicmp_cdes_cloud extends _uicmp_comp
 	/**
 	 * Dummy implementation to conform abstract parent.
 	 */
-	public function  generateJs ( ) { }
+	public function  generateReqs ( ) { }
 
 	/**
 	 * Provides list of contexts.

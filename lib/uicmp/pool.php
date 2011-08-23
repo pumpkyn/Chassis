@@ -1,53 +1,56 @@
 <?php
 
 /**
- * @file _uicmp_pool.php
+ * @file pool.php
  * @author giorno
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . "uicmp/_uicmp_comp.php";
+namespace io\creat\chassis\uicmp;
+
+require_once CHASSIS_LIB . "uicmp/uicmp.php";
 
 /**
  * Abstract container component providing supercomponent feature.
  */
-abstract class _uicmp_pool extends _uicmp_comp
+abstract class pool extends uicmp
 {
 	/**
 	 * Array of subcomponents.
 	 *
-	 * @var <array>
+	 * @var array
 	 */
 	protected $items = NULL;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param <_uicmp_comp> $parent reference to parent component instance
-	 * @param <string> $id identifier of the component
+	 * @param uicmp $parent reference to parent component instance
+	 * @param string $id identifier of the component
 	 */
 	public function  __construct ( &$parent, $id ) { parent::__construct( $parent, $id ); }
 
 	/**
 	 * Registers new component into array of subcomponents.
 	 *
-	 * @param <uicmp_component> $item
+	 * @param uicmp $item reference to subcomponent instance
 	 */
 	public function add( &$item ) { $this->items[$item->getId( )] = $item; }
 
 	/**
 	 * Detects if internal storage of subcomponents if empty.
 	 *
-	 * @return <bool>
+	 * @return bool
 	 */
 	public function isEmpty ( ) { return ( !is_array( $this->items ) || !count( $this->items ) ); }
 
 	/**
-	 * Returns first subcomponent and sets reading pointer on it.
+	 * Iterator interface. Returns first subcomponent and sets reading pointer
+	 * on it.
 	 *
-	 * @return <_uicmp_comp>
+	 * @return uicmp
 	 */
 	public function getFirst ( )
 	{
@@ -58,9 +61,9 @@ abstract class _uicmp_pool extends _uicmp_comp
 	}
 
 	/**
-	 * Moves pointer and returns component.
+	 * Iterator interface. Moves pointer forward and returns component.
 	 *
-	 * @return <_uicmp_comp>
+	 * @return uicmp
 	 */
 	public function getNext ( )
 	{
@@ -71,13 +74,13 @@ abstract class _uicmp_pool extends _uicmp_comp
 	}
 
 	/**
-	 * Calls generateJs() method on all subcomponents.
+	 * Calls generateReqs() method on all subcomponents.
 	 */
-	public function generateJs ( )
+	public function generateReqs ( )
 	{
 		if ( is_array( $this->items ) )
 			foreach ( $this->items as $item )
-				$item->generateJs( );
+				$item->generateReqs( );
 	}
 }
 

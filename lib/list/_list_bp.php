@@ -8,9 +8,9 @@
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_buttons.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_gi.php';
-require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
+require_once CHASSIS_LIB . 'uicmp/buttons.php';
+require_once CHASSIS_LIB . 'uicmp/grpitem.php';
+require_once CHASSIS_LIB . 'uicmp/vcmp.php';
 
 /**
  *Quasi virtual component creating layout for Batch Processing (BP) form in
