@@ -90,20 +90,14 @@ class _session extends Config
 			$this->clientId = (string)$_COOKIE[static::COOKIE_CLIENTID];
 
 		/**
-		 * There is no cookie for client id. It means it is either expired or
-		 * solution was never used from this browser instance.
+		 * There is no cookie for client id or one we got from client side is
+		 * malformed. It means it is either expired or solution was never used
+		 * from this browser instance.
 		 */
-		if ( $this->clientId == '' )
-		{
-			$this->clientId = _fw_rand_hash( );
-			//$this->Debug( '[ClientIdCreated] Id=' . $cookie );
-		}
-		else
-		{
-			//$this->Debug( '[ClientIdLoaded] Id=' . $cookie );
-		}
-
-		_fw_set_cookie( self::COOKIE_CLIENTID, $this->clientId, time() + static::COOKIE_EXPIRATION * 24 * 60 * 60 );
+		if ( ( $this->clientId == '' ) || ( strlen( $this->clientId ) > 32 ) )
+			$this->clientId = substr( _fw_rand_hash( ), 0, 32 );
+		
+		_fw_set_cookie( self::COOKIE_CLIENTID, $this->clientId, time( ) + static::COOKIE_EXPIRATION * 24 * 60 * 60 );
 	}
 
 	private function validateSessionId ( )
