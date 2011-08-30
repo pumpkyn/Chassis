@@ -19,5 +19,12 @@
 	<td class="_uicmp_frm_prompt">{$USR_UICMP_FI->getPrompt()}</td>
 	<td class="_uicmp_frm_field" width="100%"><input type="password" class="_uicmp_frm_input" id="{$USR_UICMP_FI->getHtmlId()}"></td>
 </tr>
+{elseif $USR_UICMP_FI->getIType()==_uicmp::FIT_TEXTAREA}
+<tr>
+	<td colspan="2" class="_uicmp_frm_prompt">{$USR_UICMP_FI->getPrompt()}</td>
+</tr>
+<tr>
+	<td colspan="2" class="_uicmp_frm_field" width="100%"><textarea class="resizable" id="{$USR_UICMP_FI->getHtmlId()}">{$USR_UICMP_FI->getValue()}</textarea></td>
+</tr>
 {/if}
 {if $USR_UICMP_FI->getDesc()}<tr><td></td><td class="_uicmp_frm_fdesc" >{$USR_UICMP_FI->getDesc()}</td></tr>{/if}
