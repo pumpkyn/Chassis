@@ -1,4 +1,4 @@
-{* Renders form item.
+{* Renders simple form item.
  *
  * @file fi.html
  * @author giorno
@@ -7,11 +7,13 @@
  * @license Apache License, Version 2.0, see LICENSE file
  *}
 
-{if $USR_UICMP_FI->getIType()==_uicmp::FIT_TEXT}
+{assign var=USR_UICMP_FICBS value=$USR_UICMP_FI->getCbs()}
+ 
+{if ($USR_UICMP_FI->getIType()==_uicmp::FIT_TEXT)||($USR_UICMP_FI->getIType()==_uicmp::FIT_ROTEXT)}
 <tr>
 	<td class="_uicmp_frm_prompt">{$USR_UICMP_FI->getPrompt()}</td>
 	<td class="_uicmp_frm_field" width="100%">
-		<input type="text" class="_uicmp_frm_input" id="{$USR_UICMP_FI->getHtmlId()}" value="{$USR_UICMP_FI->getValue()}">
+		<input {if !is_null( $USR_UICMP_FICBS )}{foreach from=$USR_UICMP_FICBS key=event item=code}{$event}="{$code}" {/foreach}{/if} type="text" {if $USR_UICMP_FI->getIType()==_uicmp::FIT_ROTEXT}class="_uicmp_search_input" readonly="readonly"{else}class="_uicmp_frm_input"{/if} id="{$USR_UICMP_FI->getHtmlId()}" value="{$USR_UICMP_FI->getValue()}">
 	</td>
 </tr>
 {elseif $USR_UICMP_FI->getIType()==_uicmp::FIT_PASSWORD}

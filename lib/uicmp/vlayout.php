@@ -93,7 +93,7 @@ abstract class vlayout
 	 *
 	 * @param uicmp $uicmp reference to visual component instance
 	 */
-	public function addUicmp ( &$uicmp ) { $this->uicmps[] = $uicmp; }
+	public function addUicmp ( &$uicmp ) { $this->uicmps[$uicmp->getId( )] = $uicmp; }
 
 	/**
 	 * Implements last phase of PHP object LC.

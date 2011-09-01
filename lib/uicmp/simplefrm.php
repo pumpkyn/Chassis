@@ -16,8 +16,6 @@ require_once CHASSIS_LIB . 'uicmp/uicmp.php';
 
 /**
  * Component representing form item.
- * 
- * @todo onClick, onChange, onKey* event callbacks
  */
 class frmitem extends uicmp implements \_uicmp
 {	
@@ -50,22 +48,42 @@ class frmitem extends uicmp implements \_uicmp
 	protected $desc = '';
 	
 	/**
+	 * Associative array of Javascript code snippets to be executed for certain
+	 * events. Event name is a key, e.g. 'onClick'.
+	 * 
+	 * @var array
+	 */
+	protected $cbs = NULL;
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param simplefrm $parent form component
 	 * @param string $id id of the component, suffix to parent ID
 	 * @param string $prompt prompt string
 	 * @param mixed $value value of the item
-	 * @param string $desc description of the item
-	 * @param int $type type of the item
+	 * @param string $desc (optional) description of the item
+	 * @param int $type (optional) type of the item
+	 * @param array $cbs (optional) callbacks for HTML element events
 	 */
-	public function __construct( &$parent, $id, $prompt, $value, $desc = '', $type = self::FIT_TEXT )
+	public function __construct( &$parent, $id, $prompt, $value, $desc = '', $type = self::FIT_TEXT, $cbs = NULL )
 	{
 		parent::__construct( $parent, $parent->getId( ) . '.' . $id );
+		
+		/**
+		 * Automatic hook-up to known types of parent.
+		 */
+		if ( ( !$this->hooked ) && ( $parent instanceof simplefrm ) )
+		{
+			$parent->add( $this );
+			$this->hooked = TRUE;
+		}
+		
 		$this->itype	= $type;
 		$this->prompt	= $prompt;
 		$this->value	= $value;
 		$this->desc		= $desc;
+		$this->cbs		= $cbs;
 		
 		$this->renderer	= CHASSIS_UI . 'uicmp/fi.html';
 	}
@@ -99,6 +117,15 @@ class frmitem extends uicmp implements \_uicmp
 	public function getDesc ( ) { return $this->desc; }
 	
 	/**
+	 * Read interface for callbacks array.
+	 * 
+	 * @todo use iterator
+	 * 
+	 * @return array 
+	 */
+	public function getCbs ( ) { return $this->cbs; }
+	
+	/**
 	 * Dummy implementation to conform abstract parent.
 	 */
 	public function generateReqs () { }
@@ -118,22 +145,18 @@ class simplefrm extends pool
 	public function __construct( &$parent, $id )
 	{
 		parent::__construct( $parent, $id );
+		
+		/**
+		 * Automatic hook-up to known types of parent.
+		 */
+		if ( ( !$this->hooked ) && ( $parent instanceof body ) )
+		{
+			$parent->add( $this );
+			$this->hooked = TRUE;
+		}
+		
 		$this->jsPrefix		= '_uicmp_frm_i:';
 		$this->renderer		= CHASSIS_UI . 'uicmp/frm.html';
-	}
-	
-	/**
-	 * Adds new component into the form.
-	 * 
-	 * @param frmitem $item form component
-	 */
-	public function add( &$item )
-	{
-		/**
-		 * Allow to add only form item components.
-		 */
-		if ( $item instanceof frmitem )
-			parent::add( $item );
 	}
 }
 

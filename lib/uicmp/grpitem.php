@@ -11,6 +11,8 @@
 namespace io\creat\chassis\uicmp;
 
 require_once CHASSIS_LIB . 'uicmp/uicmp.php';
+require_once CHASSIS_LIB . 'uicmp/buttons.php';
+require_once CHASSIS_LIB . 'uicmp/vsearch.php';
 
 /**
  * Implementation of additional item, which can be placed into resizer row. This
@@ -58,7 +60,7 @@ class grpitem extends uicmp
 
 	/**
 	 * Constructor. Parent can be _uicmp_buttons or _uicmp_resizer (or something
-	 * else :).
+	 * else :). Automatically registers component into known parents.
 	 *
 	 * @param pool $parent parent component instance
 	 * @param string $id identifier of the component
@@ -70,6 +72,16 @@ class grpitem extends uicmp
     public function  __construct( &$parent, $id, $what, $title, $action = NULL, $class = NULL )
 	{
 		parent::__construct( $parent, $id );
+		
+		/**
+		 * Automatic hook-up to known types of parent.
+		 */
+		if ( ( !$this->hooked ) && ( ( $parent instanceof buttons ) || ( $parent instanceof srchres ) ) )
+		{
+			$parent->add( $this );
+			$this->hooked = TRUE;
+		}
+		
 		$this->type		= __CLASS__;
 		$this->renderer	= CHASSIS_UICMP . 'gi.html';
 		$this->title	= $title;

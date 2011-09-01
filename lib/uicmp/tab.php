@@ -14,6 +14,7 @@ require_once CHASSIS_LIB . "uicmp/uicmp.php";
 require_once CHASSIS_LIB . "uicmp/pool.php";
 require_once CHASSIS_LIB . "uicmp/fold.php";
 require_once CHASSIS_LIB . "uicmp/vsearch.php";
+require_once CHASSIS_LIB . "uicmp/vlayout.php";
 
 /**
  * UICMP component for tab head section.
@@ -102,7 +103,7 @@ class tab extends uicmp
 	protected $vcmps = NULL;
 
 	/**
-	 * Constructor.
+	 * Constructor. Automatically registers component into known parents.
 	 *
 	 * @param vlayout $parent reference to layout instance
 	 * @param string $id identifier of the component
@@ -110,6 +111,16 @@ class tab extends uicmp
 	public function  __construct ( &$parent, $id )
 	{
 		parent::__construct( $parent, $id );
+		
+		/**
+		 * Automatic hook-up to known types of parent.
+		 */
+		if ( ( !$this->hooked ) && ( $parent instanceof vlayout ) )
+		{
+			$parent->addUicmp( $this );
+			$this->hooked = TRUE;
+		}
+		
 		$this->type		= __CLASS__;
 		$this->renderer	= CHASSIS_UI . 'uicmp/tab.html';
 	}

@@ -27,7 +27,7 @@ class info extends headline
 	public $class = null;
 
 	/**
-	 * Contructor.
+	 * Contructor. Automatically registers component into known parents.
 	 *
 	 * @param head $parent reference to parent widget
 	 * @param string $id identifier of the component
@@ -37,6 +37,16 @@ class info extends headline
 	public function __construct( &$parent, $id, $text, $class = NULL )
 	{
 		parent::__construct( $parent, $id, $text );
+		
+		/**
+		 * Automatic hook-up to known types of parent.
+		 */
+		if ( ( !$this->hooked ) && ( $parent instanceof head ) )
+		{
+			$parent->add( $this );
+			$this->hooked = TRUE;
+		}
+		
 		$this->type		= __CLASS__;
 		$this->class	= $class;
 		$this->renderer	= CHASSIS_UI . 'uicmp/info.html';

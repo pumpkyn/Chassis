@@ -39,6 +39,14 @@ abstract class uicmp extends vcmp
 	 * @var string
 	 */
 	protected $renderer = NULL;
+	
+	/**
+	 * State variable indicating that component has already been hooked up to
+	 * its parent.
+	 * 
+	 * @var bool
+	 */
+	protected $hooked = FALSE;
 
 	/**
 	 * Contructor.
@@ -87,6 +95,14 @@ abstract class uicmp extends vcmp
 	 * @return string
 	 */
 	public function getId ( ) { return $this->id; }
+	
+	/**
+	 * Return whether component has been already hooked up to other (the
+	 * parent).
+	 * 
+	 * @return bool
+	 */
+	public function isHooked ( ) { return  $this->hooked; }
 
 }
 

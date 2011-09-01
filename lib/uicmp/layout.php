@@ -110,8 +110,6 @@ class layout extends vlayout
 		
 		if ( $hidden !== TRUE )
 			$tab->show( );
-
-		$this->uicmps[] = $tab;
 		
 		return $tab;
 	}
@@ -124,7 +122,7 @@ class layout extends vlayout
 	public function createSep ( )
 	{
 		$sep = new sep( $this );
-		$this->uicmps[] = $sep;
+		$this->uicmps[$sep->getId( )] = $sep;
 		return $sep;
 	}
 

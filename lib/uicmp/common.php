@@ -22,6 +22,7 @@ interface _uicmp
 	const FIT_CHECKBOX	= 2;	// Checkbox field. Value is boolean. Description for it is ignored.
 	const FIT_SELECT	= 3;	// Multioption chooser. 
 	const FIT_TEXTAREA	= 4;	// Textarea.
+	const FIT_ROTEXT	= 5;	// Read-only text input.
 }
 
 ?>

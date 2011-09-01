@@ -11,6 +11,7 @@
 namespace io\creat\chassis\uicmp;
 
 require_once CHASSIS_LIB . 'uicmp/pool.php';
+require_once CHASSIS_LIB . 'uicmp/tab.php';
 
 /** 
  * Component displaying group of buttons in header section of the _uicmp_tab
@@ -19,7 +20,7 @@ require_once CHASSIS_LIB . 'uicmp/pool.php';
 class buttons extends pool
 {
 	/**
-	 * Constructor.
+	 * Constructor. Automatically registers component into known parents.
 	 * 
 	 * @param head $parent reference to tab header component instance
 	 * @param string $id identifier of the component
@@ -27,6 +28,16 @@ class buttons extends pool
 	public function __construct ( &$parent, $id )
 	{
 		parent::__construct( $parent, $id );
+		
+		/**
+		 * Automatic hook-up to known types of parent.
+		 */
+		if ( ( !$this->hooked ) && ( ( $parent instanceof head ) || ( $parent instanceof body ) ) )
+		{
+			$parent->add( $this );
+			$this->hooked = TRUE;
+		}
+		
 		$this->type		= __CLASS__;
 		$this->renderer	= CHASSIS_UICMP . 'buttons.html';
 	}
