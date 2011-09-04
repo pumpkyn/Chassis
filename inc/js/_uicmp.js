@@ -974,6 +974,10 @@ function _uicmp_ind ( id, sep_id, messages )
 		document.getElementById( me.id ).style.visibility = 'hidden';
 	};
 
+	/**
+	 * Display message with given code. If code is not a key to message, display
+	 * code text.
+	 */
 	this.show = function ( msg, style )
 	{
 		this.hide( );
@@ -983,6 +987,8 @@ function _uicmp_ind ( id, sep_id, messages )
 		var el = document.getElementById( me.id );
 		if ( this.messages[msg] )
 			el.innerHTML = this.messages[msg];
+		else
+			el.innerHTML = msg;
 
 		if ( this.sep_id != null )
 			document.getElementById( me.sep_id ).style.visibility = 'visible';
