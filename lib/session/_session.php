@@ -30,6 +30,13 @@ class _session extends Config
 	 * @var <string>
 	 */
 	private $nickName = NULL;
+	
+	/**
+	 * User's e-mail address.
+	 * 
+	 * @var string
+	 */
+	private $email = NULL;
 
 	/**
 	 * Indicated if session exists and user is authenticated.
@@ -372,7 +379,20 @@ class _session extends Config
 	 * @return <string>
 	 */
 	public function getSid ( ) { return $this->sessionId; }
-
+	
+	/**
+	 * Read interface for user e-mail address.
+	 * 
+	 * @return string
+	 */
+	public function getEmail ( )
+	{
+		if ( is_null( $this->email ) )
+			$this->email = _db_1field ( "SELECT `" . self::F_EMAIL . "`
+											FROM `" . self::T_USERS . "`
+											WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\"" );
+		return $this->email;
+	}
 }
 
 ?>
