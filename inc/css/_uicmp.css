@@ -430,10 +430,15 @@ td._uicmp_gi_chk,td._uicmp_fri
 	vertical-align:			middle;
 }
 /* Description string for form row input (FRI) element */
-td._uicmp_fri_desc
+td._uicmp_fri_desc,div._uicmp_fri_desc
 {
 	font-size:				11px;
 	padding-top:			4px;
+}
+div._uicmp_fri_desc
+{
+	float:					none;
+	clear:					both;
 }
 div._uicmp_gi
 {
