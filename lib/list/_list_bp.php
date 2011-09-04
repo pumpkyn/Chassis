@@ -86,7 +86,7 @@ class _list_bp
 	public function getUicmp ( )
 	{
 		if ( is_null( $this->uicmp ) )
-			$this->uicmp = new _uicmp_buttons ( $this, '' );
+			$this->uicmp = new \io\creat\chassis\uicmp\buttons ( $this, '' );
 
 		return $this->uicmp;
 	}
@@ -126,12 +126,12 @@ class _list_bp
 		if ( $buttons->isEmpty( ) )
 		{
 			$js = $var . $cycle . 'document.getElementById( html_id ).checked = true;';
-			$buttons->add( new _uicmp_gi( $buttons, '_bp_i_' . self::$lastId++, _uicmp_gi::IT_A, $this->messages['bpAll'], $js ) );
+			new \io\creat\chassis\uicmp\grpitem( $buttons, '_bp_i_' . self::$lastId++, \io\creat\chassis\uicmp\grpitem::IT_A, $this->messages['bpAll'], $js );
 
-			$buttons->add( new _uicmp_gi( $buttons, '_bp_i_' . self::$lastId++, _uicmp_gi::IT_TXT, '|' ) );
+			new \io\creat\chassis\uicmp\grpitem( $buttons, '_bp_i_' . self::$lastId++, \io\creat\chassis\uicmp\grpitem::IT_TXT, '|' );
 
 			$js = $var . $cycle . 'document.getElementById( html_id ).checked = false;';
-			$buttons->add( new _uicmp_gi( $buttons, '_bp_i_' . self::$lastId++, _uicmp_gi::IT_A, $this->messages['bpNone'], $js ) );
+			new \io\creat\chassis\uicmp\grpitem( $buttons, '_bp_i_' . self::$lastId++, \io\creat\chassis\uicmp\grpitem::IT_A, $this->messages['bpNone'], $js );
 		}
 
 		$js = '';
@@ -151,8 +151,8 @@ class _list_bp
 			/** @todo implement case when needed */
 		}
 
-		$buttons->add( new _uicmp_gi( $buttons, '_bp_i_' . self::$lastId++, _uicmp_gi::IT_TXT, '|' ) );
-		$buttons->add( new _uicmp_gi( $buttons, '_bp_i_' . self::$lastId++, _uicmp_gi::IT_BT, $display, $js ) );
+		new \io\creat\chassis\uicmp\grpitem( $buttons, '_bp_i_' . self::$lastId++, \io\creat\chassis\uicmp\grpitem::IT_TXT, '|' );
+		new \io\creat\chassis\uicmp\grpitem( $buttons, '_bp_i_' . self::$lastId++, \io\creat\chassis\uicmp\grpitem::IT_BT, $display, $js );
 	}
 
 	/**
