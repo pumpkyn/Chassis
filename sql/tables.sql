@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `core_users` (
   UNIQUE KEY `login` (`login`),
   UNIQUE KEY `check` (`login`,`passwd`,`enabled`),
   KEY `passwd` (`passwd`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Table structure for table `core_autologin`
