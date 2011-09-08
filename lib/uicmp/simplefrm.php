@@ -56,6 +56,13 @@ class frmitem extends uicmp implements \_uicmp
 	protected $cbs = NULL;
 	
 	/**
+	 * Associative array of SELECT item values.
+	 * 
+	 * @var array
+	 */
+	protected $options = NULL;
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param simplefrm $parent form component
@@ -87,6 +94,14 @@ class frmitem extends uicmp implements \_uicmp
 		
 		$this->renderer	= CHASSIS_UI . 'uicmp/fi.html';
 	}
+	
+	/**
+	 * Adds new option for SELECT type item.
+	 * 
+	 * @param string $value value for OPTION element
+	 * @param string $display text to display
+	 */
+	public function setOption ( $value, $display ) { $this->options[$value] = $display; }
 	
 	/**
 	 * Getter for type of form item.
@@ -124,6 +139,13 @@ class frmitem extends uicmp implements \_uicmp
 	 * @return array 
 	 */
 	public function getCbs ( ) { return $this->cbs; }
+	
+	/**
+	 * Read interface for SELECT box options array.
+	 * 
+	 * @return array
+	 */
+	public function getOptions ( ) { return $this->options; }
 	
 	/**
 	 * Dummy implementation to conform abstract parent.
