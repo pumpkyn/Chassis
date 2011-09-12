@@ -76,7 +76,7 @@ class grpitem extends uicmp
 		/**
 		 * Automatic hook-up to known types of parent.
 		 */
-		if ( ( !$this->hooked ) && ( ( $parent instanceof buttons ) || ( $parent instanceof srchres ) ) )
+		if ( ( !$this->hooked ) && ( ( ( $parent instanceof buttons ) || ( $parent instanceof srchres ) ) || ( $parent instanceof buttons ) || ( $parent instanceof dummyres ) ) )
 		{
 			$parent->add( $this );
 			$this->hooked = TRUE;

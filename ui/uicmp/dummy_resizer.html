@@ -1,0 +1,22 @@
+{* Dummy UICMP resizer serving as container for menu items.
+ *
+ * @file dummy_resizer.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+<td id="{$USR_UICMP_CMP->getHtmlId()}" class="_uicmp_resizer">
+	<table cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+		{if !$USR_UICMP_CMP->isEmpty()}
+		{assign var='USR_UICMP_ITEM' value=$USR_UICMP_CMP->getFirst()}
+		{while $USR_UICMP_ITEM}
+			<td class="_uicmp_gi">{include file=$USR_UICMP_ITEM->getRenderer()}</td>
+			{assign var='USR_UICMP_ITEM' value=$USR_UICMP_CMP->getNext()}
+		{/while}
+		{/if}
+			<td width="100%"></td>
+		</tr>
+	</table>
+</td>

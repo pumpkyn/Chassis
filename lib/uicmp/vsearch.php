@@ -121,6 +121,28 @@ class srchres extends pool
 }
 
 /**
+ * Dummy resizer to replace ordinary resizer in the case that we need to create
+ * some anchors on the bottom of the search results container.
+ */
+class dummyres extends pool
+{
+	/**
+	 * Constructor.
+	 *
+	 * @param body $parent reference to parent component instance
+	 * @param string $id identifier of the component
+	 * @param string $js_var name of client side Javascript instance
+	 * @param int $size current size
+	 */
+	public function __construct ( &$parent, $id )
+	{
+		parent::__construct( $parent, $id );
+		$this->type		= __CLASS__;
+		$this->renderer	= CHASSIS_UI . 'uicmp/dummy_resizer.html';
+	}
+}
+
+/**
  * Virtual component to create and connect components used for searching. This
  * does not implement any common UICMP interface.
  *
@@ -133,6 +155,11 @@ class vsearch extends vcmp
 	 * Resizer shall not be rendered and used in the solution.
 	 */
 	const FLAG_NORESIZER = 1;
+	
+	/**
+	 * Use dummy resizer instance.
+	 */
+	const FLAG_DUMMYRESIZER = 2;
 
 	/**
 	 * Identification string. Used e.g. for pairing in Ajax server implementation.
@@ -274,9 +301,15 @@ class vsearch extends vcmp
 		$head->add( $this->form );
 		$body->add( $this->container );
 
-		if ( !$this->isFlagSet( self::FLAG_NORESIZER ) )
+		if ( !$this->isFlagSet( self::FLAG_NORESIZER ) && !$this->isFlagSet( self::FLAG_DUMMYRESIZER ) )
 		{
 			$this->resizer = new srchres( $body, $this->id . '.Resizer', $this->getJsVar( ), $this->size );
+			$body->add( $this->resizer );
+		}
+
+		if ( $this->isFlagSet( self::FLAG_DUMMYRESIZER ) )
+		{
+			$this->resizer = new dummyres( $body, $this->id . '.Resizer' );
 			$body->add( $this->resizer );
 		}
 	}
@@ -297,7 +330,7 @@ class vsearch extends vcmp
 		 * Initialize client side.
 		 */
 		$this->requirer->call( vlayout::RES_CSS,	array( $this->requirer->getRelative( ) . 'css/_list.css', __CLASS__ ) );
-		$this->requirer->call( vlayout::RES_JSPLAIN, 'var ' . $this->getJsVar( ) . ' = new _uicmp_search( \'' . $this->id . '\', \'' . $this->tab->getHtmlId( ) . '\', '. $this->ind->getJsVar( ) . ', \'' . $this->url . '\', ' . uicmp::toJsArray( $this->params ) . ', ' . uicmp::toJsArray( $this->config ) . ', \'' . $this->form->getHtmlId( ) . '\', \'' . $this->container->getHtmlId( ) . '\', ' . ( ( !$this->isFlagSet( self::FLAG_NORESIZER ) ) ? '\'' . $this->resizer->getHtmlId( ) . '\'' : 'null' ) . ' );' );
+		$this->requirer->call( vlayout::RES_JSPLAIN, 'var ' . $this->getJsVar( ) . ' = new _uicmp_search( \'' . $this->id . '\', \'' . $this->tab->getHtmlId( ) . '\', '. $this->ind->getJsVar( ) . ', \'' . $this->url . '\', ' . uicmp::toJsArray( $this->params ) . ', ' . uicmp::toJsArray( $this->config ) . ', \'' . $this->form->getHtmlId( ) . '\', \'' . $this->container->getHtmlId( ) . '\', ' . ( ( ( !$this->isFlagSet( self::FLAG_DUMMYRESIZER ) ) && ( !$this->isFlagSet( self::FLAG_NORESIZER ) ) ) ? '\'' . $this->resizer->getHtmlId( ) . '\'' : 'null' ) . ' );' );
 		$this->requirer->call( vlayout::RES_JSPLAIN, $this->layout->getJsVar( ) . '.registerTabCb( \'' . $this->tab->getHtmlId( ) . '\', \'onShow\', ' . $this->getJsVar( ) . '.tabShown );' );
 		$this->requirer->call( vlayout::RES_JSPLAIN, $this->layout->getJsVar( ) . '.registerTabCb( \'' . $this->tab->getHtmlId( ) . '\', \'onLoad\', ' . $this->getJsVar( ) . '.startup );' );
 
