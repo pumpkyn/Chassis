@@ -26,7 +26,7 @@
 	<td class="_uicmp_frm_prompt">{$USR_UICMP_FI->getPrompt()}</td>
 	<td class="_uicmp_frm_field" width="100%">
 		{assign var=USR_UICMP_FI_OPTS value=$USR_UICMP_FI->getOptions()}
-		<select id="{$USR_UICMP_FI->getHtmlId()}">
+		<select {if !is_null( $USR_UICMP_FICBS )}{foreach from=$USR_UICMP_FICBS key=event item=code}{$event}="{$code}" {/foreach}{/if} id="{$USR_UICMP_FI->getHtmlId()}">
 			{if !is_null( $USR_UICMP_FI_OPTS )}
 			{foreach from=$USR_UICMP_FI_OPTS key=value item=display}
 			<option value="{$value}">{$display}</option>
