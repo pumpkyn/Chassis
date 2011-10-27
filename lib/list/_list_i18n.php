@@ -28,12 +28,8 @@ class _list_i18n
 	 */
 	public function __construct ( $i18n_loader )
 	{
-		/*$i18n = CHASSIS_I18N . 'uicmp/' . $lang . '.php';
-		if (file_exists( $i18n ) )
-		{
-			include $i18n;*/
+		if ( !is_null( $i18n_loader ) )
 			$this->messages = $i18n_loader->msg( );
-		//}
 	}
 	
 	/**
