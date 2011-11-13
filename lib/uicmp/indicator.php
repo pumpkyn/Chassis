@@ -67,6 +67,12 @@ class indicator extends grpitem
 			$requirer->call( vlayout::RES_JSPLAIN, 'var ' . $this->getJsVar( ) . ' = new _uicmp_ind( \'' . $this->getHtmlId( ) . '\', \''. $this->separator->getHtmlId( ) .'\', ' . self::toJsArray( $this->messages ) . ' );' );
 		}
 	}
+	
+	/**
+	 * Access to separator instance.
+	 * @return grpitem
+	 */
+	public function sep ( ) { return $this->separator; }
 }
 
 ?>

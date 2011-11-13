@@ -628,3 +628,11 @@ div._uicmp_frm_hdr_cap
 	height:							16px;
 	font-size:						14px;
 }
+
+/* Above prompts for restrictors of Persistence */
+td._uicmp_pers_restr
+{
+	padding-top:			6px;
+	padding-left:			2px;
+	padding-bottom:			2px;
+}

@@ -6,15 +6,17 @@
  * @package Chassis
  * @subpackage UICMP
  * @license Apache License, Version 2.0, see LICENSE file
- * 
- * @todo rewrite whole UICMP to automatically register to parent in case that
- * proper action is known (by instanceof operator on parent value)
- * 
- * @todo rename generateJs to more proper name, as it does not generate only
- * Javascript code
  */
 
 namespace io\creat\chassis\uicmp;
+
+/**
+ * Special wrapper for strings holding Javascript instance names. This is used
+ * for building arrays containing Javascript instance names and their
+ * initialization statements (e.g. to provide reference to instance as
+ * parameter). Written in so compact form to minimalize the footprint.
+ */
+class jsobj { public $val = NULL; public function __construct( $val ) { $this->val = $val; } }
 
 /** 
  * Virtual component interface, common ancestor to all components in UICMP
@@ -84,7 +86,7 @@ abstract class vcmp
 	 * Compose Javascript Object/associative array with parameters from PHP
 	 * array structure.
 	 *
-	 * @param array $struct input structure, PHP array
+	 * @param array $struct input structure, a PHP array
 	 * @return string Javascript literal
 	 */
 	public static function toJsArray ( $struct )
@@ -94,11 +96,19 @@ abstract class vcmp
 			$pairs = NULL;
 			foreach ( $struct as $key => $val )
 			{
-				/**
-				 * Recursive application onto subarrays.
-				 */
+				// Recurse into subarrays.
 				if ( is_array( $val ) )
 					$pairs[] = "{$key}: " . self::toJsArray( $val );
+					
+				// Interpret boolean variable.
+				elseif ( is_bool( $val ) )
+					$pairs[] = "{$key}: " . ( ( $val === true ) ? 'true' : 'false' );
+					
+				// Intepret name of Javascript object instance.
+				elseif ( $val instanceof jsobj )
+					$pairs[] = "{$key}: " . $val->val;
+					
+				// Rest of the types (int, string, ...).
 				else
 					$pairs[] = "{$key}: \"{$val}\"";
 			}

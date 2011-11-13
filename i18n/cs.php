@@ -99,6 +99,32 @@ $__chassis_msg['srch']['executed']		= $__chassis_msg['cdes']['executed'];
 $__chassis_msg['srch']['e_unknown']		= $__chassis_msg['cdes']['e_unknown'];
 
 /**
+ * Persistence.
+ */
+$__chassis_msg['pers']['ind']				= $__chassis_msg['srch'];
+$__chassis_msg['pers']['as']['on']			= 'rozšířené vyhledávání';
+$__chassis_msg['pers']['as']['field']		= 'V poli';
+$__chassis_msg['pers']['as']['allfields']	= 'Ve všech polích';
+$__chassis_msg['pers']['tui']['ind']				= $__chassis_msg['srch'];
+$__chassis_msg['pers']['tui']['as']['on']			= 'rozšířené vyhledávání';
+$__chassis_msg['pers']['tui']['as']['field']		= 'V poli';
+$__chassis_msg['pers']['tui']['as']['allfields']	= 'Ve všech polích';
+$__chassis_msg['pers']['tui']['as']['norestr']		= 'Jakákoliv hodnota';
+$__chassis_msg['pers']['rui']['save']				= 'Uložit';
+$__chassis_msg['pers']['rui']['back']				= 'Zpět';
+$__chassis_msg['pers']['rui']['notag']				= 'Bez nálepky';
+$__chassis_msg['pers']['rui']['ind']['loading']		= $__chassis_msg['srch']['loading'];
+$__chassis_msg['pers']['rui']['ind']['loaded']		= $__chassis_msg['srch']['loaded'];
+$__chassis_msg['pers']['rui']['ind']['saving']		= 'Ukládám...';
+$__chassis_msg['pers']['rui']['ind']['saved']		= 'Uloženo';
+$__chassis_msg['pers']['rui']['ind']['preparing']	= 'Připravuji...';
+$__chassis_msg['pers']['rui']['ind']['prepared']	= 'Připraveno';
+$__chassis_msg['pers']['rui']['ind']['opening']		= 'Otevírá...';
+$__chassis_msg['pers']['rui']['ind']['opened']		= 'Načteno';
+$__chassis_msg['pers']['rui']['ind']['e_unknown']	= $__chassis_msg['srch']['e_unknown'];
+$__chassis_msg['pers']['rui']['ind']['e_nan']		= 'Chyba: hodnota v poli %s není číslo!';
+
+/**
  * SkyDome messages.
  */
 $__chassis_msg['sd']['close']			= 'Zavřít';

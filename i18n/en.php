@@ -92,11 +92,33 @@ $__chassis_msg['cdes']['e_unknown']	= 'Error: unknown error! Contact administrat
  */
 $__chassis_msg['srch']['loading']		= 'Loading...';
 $__chassis_msg['srch']['loaded']		= 'Loaded';
-$__chassis_msg['srch']['resizing']	= 'Resizing...';
+$__chassis_msg['srch']['resizing']		= 'Resizing...';
 $__chassis_msg['srch']['resized']		= 'Resized';
 $__chassis_msg['srch']['executing']	= $__chassis_msg['cdes']['executing'];
 $__chassis_msg['srch']['executed']	= $__chassis_msg['cdes']['executed'];
 $__chassis_msg['srch']['e_unknown']	= $__chassis_msg['cdes']['e_unknown'];
+
+/**
+ * Persistence.
+ */
+$__chassis_msg['pers']['tui']['ind']				= $__chassis_msg['srch'];
+$__chassis_msg['pers']['tui']['as']['on']			= 'advanced search';
+$__chassis_msg['pers']['tui']['as']['field']		= 'In field';
+$__chassis_msg['pers']['tui']['as']['allfields']	= 'In all fields';
+$__chassis_msg['pers']['tui']['as']['norestr']		= 'In all values';
+$__chassis_msg['pers']['rui']['save']				= 'Save';
+$__chassis_msg['pers']['rui']['back']				= 'Back';
+$__chassis_msg['pers']['rui']['notag']				= 'Without tag';
+$__chassis_msg['pers']['rui']['ind']['loading']		= $__chassis_msg['srch']['loading'];
+$__chassis_msg['pers']['rui']['ind']['loaded']		= $__chassis_msg['srch']['loaded'];
+$__chassis_msg['pers']['rui']['ind']['saving']		= 'Saving...';
+$__chassis_msg['pers']['rui']['ind']['saved']		= 'Saved';
+$__chassis_msg['pers']['rui']['ind']['preparing']	= 'Preparing...';
+$__chassis_msg['pers']['rui']['ind']['prepared']	= 'Prepared';
+$__chassis_msg['pers']['rui']['ind']['opening']		= 'Opening...';
+$__chassis_msg['pers']['rui']['ind']['opened']		= 'Opened';
+$__chassis_msg['pers']['rui']['ind']['e_unknown']	= $__chassis_msg['srch']['e_unknown'];
+$__chassis_msg['pers']['rui']['ind']['e_nan']		= 'Error: field %s is not a number!';
 
 /**
  * SkyDome messages.

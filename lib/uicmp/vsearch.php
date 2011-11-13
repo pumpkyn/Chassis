@@ -110,6 +110,9 @@ class srchres extends pool
 		$this->renderer	= CHASSIS_UI . 'uicmp/search_resizer.html';
 		$this->jsVar	= $js_var;
 		$this->size		= $size;
+		
+		if ( $parent instanceof body )
+			$parent->add( $this );
 	}
 
 	/**

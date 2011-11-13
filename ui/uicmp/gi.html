@@ -16,7 +16,7 @@
 		</table>
 	</div>
 {else} {* == 'a' *}
-	<div{if $USR_UICMP_ITEM->getAction()} onClick="{$USR_UICMP_ITEM->getAction()}"{/if} class="_uicmp_gi{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}">
+	<div id="{$USR_UICMP_ITEM->getHtmlId()}"{if $USR_UICMP_ITEM->getAction()} onClick="{$USR_UICMP_ITEM->getAction()}"{/if} class="_uicmp_gi{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}">
 		{$USR_UICMP_ITEM->getTitle()}
 	</div>
 {/if}

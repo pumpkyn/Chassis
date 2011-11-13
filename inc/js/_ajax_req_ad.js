@@ -47,8 +47,9 @@ function _ajax_req_ad ( async, url, base )
 	 * @param array extra associative array of extra request parameters (composed by client side/caller)
 	 * @param array cbs associative array of callbacks
 	 * @param array data associative array of additional POST method data parameter (is null in most of cases)
+	 * @param bool async method used for the request
 	 */
-	this.prepare = function ( extra, cbs, data )
+	this.prepare = function ( extra, cbs, data, async )
 	{
 		var params = '';
 		
@@ -59,7 +60,7 @@ function _ajax_req_ad ( async, url, base )
 			params += '&' + key + '=' + extra[key];
 		
 		var full = cbs;		
-			full['asynchronous']	= me.async;
+			full['asynchronous']	= async;
 			full['method']			= 'post';
 			full['parameters']		= params;
 			
@@ -84,10 +85,11 @@ function _ajax_req_ad ( async, url, base )
 	 * @param array extra associative array of extra request parameters (composed by client side/caller)
 	 * @param array cbs associative array of callbacks
 	 * @param array data associative array of additional POST method data parameter (is null in most of cases)
+	 * @param bool async if not null, explicitly changing default blocking behaviour
 	 */
-	this.send = function ( extra, cbs, data )
+	this.send = function ( extra, cbs, data, async )
 	{
-		var req = new Ajax.Request(	me.url, me.prepare( extra, cbs, data ) );
+		var req = new Ajax.Request(	me.url, me.prepare( extra, cbs, data, ( ( async !== null ) ? async : me.async ) ) );
 		return req;
 	};
 	
@@ -97,12 +99,13 @@ function _ajax_req_ad ( async, url, base )
 	 * 
 	 * @param array extra associative array of extra request parameters (composed by client side/caller)
 	 * @param array cbs associative array of callbacks
-	 * @param string target_id HTML ID of target container for response content
+	 * @param string target_id HTML ID of target container for the response content
 	 * @param array data associative array of additional POST method data parameter (is null in most of cases)
+	 * @param bool async if not null, explicitly changing default blocking behaviour
 	 */
-	this.update = function ( extra, cbs, target_id, data )
+	this.update = function ( extra, cbs, target_id, data, async )
 	{
-		var req = new Ajax.Updater( target_id, me.url, me.prepare( extra, cbs, data ) );
+		var req = new Ajax.Updater( target_id, me.url, me.prepare( extra, cbs, data, ( ( async !== null ) ? async : me.async ) ) );
 		return req;
 	};
 }

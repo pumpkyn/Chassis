@@ -31,7 +31,7 @@ class frmitem extends uicmp implements \_uicmp
 	 * 
 	 * @var string 
 	 */
-	protected $prompt = NULL;
+	protected $title = NULL;
 	
 	/**
 	 * Value of element. May be string, bool or other.
@@ -87,7 +87,7 @@ class frmitem extends uicmp implements \_uicmp
 		}
 		
 		$this->itype	= $type;
-		$this->prompt	= $prompt;
+		$this->title	= $prompt;
 		$this->value	= $value;
 		$this->desc		= $desc;
 		$this->cbs		= $cbs;
@@ -115,7 +115,7 @@ class frmitem extends uicmp implements \_uicmp
 	 * 
 	 * @return string 
 	 */
-	public function getPrompt ( ) { return $this->prompt; }
+	public function getPrompt ( ) { return $this->title; }
 	
 	/**
 	 * Getter for value.

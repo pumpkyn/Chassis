@@ -1,0 +1,83 @@
+{*
+ * Search form for Persistence table UI.
+ *
+ * @file tuifrm.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage Persistence
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+ 
+<td class="_uicmp_srch_frm">
+	{assign var='USR_PERS_TUICFG' value=$USR_UICMP_CMP->cfg()}
+	<div class="_uicmp_srch_frm">
+		<table cellspacing="0" cellpadding="0" class="_uicmp_search">
+			<tr>
+				<td class="_uicmp_search_field"><input onKeyUp="if ( waEventKeycode(event) == 13 ) {$USR_UICMP_CMP->jsVar()}.tui.search();" id="{$USR_UICMP_CMP->getHtmlId()}::keywords" class="_uicmp_search_input" type="text" value="{$USR_PERS_TUICFG.k}"></td>
+				<td class="_uicmp_search_field"><input onClick="{$USR_UICMP_CMP->jsVar()}.tui.search();" type="button" value="{$CHASSIS_UICMP_MESSAGES.srchBtSearch}"></td>
+				<td class="_uicmp_search_field"><input onClick="{$USR_UICMP_CMP->jsVar()}.tui.showall();"type="button" value="{$CHASSIS_UICMP_MESSAGES.srchBtShowAll}"></td>
+				{if array_key_exists('as',$USR_PERS_TUICFG)}
+				<td class="_uicmp_search_field">
+					<table cellspacing="0" cellpadding="0">
+						<tr>
+							<td><input{if $USR_PERS_TUICFG.as.show==true} checked="checked"{/if} type="checkbox" onClick="{$USR_UICMP_CMP->jsVar()}.tui.as_click( true );" id="{$USR_UICMP_CMP->getHtmlId()}::as::chkbox"/></td>
+							<td class="_uicmp_gi_chk"><div onClick="document.getElementById( '{$USR_UICMP_CMP->getHtmlId()}::as::chkbox' ).click( );" class="_uicmp_blue" id="{$USR_UICMP_CMP->getHtmlId()}::as::anchor">{$CHASSIS_UICMP_MESSAGES.pers.tui.as.on}</div></td>
+						</tr>
+					</table>
+				</td>
+				{/if}
+				<td class="_uicmp_gi">
+					{assign var='USR_UICMP_ITEM' value=$USR_UICMP_CMP->ind()->sep()}
+					{include file=$USR_UICMP_ITEM->getRenderer()}
+				<td>
+				<td class="_uicmp_gi">
+					{assign var='USR_UICMP_ITEM' value=$USR_UICMP_CMP->ind()}
+					{include file=$USR_UICMP_ITEM->getRenderer()}
+				</td>
+				<td width="100%"></td>
+			</tr>
+		</table>
+	</div>
+	{if array_key_exists('as',$USR_PERS_TUICFG)}
+	<div id="{$USR_UICMP_CMP->getHtmlId()}::sink" class="_uicmp_srch_frm{if $USR_PERS_TUICFG.as.show==false} _uicmp_data{/if}">
+		<table cellspacing="0" cellpadding="0" class="_uicmp_search">
+			<tr>
+				{if array_key_exists('f',$USR_PERS_TUICFG)}
+				<td class="_uicmp_pers_restr">{$USR_PERS_TUICFG.f.prompt}</td>
+				{/if}
+				{if array_key_exists('r',$USR_PERS_TUICFG)}
+				{foreach from=$USR_PERS_TUICFG.r item=restrictor}
+				<td class="_uicmp_pers_restr">
+					{$restrictor.prompt}
+				</td>
+				{/foreach}
+				{/if}
+				<td></td>
+			</tr>
+			<tr>
+				{if array_key_exists('f',$USR_PERS_TUICFG)}
+				<td class="_uicmp_search_field">
+					<select onClick="{$USR_UICMP_CMP->jsVar()}.tui.focus();" id="{$USR_UICMP_CMP->getHtmlId()}::field">
+						{foreach from=$USR_PERS_TUICFG.f.option key=value item=label}
+						<option value="{$value}"{if $USR_PERS_TUICFG.f.selected==$value} selected="selected"{/if}>{$label}</option>
+						{/foreach}
+					</select>
+				</td>
+				{/if}
+				{if array_key_exists('r',$USR_PERS_TUICFG)}
+				{foreach from=$USR_PERS_TUICFG.r key=name item=restrictor}
+				<td class="_uicmp_search_field">
+					<select onClick="{$USR_UICMP_CMP->jsVar()}.tui.focus();" id="{$USR_UICMP_CMP->getHtmlId()}::restrictor::{$name}">
+						{foreach from=$restrictor.option key=value item=label}
+						<option value="{$value}"{if $restrictor.selected==$value} selected="selected"{/if}>{$label}</option>
+						{/foreach}
+					</select>
+				</td>
+				{/foreach}
+				{/if}
+				<td width="100%"></td>
+			</tr>
+		</table>
+	</div>
+	{/if}
+</td>
