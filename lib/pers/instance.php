@@ -616,10 +616,6 @@ class instance extends \pers
 						}
 					}
 				break;
-			
-				// save data from the record UI
-				case 'save':
-				break;
 			}
 	}
 
