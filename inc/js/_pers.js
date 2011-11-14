@@ -71,10 +71,10 @@ function _pers_tui ( pi )
 		this.focus( );
 		this.res_render( );
 		
-		function onCreate( ) {me.effect_show( );me.pi.tcfg.ind.show( 'loading', '_uicmp_ind_gray' );};
-		function onFailure( ) {me.effect_hide( );me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' );};
-		function onComplete( ) {me.effect_hide( );};
-		function onSuccess( data ) {me.effect_hide( );me.pi.tcfg.ind.fade( 'loaded', '_uicmp_ind_green' );};
+		function onCreate( ) { me.effect_show( ); me.pi.tcfg.ind.show( 'loading', '_uicmp_ind_gray' ); }
+		function onFailure( ) { me.effect_hide( ); me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
+		function onComplete( ) { me.effect_hide( ); }
+		function onSuccess( data ) { me.effect_hide( ); me.pi.tcfg.ind.fade( 'loaded', '_uicmp_ind_green' ); }
 
 		var data = {primitive: 'tui', method: 'refresh'};
 		data['k'] = document.getElementById( this.pi.tcfg.frm_id + '::keywords' ).value;
@@ -193,15 +193,15 @@ function _pers_tui ( pi )
 		_uicmp_resizer_size = val;
 		this.focus( );
 		
-		function onCreate( ) {me.pi.tcfg.ind.show( 'resizing', '_uicmp_ind_gray' );};
-		function onFailure( ) {me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' );};
+		function onCreate( ) { me.pi.tcfg.ind.show( 'resizing', '_uicmp_ind_gray' ); }
+		function onFailure( ) { me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
 		function onSuccess( data )
 		{
 			me.pi.tcfg.ind.fade( 'resized', '_uicmp_ind_green' );
 			me.res_render( );
 			me.pi.tcfg.p = 1;
 			me.refresh( );
-		};
+		}
 
 		me.pi.ajax.send(	{primitive: 'tui', method: 'resize', value: val},
 							{onCreate: onCreate, onFailure: onFailure, onSuccess: onSuccess},
