@@ -18,27 +18,35 @@ class settproxy
 {
 	/**
 	 * Reference to settings object used for access to list length (=page size)
-	 * value. This is used to set up resizer UI and also to update the value as
-	 * a result of resizer UI operation (clicking to change the page size).
+	 * value. This is used to set up resizer UI, to update the value as a result
+	 * of resizer UI operation (clicking to change the page size) and to extract
+	 * pager half size value. Usually global settings, hence G.
 	 * @var _settings
 	 */
-	protected $llensett = NULL;
+	protected $gsett = NULL;
 	
 	/**
-	 * Key value for the list length (=page size) in the $llensett member.
+	 * Key value for the list length (=page size) in the $gsett member.
 	 * @var string
 	 */
 	protected $llenkey = NULL;
+	
+	/**
+	 * Key value for the pager half size setting in the $gsett member.
+	 * @var string
+	 */
+	protected $phkey = NULL;
 	
 	/**
 	 * Reference to settings object used for access to list configuration (which
 	 * is serialized PHP array) of the TUI of the particular Persistence
 	 * instance. Unlike list length setting, key for this one is derived from
 	 * the namespace constant and the table name by concatenation of
-	 * 'io.creat.chassis.pers.' and the table name.
+	 * 'io.creat.chassis.pers.' and the table name. Usually app and user
+	 * specific, hence L.
 	 * @var _settings
 	 */
-	protected $lcfgsett = NULL;
+	protected $lsett = NULL;
 	
 	/**
 	 * Reference to Persistence instance.
@@ -49,16 +57,17 @@ class settproxy
 	/**
 	 * Constructor for the instance.
 	 * @param \io\creat\chassis\pers\instance $pi reference to persistence instance
-	 * @param _settings $llensett reference to settings object handling page size
+	 * @param _settings $gsett reference to settings object handling page size
+	 * @param \_settings $lsett reference to settings object handling list configuration
 	 * @param string $llenkey key value for the page size setting 
-	 * @param \_settings $lcfgsett reference to settings object handling list configuration
+	 * @param string $phkey key value for the pager half size setting
 	 */
-	public function __construct ( &$pi, &$llensett, $llenkey, &$lcfgsett )
+	public function __construct ( &$pi, &$gsett, &$lsett, $llenkey, $phkey )
 	{
 		$this->pi		= $pi;
-		$this->llensett	= $llensett;
+		$this->gsett	= $gsett;
 		$this->llenkey	= $llenkey;
-		$this->lcfgsett	= $lcfgsett;
+		$this->lsett	= $lsett;
 	}
 	
 	/**
@@ -70,23 +79,29 @@ class settproxy
 	public function lcfg ( $new = NULL )
 	{
 		if ( !is_null( $new ) )
-			$this->lcfgsett->saveOne( 'io.creat.chassis.pers.' . $this->pi->name( ), $new );
+			$this->lsett->saveOne( 'io.creat.chassis.pers.' . $this->pi->name( ), $new );
 		else
-			return $this->lcfgsett->get( 'io.creat.chassis.pers.' . $this->pi->name( ) );
+			return $this->lsett->get( 'io.creat.chassis.pers.' . $this->pi->name( ) );
 	}
 	
 	/**
-	 * getter/setter of list length setting value.
+	 * Getter/setter of list length setting value.
 	 * @param int $new new value to be saved into settings, if NULL, method acts as getter
-	 * @return type 
+	 * @return string
 	 */
 	public function llen ( $new = NULL )
 	{
 		if ( !is_null( $new ) )
-			$this->llensett->saveOne( $this->llenkey, $new );
+			$this->gsett->saveOne( $this->llenkey, $new );
 		else
-			return $this->llensett->get( $this->llenkey );
+			return $this->gsett->get( $this->llenkey );
 	}
+	
+	/**
+	 * Getter of pager half size setting value.
+	 * @return string 
+	 */
+	public function ph ( ) { return $this->gsett->get( $this->phkey ); }
 }
 
 ?>
