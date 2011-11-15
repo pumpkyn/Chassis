@@ -104,6 +104,12 @@ class frmitem extends uicmp implements \_uicmp
 	public function setOption ( $value, $display ) { $this->options[$value] = $display; }
 	
 	/**
+	 * Batch load of key-value pairs.
+	 * @param array $options associative array to replace member variable
+	 */
+	public function setOptions( &$options ) { $this->options = $options; }
+	
+	/**
 	 * Getter for type of form item.
 	 * 
 	 * @return int 

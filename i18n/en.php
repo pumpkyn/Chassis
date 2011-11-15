@@ -121,6 +121,35 @@ $__chassis_msg['pers']['rui']['ind']['e_unknown']	= $__chassis_msg['srch']['e_un
 $__chassis_msg['pers']['rui']['ind']['e_nan']		= 'Error: field %s is not a number!';
 
 /**
+ * Tags persistence
+ */
+$__chassis_msg['tags']['desc']						= 'Description';
+$__chassis_msg['tags']['label']						= 'Label';
+$__chassis_msg['tags']['scheme']					= 'Color scheme';
+$__chassis_msg['tags']['name']						= 'Text to display';
+$__chassis_msg['tags']['preview']					= 'Preview';
+$__chassis_msg['tags']['tui']['fold']				= 'Tags';
+$__chassis_msg['tags']['tui']['headline']			= 'Search, add and edit tags';	// should be overriden by custome message in the instance parameter
+$__chassis_msg['tags']['tui']['anchor']				= 'Create new label';
+$__chassis_msg['tags']['rui']['edit']				= 'Edit tag';
+$__chassis_msg['tags']['rui']['create']				= 'Create tag';
+$__chassis_msg['tags']['schemes']					= $__chassis_msg['ctx'];
+
+/*
+$__chassis_msg['cdesCaption']			= $__chassis_msg['cdesCreateContext'];
+
+$__chassis_msg['cdesScheme']			= 'Color scheme';
+$__chassis_msg['cdesDisplay']			= 'Text to display';
+$__chassis_msg['cdesRemove']			= 'Remove';
+$__chassis_msg['cdesQuestion']		= 'Do you really want to remove context? <b>%s</b>? This operation cannot be undone.';
+$__chassis_msg['cdesEmpty']			= 'You do not have any labels created.';
+$__chassis_msg['cdesNoMatch']			= 'Not match found for search request.';
+
+$__chassis_msg['cdesOShowAll']		= 'Show all labels';
+$__chassis_msg['cdesOSearch']			= 'Change keywords and search again';
+$__chassis_msg['cdesNoCtxs']			= 'No contexts available';*/
+
+/**
  * SkyDome messages.
  */
 $__chassis_msg['sd']['close']			= 'Close';

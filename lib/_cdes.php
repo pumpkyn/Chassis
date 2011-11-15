@@ -86,14 +86,6 @@ class _cdes
 		$this->i18n_loader	= $i18n_loader;
 		$this->UID			= $UID;
 		$this->tableName	= $table;
-
-		/*$i18n = CHASSIS_I18N . 'uicmp/' . $lang . '.php';
-		if (file_exists( $i18n ) )
-			include $i18n;
-		else
-			include CHASSIS_I18N . 'uicmp/en.php';
-
-		$this->messages = $_uicmp_i18n;*/
 		$this->messages		= $i18n_loader->msg( );
 	}
 

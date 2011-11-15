@@ -1,0 +1,21 @@
+{*
+ * Renderer for preview of the tag in the Tags Persistence.
+ *
+ * @file tuifrm.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage Tags
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+ 
+<tr>
+	<td class="_uicmp_frm_prompt">{$USR_UICMP_FI->getPrompt()}</td>
+	<td class="_uicmp_frm_field" width="100%">
+		{assign var=USR_CTX value=$USR_UICMP_FI->getCtx()}
+		{include file="$CHASSIS_UI_ROOT/ctx.html"}
+		{*<div class="_uicmp_data">
+			<div id="{$USR_UICMP_CMP->getHtmlId()}.msg.create">{$CHASSIS_UICMP_MESSAGES.cdesCreateContext}</div>
+			<div id="{$USR_UICMP_CMP->getHtmlId()}.msg.edit">{$CHASSIS_UICMP_MESSAGES.cdesEditContext}</div>
+		</div>*}
+	</td>
+</tr>

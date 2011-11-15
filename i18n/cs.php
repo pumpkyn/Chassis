@@ -125,6 +125,21 @@ $__chassis_msg['pers']['rui']['ind']['e_unknown']	= $__chassis_msg['srch']['e_un
 $__chassis_msg['pers']['rui']['ind']['e_nan']		= 'Chyba: hodnota v poli %s není číslo!';
 
 /**
+ * Tags persistence
+ */
+$__chassis_msg['tags']['desc']						= 'Popis';
+$__chassis_msg['tags']['label']						= 'Nálepka';
+$__chassis_msg['tags']['scheme']					= 'Barevná schéma';
+$__chassis_msg['tags']['name']						= 'Zobrazit text';
+$__chassis_msg['tags']['preview']					= 'Náhled';
+$__chassis_msg['tags']['tui']['fold']				= 'Nálepky';
+$__chassis_msg['tags']['tui']['headline']			= 'Přehled, přidávání a úpravy nálepek';	// should be overriden by custome message in the instance parameter
+$__chassis_msg['tags']['tui']['anchor']				= 'Vytvořit nálepku';
+$__chassis_msg['tags']['rui']['edit']				= 'Upravit nálepku';
+$__chassis_msg['tags']['rui']['create']				= 'Nová nálepka';
+$__chassis_msg['tags']['schemes']					= $__chassis_msg['ctx'];
+
+/**
  * SkyDome messages.
  */
 $__chassis_msg['sd']['close']			= 'Zavřít';
