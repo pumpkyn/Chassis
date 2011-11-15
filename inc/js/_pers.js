@@ -51,6 +51,10 @@ function _pers_tui ( pi )
 		}
 	};
 	
+	//Interface to update scope with proper value. This should be used from
+	// subclass to set proper private member for whole inheritance hierarchy.
+	this.cp = function ( alter ) { me = alter; };
+	
 	this.search = function ( )
 	{
 		this.pi.tcfg.p = 1;
@@ -60,7 +64,8 @@ function _pers_tui ( pi )
 	this.showall = function ( )
 	{
 		document.getElementById( this.pi.tcfg.frm_id + '::keywords' ).value = '';
-		document.getElementById( this.pi.tcfg.frm_id + '::as::chkbox' ).checked = false;
+		if ( me.pi.tcfg.as )
+			document.getElementById( this.pi.tcfg.frm_id + '::as::chkbox' ).checked = false;
 		this.pi.tcfg.p = 1;
 		this.as_click( false );
 		this.search( );
@@ -81,7 +86,7 @@ function _pers_tui ( pi )
 		data['p'] = this.pi.tcfg.p;
 		data['o'] = this.pi.tcfg.o;
 		data['d'] = this.pi.tcfg.d;
-		var as = document.getElementById( this.pi.tcfg.frm_id + '::as::chkbox' ).checked;
+		var as = ( ( me.pi.tcfg.as ) ? document.getElementById( this.pi.tcfg.frm_id + '::as::chkbox' ).checked : false );
 		if ( as )
 		{
 			data['as'] = 'true';
@@ -275,9 +280,31 @@ function _pers_rui ( pi )
 			disableSelection( document.getElementById( me.pi.rcfg.back_id ) );
 	};
 	
+	//Interface to update scope with proper value. This should be used from
+	// subclass to set proper private member for whole inheritance hierarchy.
+	this.cp = function ( alter ) { me = alter; };
+	
 	this.reset = function ( )
 	{
-		
+		var field;
+		for ( field in me.pi.rcfg.f )
+		{
+			var el = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + field );
+
+			switch ( me.pi.rcfg.f[field].t )
+			{
+				case 'string':
+					if ( el )
+						el.value = '';
+				break;
+							
+				case 'tag':
+				case 'enum':
+					if ( el )
+						el.selectedIndex = 0;
+				break;
+			}
+		}
 	};
 	
 	this.enable = function ( enable )
@@ -310,6 +337,7 @@ function _pers_rui ( pi )
 							break;
 							
 							case 'tag':
+							case 'enum':
 								if ( el )
 									writer.writeAttributeString( 'v', el.options[el.selectedIndex].value );
 							break;
@@ -336,42 +364,54 @@ function _pers_rui ( pi )
 			for( var i = 0; i < fs.length; ++i )
 			{
 				var f = fs.item( i );
-			//	alert(f.getAttribute('n'));
 				var field = me.pi.rcfg.f[f.getAttribute( 'n' )];
 				var el = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + f.getAttribute( 'n' ) );
 				
 				if ( field )
 				{
-					
-					//alert(me.pi.rcfg.frm_id + '::rui::' + f.getAttribute('n'));
 					if ( field.t == 'string' )
 						el.value = f.getAttribute( 'v' );
-					if ( field.t == 'tag' )
+					if ( ( field.t == 'tag' ) || ( field.t == 'enum' ) )
 					{
-						//var el = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + f.getAttribute('n') );
 						var j = 0;
 						
-						for ( j  = el.length - 1; j >= 0; --j )
-							el.remove( j );
-						
-						var o = f.getElementsByTagName( 'o' );
-						for ( j = 0; j < o.length; ++j )
+							//alert(field.d);
+						if ( field.d === true )
 						{
-							var opt = document.createElement( 'option' );
-							opt.value = o.item( j ).getAttribute( 'v' );
-							opt.text = o.item( j ).getFirstChild( ).getNodeValue( );
-							try
+							for ( j  = el.length - 1; j >= 0; --j )
+								el.remove( j );
+							
+							var o = f.getElementsByTagName( 'o' );
+							for ( j = 0; j < o.length; ++j )
 							{
-								el.add( opt, null );
+								var opt = document.createElement( 'option' );
+								opt.value = o.item( j ).getAttribute( 'v' );
+								opt.text = o.item( j ).getFirstChild( ).getNodeValue( );
+								try
+								{
+									el.add( opt, null );
+								}
+								catch ( ex )
+								{
+									el.add( opt );	// MSIE
+								}
+								
+								// preselect for dynamic
+								if ( opt.value == f.getAttribute( 'v' ) )
+									el.selectedIndex = j;
 							}
-							catch ( ex )
-							{
-								el.add( opt );	// MSIE
-							}
-							if ( opt.value == f.getAttribute( 'v' ) )
-								el.selectedIndex = j;
+						}
+						else // preselect for static
+						{
+							for ( j = 0; j < el.length; ++j )
+								if ( el[j].value == f.getAttribute( 'v' ) )
+								{
+									el.selectedIndex = j;
+									break;
+								}
 						}
 					}
+					
 				}
 				else
 				{
@@ -426,8 +466,17 @@ function _pers_rui ( pi )
 	
 	this.edit = function ( index )
 	{
+		me.reset( );
 		me.pi.layout.show( me.pi.rcfg.tab_id );
 		me.load( index );
+		me.preview( );
+	};
+	
+	this.create = function ( )
+	{
+		me.reset( );
+		me.pi.layout.show( me.pi.rcfg.tab_id );
+		me.preview( );
 	};
 }
 
@@ -482,9 +531,13 @@ function _pers_instance ( id, layout, url, params, tcfg, rcfg )
 	 * .tab_id .... ID of UICMP tab component rendering the form
 	 * .back_id ... HTML ID of 'Back' anchor
 	 * .frm_id .... simple form HTML ID (prefix for input elements)
+	 * .frmhl_id .. headline HTML ID (for preview method)
 	 * .ind ....... reference to indicator instance
 	 * .idx ....... indexes (names are keys)
 	 * .f ......... fields configuration
+	 * .loc ....... localization messages
+	 *              .edit ..... for editing a record
+	 *              .create ... for creating a record
 	 */
 	this.rcfg = rcfg;
 	
@@ -510,6 +563,10 @@ function _pers_instance ( id, layout, url, params, tcfg, rcfg )
 		me.tui.startup( );
 		me.rui.startup( );
 	};
+	
+	//Interface to update scope with proper value. This should be used from
+	// subclass to set proper private member for whole inheritance hierarchy.
+	this.cp = function ( alter ) { me = alter; };
 	
 	/**
 	 * Callback for event of showing the tab. It is bind before the TUI instance

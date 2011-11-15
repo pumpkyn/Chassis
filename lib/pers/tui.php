@@ -160,6 +160,10 @@ class tui extends \io\creat\chassis\uicmp\vcmp
 		elseif ( $this->pi->has( \pers::FL_PI_ANCHORS ) )
 			$resizer = new \io\creat\chassis\uicmp\dummyres( $this->tab->getBody( ), $this->pi->id( ) . '.Res' );
 		
+		// anchor in the resizer row
+		if ( ( $this->pi->has( \pers::FL_PI_RUI ) ) && ( $this->pi->has( \pers::FL_PI_CREATE ) ) )
+			new \io\creat\chassis\uicmp\grpitem( $resizer, $this->pi->id( ) . '.RuiAnchor', \io\creat\chassis\uicmp\grpitem::IT_A, $cust_msg['tui']['anchor'], $this->pi->jsVar( ) . '.rui.create( );', '_uicmp_gi_add' );
+		
 		$this->jscfg['frm_id'] = $form->getHtmlId( );
 		$this->jscfg['ind'] = new \io\creat\chassis\uicmp\jsobj( $form->ind( )->getJsVar( ) );
 		$this->jscfg['res_id'] = $resizer->getHtmlId( );

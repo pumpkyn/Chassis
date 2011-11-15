@@ -56,15 +56,13 @@ class settproxy
 	
 	/**
 	 * Constructor for the instance.
-	 * @param \io\creat\chassis\pers\instance $pi reference to persistence instance
 	 * @param _settings $gsett reference to settings object handling page size
 	 * @param \_settings $lsett reference to settings object handling list configuration
 	 * @param string $llenkey key value for the page size setting 
 	 * @param string $phkey key value for the pager half size setting
 	 */
-	public function __construct ( &$pi, &$gsett, &$lsett, $llenkey, $phkey )
+	public function __construct ( &$gsett, &$lsett, $llenkey, $phkey )
 	{
-		$this->pi		= $pi;
 		$this->gsett	= $gsett;
 		$this->llenkey	= $llenkey;
 		$this->lsett	= $lsett;
@@ -102,6 +100,13 @@ class settproxy
 	 * @return string 
 	 */
 	public function ph ( ) { return $this->gsett->get( $this->phkey ); }
+	
+	/**
+	 * Setter for persistence instance. Should be called from instance itself
+	 * to populate with proper reference.
+	 * @param \io\creat\chassis\pers\instance $pi reference to instance itself (i.e. $this)
+	 */
+	public function pi( &$pi ) { $this->pi = $pi; }
 }
 
 ?>

@@ -64,6 +64,13 @@ class instance extends \pers
 	protected $map = NULL;
 	
 	/**
+	 * Name of Javascript class, which is instantiated by this instance client
+	 * requirements. Override in subclass to provide different client behaviour.
+	 * @var string
+	 */
+	protected $jsClass = '_pers_instance';
+	
+	/**
 	 * Reference to UICMP layout instance. It is also provider of framework
 	 * localization.
 	 * @var \io\creat\chassis\uicmp\layout
@@ -131,6 +138,7 @@ class instance extends \pers
 		$this->params['jsvar']	= $this->jsVar( );	// name of Javascript variable holding my instance
 		$this->settproxy		= $settproxy;
 		
+		$this->settproxy->pi( $this );
 		$this->implicit( );
 		$this->explicit( );
 	}
@@ -181,6 +189,12 @@ class instance extends \pers
 	public function has ( $flag ) { return ( $this->flags & $flag ) > 0; }
 	
 	/**
+	 * Getter for explicit map of fields.
+	 * @return array
+	 */
+	public function map ( ) { return $this->map; }
+	
+	/**
 	 * Returns reference to current settings proxy instance.
 	 * @return \io\creat\chassis\settproxy
 	 */
@@ -197,7 +211,7 @@ class instance extends \pers
 		$requirer = $this->layout->getRequirer( );
 		$tcfg = ( !is_null( $this->tableUi( ) ) ) ? $this->tui->jsCfg( ) : 'null';
 		$rcfg = ( !is_null( $this->recordUi( ) ) ) ? $this->rui->jsCfg( ) : 'null';
-		$init = 'var ' . $var . " = new _pers_instance( '{$this->table}', {$this->layout->getJsVar( )}, '{$this->url}', " . \io\creat\chassis\uicmp\vcmp::toJsArray( $this->params ) . ", {$tcfg}, {$rcfg} );";
+		$init = 'var ' . $var . " = new {$this->jsClass}( '{$this->table}', {$this->layout->getJsVar( )}, '{$this->url}', " . \io\creat\chassis\uicmp\vcmp::toJsArray( $this->params ) . ", {$tcfg}, {$rcfg} );";
 		
 		$this->tui->generateReqs( );
 		$this->rui->generateReqs( );
@@ -254,7 +268,11 @@ class instance extends \pers
 	{
 		if ( $field instanceof field )
 		{
-			if ( $field->flags & field::FL_FD_RESTRICT )
+			if ( $field->flags & field::FL_FD_CONST )
+			{
+				$and[] = "`{$field->name}` = \"" . _db_escape( $field->value ) . "\"";
+			}
+			elseif ( $field->flags & field::FL_FD_RESTRICT )
 			{
 				if ( array_key_exists( 'r_' . $field->name, $_POST ) )
 				{
@@ -280,6 +298,14 @@ class instance extends \pers
 			}
 		}
 	}
+	
+	/**
+	 * Builds ORDER BY clause of the search query. Separated, so it can be
+	 * overridden in the subclass to provide alternate statement.
+	 * @param array $search reference to parsed search query
+	 * @return string
+	 */
+	protected function orderq ( &$search ) { return "ORDER BY `" . _db_escape( $search['o'] ) . "` " . _db_escape( $search['d'] ); }
 	
 	/**
 	 * Builds core of the SQL query for searching in the table.
@@ -361,17 +387,28 @@ class instance extends \pers
 		if ( $field instanceof field )
 			if ( $field->flags & field::FL_FD_VIEW )
 			{
+				
 				switch ( $field->type )
 				{
 					case field::FT_TAG:
 						if ( $field instanceof tag )
 						{
 							$field->cache( );
+
 							if ( is_array( $field->cache ) )
-								if ( ( (int)$record[$field->name] > 0 ) && ( array_key_exists( (int)$record[$field->name], $field->cache) ) )
+								if ( ( (int)$record[$field->name] > 0 ) && ( array_key_exists( (int)$record[$field->name], $field->cache ) ) )
 								{
-									return new \_list_cell( \_list_cell::Badge( $field->cache[(int)$record[$field->name]]->id, $field->cache[(int)$record[$field->name]]->sch, $field->cache[(int)$record[$field->name]]->disp ),
-													\_list_cell::MAN_BADGE );
+									if ( ( $field->flags & field::FL_FD_ANCHOR ) && ( is_array( $this->index ) ) )
+									{
+										foreach ( $this->index as $i )
+											$index[] = $record[$i];
+										
+										return new \_list_cell( \_list_cell::Badge( $field->cache[(int)$record[$field->name]]->id, $field->cache[(int)$record[$field->name]]->sch, $field->cache[(int)$record[$field->name]]->disp, '', $search['jsvar'] . '.rui.edit( \'' . implode( '::', $index ) . '\' );' ),
+														\_list_cell::MAN_BADGE );
+									}
+									else
+										return new \_list_cell( \_list_cell::Badge( $field->cache[(int)$record[$field->name]]->id, $field->cache[(int)$record[$field->name]]->sch, $field->cache[(int)$record[$field->name]]->disp ),
+														\_list_cell::MAN_BADGE );
 									break;
 								}
 						}
@@ -470,16 +507,31 @@ class instance extends \pers
 	protected function save ( )
 	{
 		$pairs = $keys = $vals = NULL;
-		if ( array_key_exists( 'index', $_POST ) && ( (string)$_POST['index'] != '' ) )
+		if ( array_key_exists( 'index', $_POST ) )
 		{	
-			$index = explode( ',', $_POST['index'] );
-			if ( is_array( $this->index ) )
-				foreach( $this->index as $i => $name )
-					if ( $i < count( $index ) )
-					{
-						$keys[] = "`" . _db_escape( $name ) . "`";
-						$vals[] = "\"" . _db_escape ( $index[$i] ) . "\"";
-					}
+			if ( (string)$_POST['index'] != '' )
+			{
+				$index = explode( ',', $_POST['index'] );
+				if ( is_array( $this->index ) )
+					foreach( $this->index as $i => $name )
+						if ( $i < count( $index ) )
+						{
+							$keys[] = "`" . _db_escape( $name ) . "`";
+							$vals[] = "\"" . _db_escape ( $index[$i] ) . "\"";
+						}
+			}
+			else
+			{
+				// This should be adding new record, hence we try to extract
+				// constants for index values.
+				if ( is_array( $this->index ) )
+					foreach( $this->index as $i => $name )
+						if ( $this->fields[$name]->flags & self::FL_FD_CONST )
+						{
+							$keys[] = "`" . _db_escape( $name ) . "`";
+							$vals[] = "\"" . _db_escape ( $this->fields[$name]->value ) . "\"";
+						}
+			}
 		}
 		
 		// parse XML message and extract data
@@ -501,6 +553,7 @@ class instance extends \pers
 		 * @todo validate result of the operation and return appropriate result
 		 */
 		_db_query( "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', $vals ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs ) . "" );
+		echo( "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', $vals ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs ) . "" );
 	}
 	
 	/**
@@ -572,7 +625,7 @@ class instance extends \pers
 						$this->settproxy->lcfg( serialize( $params ) );
 						
 						// compose search SQL
-						$order = "ORDER BY `" . _db_escape( $params['o'] ) . "` " . _db_escape( $params['d'] );
+						$order = $this->orderq( $params );
 						$query = "SELECT * " . $qstub . " {$order} LIMIT {$first},{$llen}";
 
 						$res = _db_query( $query );
@@ -581,7 +634,7 @@ class instance extends \pers
 						{
 							$builder = new \_list_builder( $params['jsvar'] . '.tui', \_i18n_loader::getInstance( ) );
 								$this->listh( $builder, $params );
-								$builder->computePaging( $llen, $count, $page, $pages );
+								$builder->computePaging( $llen, $count, $page, $pages, $this->settproxy->ph( ) );
 							
 							while ( $row = _db_fetchrow( $res ) )
 							{

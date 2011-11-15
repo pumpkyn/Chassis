@@ -46,7 +46,6 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 	
 	/**
 	 * Constructor.
-	 * 
 	 * @param \io\creat\chassis\pers\instance $pi parent Persistence instance
 	 * @param \io\creat\chassis\uicmp\layout $parent parent UICMP component (layout)
 	 */
@@ -60,13 +59,14 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 		$fields		= $this->pi->def( );
 
 		$this->tab = new \io\creat\chassis\uicmp\tab( $this->parent, $this->pi->id( ) . '.Rui' );
-			new \io\creat\chassis\uicmp\headline( $this->tab->getHead( ), $this->pi->id( ) . '.Hl', $cust_msg['rui']['edit'] );
+			$headline = new \io\creat\chassis\uicmp\headline( $this->tab->getHead( ), $this->pi->id( ) . '.RuiHl', $cust_msg['rui']['edit'] );
 			$buttons = new \io\creat\chassis\uicmp\buttons( $this->tab->getHead( ), $this->pi->id( ) . '.Buttons' );
 			$buttons->add( $back = new \io\creat\chassis\uicmp\grpitem( $buttons, $this->pi->id( ) . '.Back', \io\creat\chassis\uicmp\grpitem::IT_A, $fw_msg['pers']['rui']['back'], $this->parent->getJsVar() . ".back();", '_uicmp_gi_back' ) );
 			$buttons->add( new \io\creat\chassis\uicmp\grpitem( $buttons, $this->pi->id( ) . '.S1', \io\creat\chassis\uicmp\grpitem::IT_TXT, '|' ) );
 			$buttons->add( new \io\creat\chassis\uicmp\grpitem( $buttons, $this->pi->id( ) . '.Save', \io\creat\chassis\uicmp\grpitem::IT_BT, $fw_msg['pers']['rui']['save'], $this->pi->jsVar( ) . ".rui.save( );" ) );
 			$buttons->add( $indicator = new \io\creat\chassis\uicmp\indicator( $buttons, $this->pi->id( ) . '.Rui.Ind', \io\creat\chassis\uicmp\grpitem::IT_IND, $fw_msg['pers']['rui']['ind'] ) );
 
+		$this->jscfg['frmhl_id'] = $headline->getHtmlId( );
 		$fields = $this->pi->def( );
 		if ( is_array( $fields ) )
 		{
@@ -78,6 +78,11 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 				foreach( $index as $name )
 				{
 					$this->jscfg['idx'][$name] = 1;
+					
+					// do not display hidden fields
+					if ( $fields[$name]->flags & field::FL_FD_HIDDEN )
+						continue;
+					
 					new \io\creat\chassis\uicmp\frmitem(	$form,
 															'rui::' . $fields[$name]->name,
 															$fields[$name]->title,
@@ -87,49 +92,70 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 				}
 			
 			// modifiable fields
-			foreach( $fields as $field )
-			{
-				// indexes were already processed
-				if ( in_array( $field->name, $index ) )
-					continue;
-				
-				if ( $field->flags & field::FL_FD_MODIFY )
-				{
-					$this->jscfg['f'][$field->name]['d'] = ( ( $field->flags & field::FL_FO_DYNAMIC ) ? true : false );
-					
-					switch ( $field->type )
-					{
-						case field::FT_TAG:
-							$this->jscfg['f'][$field->name]['t'] = 'tag';
-							
-							new \io\creat\chassis\uicmp\frmitem(	$form,
-																	'rui::' . $field->name,
-																	$field->title,
-																	'',
-																	'',
-																	\io\creat\chassis\uicmp\frmitem::FIT_SELECT,
-																	'cbs' );
-						break;
-					
-						default:
-							$this->jscfg['f'][$field->name]['t'] = 'string';
-							new \io\creat\chassis\uicmp\frmitem(	$form,
-																	'rui::' . $field->name,
-																	$field->title,
-																	'',
-																	'',
-																	\io\creat\chassis\uicmp\frmitem::FIT_TEXT,
-																	'cbs' );
-						break;
-					}
-				}
-			}
+			$map = $this->pi->map( );
+			if ( is_array( $map ) )
+				foreach( $map as $name )
+					$this->item( $form, $fields[$name], $index );
+			else
+				foreach( $fields as $field )
+					$this->item( $form, $field, $index );
 		}
 			
 		$this->jscfg['tab_id'] = $this->tab->getHtmlId( );
 		$this->jscfg['back_id'] = $back->getHtmlId( );
 		$this->jscfg['ind'] = new \io\creat\chassis\uicmp\jsobj( $indicator->getJsVar( ) );
 		$this->jscfg['frm_id'] = $form->getHtmlId( );
+	}
+	
+	protected function item ( &$form, &$field, &$index )
+	{
+		// indexes were already processed
+		if ( in_array( $field->name, $index ) )
+			return;
+				
+		if ( ( $field->flags & field::FL_FD_MODIFY ) || !( $field->flags & field::FL_FD_HIDDEN ) )
+		{
+			$this->jscfg['f'][$field->name]['d'] = ( ( $field->opts->flags & field::FL_FO_DYNAMIC ) ? true : false );
+			
+			switch ( $field->type )
+			{
+				case field::FT_TAG:
+					$this->jscfg['f'][$field->name]['t'] = 'tag';
+							
+					new \io\creat\chassis\uicmp\frmitem(	$form,
+															'rui::' . $field->name,
+															$field->title,
+															'',
+															'',
+															\io\creat\chassis\uicmp\frmitem::FIT_SELECT,
+															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onChange' => $this->pi->jsVar( ) . '.rui.preview( );' ) : NULL ) );
+				break;
+			
+				case field::FT_ENUM:
+					$this->jscfg['f'][$field->name]['t'] = 'enum';
+					
+					$fi = new \io\creat\chassis\uicmp\frmitem(	$form,
+																'rui::' . $field->name,
+																$field->title,
+																'',
+																'',
+																\io\creat\chassis\uicmp\frmitem::FIT_SELECT,
+																( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onChange' => $this->pi->jsVar( ) . '.rui.preview( );' ) : NULL ) );
+					$fi->setOptions( $field->opts->values );
+				break;
+					
+				default:
+					$this->jscfg['f'][$field->name]['t'] = 'string';
+					new \io\creat\chassis\uicmp\frmitem(	$form,
+															'rui::' . $field->name,
+															$field->title,
+															'',
+															'',
+															\io\creat\chassis\uicmp\frmitem::FIT_TEXT,
+															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onKeyUp' => $this->pi->jsVar( ) . '.rui.preview( );' ) : NULL ) );
+				break;
+			}
+		}
 	}
 	
 	/**

@@ -45,6 +45,8 @@ class pers
 	const FL_FD_FK			= 128;	// field is a foreign key
 	const FL_FD_CONST		= 256;	// field is constant (i.e. user ID), this renders field permanently unmodifiable
 	const FL_FD_ANCHOR		= 512;	// field will be used as anchor for editing the record
+	const FL_FD_HIDDEN		= 1024;	// field is not displayed in the RUI
+	const FL_FD_PREVIEW		= 2048;	// field value change enforces preview update (in RUI)
 	
 	/**
 	 * Constants for description of the field type.

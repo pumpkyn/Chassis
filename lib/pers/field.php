@@ -12,6 +12,7 @@ namespace io\creat\chassis\pers;
 
 require_once CHASSIS_LIB . '_cdes.php';
 require_once CHASSIS_LIB . 'pers/common.php';
+require_once CHASSIS_LIB . 'tags/instance.php';
 
 /**
  * Options container for definition of multivalued field options. Applicable
@@ -26,7 +27,7 @@ class fopts extends \pers
 	 * Constructor creating empty instance with given flags.
 	 * @param type $flags flags to be passed to this options container
 	 */
-	public function __construct( $flags ) { $this->flags = $flags; }
+	public function __construct( $flags = 0 ) { $this->flags = $flags; }
 	
 	/**
 	 * Insert new option into options container.
@@ -94,6 +95,18 @@ class field extends \pers
 	public $align		= 'left';
 	
 	/**
+	 * Options for enums, lists and other multivalued fields. Optional.
+	 * @var fopts
+	 */
+	public $opts		= NULL;
+	
+	/**
+	 * Used for constant values.
+	 * @var mixed
+	 */
+	public $value		= NULL;
+	
+	/**
 	 * Constructor. Initialized instance.
 	 * @param string $name name of the field (table column)
 	 * @param int $type type of values stored in the column
@@ -114,6 +127,8 @@ class field extends \pers
 		$this->width	= $width;
 		$this->colspan	= $colspan;
 		$this->align	= $align;
+		
+		$this->opts		= new fopts( );
 	}
 }
 
@@ -167,6 +182,7 @@ class tag extends field
 		
 		$this->table	= $table;
 		$this->uid		= $uid;
+		$this->opts		= new fopts( self::FL_FO_DYNAMIC );
 	}
 	
 	/**
@@ -179,17 +195,17 @@ class tag extends field
 		{
 			if ( $this->uid < 0 )
 				$res = _db_query( "SELECT * FROM `" . _db_escape( $this->table ) . "`
-									ORDER BY `" . \_cdes::F_CTXNAME . "`" );
+									ORDER BY `" . \io\creat\chassis\tags\instance::FN_NAME . "`" );
 			else
 				$res = _db_query( "SELECT * FROM `" . _db_escape( $this->table ) . "`
-									WHERE `" . \_cdes::F_CTXUID . "` = \"" . _db_escape( $this->uid ) . "`
-									ORDER BY `" . \_cdes::F_CTXNAME . "`" );
+									WHERE `" . \io\creat\chassis\tags\instance::FN_UID . "` = \"" . _db_escape( $this->uid ) . "\"
+									ORDER BY `" . \io\creat\chassis\tags\instance::FN_NAME . "`" );
 			if ( $res && _db_rowcount( $res ) )
 				while( $row = _db_fetchrow( $res ) )
-					$this->cache[$row[\_cdes::F_CTXID]] = new \_ctx (	$row[\_cdes::F_CTXID],
-																		$row[\_cdes::F_CTXSCHEME],
-																		$row[\_cdes::F_CTXNAME],
-																		$row[\_cdes::F_CTXDESC] );
+					$this->cache[$row[\io\creat\chassis\tags\instance::FN_ID]] = new \_ctx (	$row[\io\creat\chassis\tags\instance::FN_ID],
+																								$row[\io\creat\chassis\tags\instance::FN_SCHEME],
+																								$row[\io\creat\chassis\tags\instance::FN_NAME],
+																								$row[\io\creat\chassis\tags\instance::FN_DESC] );
 		}
 		
 		return $this->cache;
