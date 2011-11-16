@@ -67,6 +67,11 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 	 */
 	protected function explicit ( )
 	{
+		$this->fields[self::FN_REMOVE] = new \io\creat\chassis\pers\field(	self::FN_REMOVE,
+																			\io\creat\chassis\pers\field::FT_ICON,
+																			\io\creat\chassis\pers\field::FL_FD_VIEW | \io\creat\chassis\pers\field::FL_FD_HIDDEN,
+																			'', '', '16px' );
+				
 		foreach ( $this->fields as $field )
 			if ( $field instanceof \io\creat\chassis\pers\field )
 			{
@@ -123,7 +128,33 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 		$this->map[] = self::FN_SCHEME;
 		$this->map[] = self::FN_NAME;
 		$this->map[] = self::FN_DESC;
+		$this->map[] = self::FN_REMOVE;
 		$this->index[] = self::FN_UID;
+	}
+	
+	/**
+	 * Overrides superclass implementation to catch remove operation.
+	 */
+	public function handle()
+	{
+		if ( $_POST['primitive'] == 'rui' )
+		{
+			switch ( $_POST['method'] )
+			{
+				// The only method served here.
+				case 'remove':
+					if ( $this->uid < 0 )
+						_db_query( "DELETE FROM `" . $this->table . "`
+									WHERE `" . self::FN_ID . "` = \"" . _db_escape ( $_POST['id'] ) . "\"" );
+					else
+						_db_query( "DELETE FROM `" . $this->table . "`
+									WHERE `" . self::FN_ID . "` = \"" . _db_escape ( $_POST['id'] ) . "\"
+										AND `" . self::FN_UID . "` = \"" . _db_escape ( $this->uid ) . "\"" );
+					return;
+				break;
+			}
+		}
+		parent::handle( );
 	}
 	
 	/**
@@ -147,8 +178,13 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 	protected function fieldq ( &$search, &$field, &$and, &$or )
 	{
 		if ( $field instanceof \io\creat\chassis\pers\field )
+		{
 			if ( ( $field->name == self::FN_UID ) && ( $this->uid < 0 ) )	// bypassing security
 				return;
+			
+			if ( $field->name == self::FN_REMOVE )
+				return;
+		}
 
 		return parent::fieldq( $search, $field, $and, $or );
 	}
@@ -164,6 +200,37 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 			return "ORDER BY `" . _db_escape( self::FN_NAME ) . "` " . _db_escape( $search['d'] );
 		else
 			return parent::orderq( $search );
+	}
+	
+	/**
+	 * Overrides superclass row item to add special handling of custom fields.
+	 * @param \io\creat\chassis\pers\field $field configuration of the field
+	 * @param array $record database fields for particular record
+	 * @param array $search reference to parsed search query
+	 */
+	protected function listri ( &$field, &$record, &$search )
+	{
+		if ( $field->name == self::FN_REMOVE )
+		{
+			/** @todo implement remove callback when needed along with add callback */
+			$rm_cb = '';
+			/** @todo implement factory method for framework messages (usable also in other interfaces of this class) */
+			$messages = $this->layout->getMsgs( );
+			
+			$code = "var data = new Array();";
+			$code .= "data['id']=" . $record[self::FN_ID];
+			$code .= ";data['jsvar']=" . $search['jsvar'] . ".rui;";
+			$code .= "data['list']=_uicmp_lookup.lookup('" . $search['jsvar'] . ".tui');";
+			$code .= ( ( $rm_cb != '' ) ? "data['cb']= {$rm_cb};" : "" );
+			$code .= "var yes = new _sd_dlg_bt ( _tags_remove, '{$messages['bpYes']}', data );";
+			$code .= "var no = new _sd_dlg_bt ( null, '{$messages['bpNo']}', null );";
+			$code .= "_wdg_dlg_yn.show( '{$messages['bpWarning']}', ";
+			$code .= "'" . sprintf( $this->messages['Q'], \Wa::JsStringEscape( $record[self::FN_NAME], ENT_QUOTES ) ) . "', yes, no );";
+			
+			return new \_list_cell(	\_list_cell::Code(	$code, $this->messages['remove'] ), \_list_cell::MAN_ICONREMOVE );
+		}
+		else	
+			return parent::listri( $field, $record, $search );
 	}
 }
 

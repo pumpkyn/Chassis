@@ -474,6 +474,9 @@ class instance extends \pers
 
 		foreach ( $this->fields as $field )
 		{
+			if ( $field->flags & field::FL_FD_HIDDEN )
+				continue;
+			
 			if ( is_array( $record ) )
 				$writer->push( 'f', array( 'n' => $field->name, 'v' => $record[$field->name] ) );
 			else

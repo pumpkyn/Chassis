@@ -23,6 +23,11 @@ interface tags
 	const FN_SCHEME	= 'scheme';
 	const FN_NAME	= 'name';
 	const FN_DESC	= 'desc';
+	
+	/**
+	 * Name of pseudofield for remove icon.
+	 */
+	const FN_REMOVE	= '__rem__';
 
 }
 

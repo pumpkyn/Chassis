@@ -64,6 +64,23 @@ function _tags_rui( pi )
 		
 		txt.focus( );
 	};
+	
+	// Calls Ajax server with request to remove tag with given ID.
+	_tags_rui.prototype.remove = function ( id, list )
+	{		
+		function onCreate( ) { me.pi.tcfg.ind.show( 'executing', '_uicmp_ind_gray' ); }
+		function onFailure( ) { me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
+		function onSuccess( data )
+		{
+			me.pi.tcfg.ind.fade( 'executed', '_uicmp_ind_green' );
+			me.pi.tui.refresh( );
+		}
+
+		me.pi.ajax.send(	{primitive: 'rui', method: 'remove', id: id},
+							{onCreate: onCreate, onFailure: onFailure, onSuccess: onSuccess},
+							null,
+							false );
+	};
 }
 
 _tags_instance.prototype.constructor = _tags_instance;
@@ -92,4 +109,14 @@ function _tags_instance ( id, layout, url, params, tcfg, rcfg )
 		me.rui.startup( );
 		me.cp( me );
 	};
+}
+
+// Callback for context remove icon onClick() event.
+function _tags_remove ( data )
+{
+	var instance = data['jsvar'];
+	instance.remove( data['id'], data['list'] );
+
+	if ( typeof data['cb'] !== 'undefined' )
+		data['cb']();	
 }

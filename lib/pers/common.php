@@ -53,6 +53,7 @@ class pers
 	 * Constants for description of the field type.
 	 */
 	const FT_UNKNOWN		= 0;	// field type is unknown, this renders field not being used
+	const FT_ICON			= 1;	// type of pseudofields reserved for list icons
 	const FT_INT			= 32;	// field is an integer number
 	//const FT_REAL			= 64;	// field is a real number
 	const FT_STRING			= 96;	// field is a string

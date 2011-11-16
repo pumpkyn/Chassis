@@ -135,6 +135,8 @@ $__chassis_msg['tags']['tui']['anchor']				= 'Vytvoriť novú unálepku';
 $__chassis_msg['tags']['rui']['edit']				= 'Upraviť nálepku';
 $__chassis_msg['tags']['rui']['create']				= 'Nová nálepka';
 $__chassis_msg['tags']['schemes']					= $__chassis_msg['ctx'];
+$__chassis_msg['tags']['Q']							= 'Skutočne chcete zmazať nálepku <b>%s</b>? Táto operácia je nevratná.';
+$__chassis_msg['tags']['remove']					= 'Odstrániť';
 
 /**
  * SkyDome messages.
