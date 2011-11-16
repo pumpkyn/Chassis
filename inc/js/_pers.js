@@ -8,6 +8,7 @@
  * 
  * @requires _ajax_req_ad.js
  * @requires XMLWriter-1.0.0-min.js
+ * @requires wa.js
  */
 
 /**
@@ -286,6 +287,7 @@ function _pers_rui ( pi )
 	
 	this.reset = function ( )
 	{
+		this.index = '';
 		var field;
 		for ( field in me.pi.rcfg.f )
 		{
@@ -441,11 +443,38 @@ function _pers_rui ( pi )
 							false );
 	};
 	
+	// Performs check on values of all fields, which have constraints.
+	this.check = function ( )
+	{
+		var field;
+		for ( field in me.pi.rcfg.f )
+		{
+			var el = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + field );
+			switch ( me.pi.rcfg.f[field].t )
+			{
+				case 'string':
+					if ( ( me.pi.rcfg.f[field].e === false ) && ( el && ( el.value.trim() == '' ) ) )
+					{
+						this.pi.rcfg.ind.show( 'e_invalid', '_uicmp_ind_red' );
+						el.focus( );
+						return false;
+					}
+				break;
+			}
+		}
+		return true;
+	};
+	
+	// Event handler for clicking on Save button. Verifies data, collect and
+	// send them to the Ajax server.
 	this.save = function ( )
 	{
+		if ( !this.check( ) )
+			return;
+		
 		//alert(me.message());
-		function onCreate( ) {me.pi.rcfg.ind.show( 'saving', '_uicmp_ind_gray' );};
-		function onFailure( ) {me.pi.rcfg.ind.show( 'e_unknown', '_uicmp_ind_red' );};
+		function onCreate( ) { me.pi.rcfg.ind.show( 'saving', '_uicmp_ind_gray' ); }
+		function onFailure( ) { me.pi.rcfg.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
 		function onSuccess( data )
 		{
 			//alert(data.responseText);
@@ -454,7 +483,7 @@ function _pers_rui ( pi )
 			
 			me.pi.rcfg.ind.fade( 'saved', '_uicmp_ind_green' );
 			me.pi.layout.back( );
-		};
+		}
 		
 		var data = me.message( );
 
@@ -535,6 +564,9 @@ function _pers_instance ( id, layout, url, params, tcfg, rcfg )
 	 * .ind ....... reference to indicator instance
 	 * .idx ....... indexes (names are keys)
 	 * .f ......... fields configuration
+	 *              .d ... specifies if field is dynamic
+	 *              .e ... specifies if field can have empty values (e.g. zero-length strings)
+	 *              .t ... type ('string','tag','enum')
 	 * .loc ....... localization messages
 	 *              .edit ..... for editing a record
 	 *              .create ... for creating a record

@@ -119,6 +119,7 @@ $__chassis_msg['pers']['rui']['ind']['opening']		= 'Opening...';
 $__chassis_msg['pers']['rui']['ind']['opened']		= 'Opened';
 $__chassis_msg['pers']['rui']['ind']['e_unknown']	= $__chassis_msg['srch']['e_unknown'];
 $__chassis_msg['pers']['rui']['ind']['e_nan']		= 'Error: field %s is not a number!';
+$__chassis_msg['pers']['rui']['ind']['e_invalid']	= 'Error: invalid value in focused field!';
 
 /**
  * Tags persistence

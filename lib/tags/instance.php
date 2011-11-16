@@ -77,6 +77,7 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 						$field->flags &= ~\io\creat\chassis\pers\field::FL_FD_SEARCH;
 						$field->flags |= \io\creat\chassis\pers\field::FL_FD_PREVIEW;
 						$field->title = $this->messages['name'];
+						$field->opts->flags |= \io\creat\chassis\pers\field::FL_FO_NE;
 					break;
 					
 					case self::FN_DESC:

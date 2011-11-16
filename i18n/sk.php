@@ -119,6 +119,7 @@ $__chassis_msg['pers']['rui']['ind']['opening']		= 'Otváram...';
 $__chassis_msg['pers']['rui']['ind']['opened']		= 'Otvorené';
 $__chassis_msg['pers']['rui']['ind']['e_unknown']	= $__chassis_msg['srch']['e_unknown'];
 $__chassis_msg['pers']['rui']['ind']['e_nan']		= 'Chyba: hodnota v poli %s nie je číslo!';
+$__chassis_msg['pers']['rui']['ind']['e_invalid']	= 'Chyba: nepovolená hodnota v zvýraznenom poli!';
 
 /**
  * Tags persistence

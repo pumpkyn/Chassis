@@ -116,6 +116,7 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 		if ( ( $field->flags & field::FL_FD_MODIFY ) || !( $field->flags & field::FL_FD_HIDDEN ) )
 		{
 			$this->jscfg['f'][$field->name]['d'] = ( ( $field->opts->flags & field::FL_FO_DYNAMIC ) ? true : false );
+			$this->jscfg['f'][$field->name]['e'] = ( ( $field->opts->flags & field::FL_FO_NE ) ? false : true );
 			
 			switch ( $field->type )
 			{

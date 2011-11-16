@@ -93,6 +93,3 @@ function _tags_instance ( id, layout, url, params, tcfg, rcfg )
 		me.cp( me );
 	};
 }
-
-
-

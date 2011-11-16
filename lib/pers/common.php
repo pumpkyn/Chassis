@@ -31,6 +31,7 @@ class pers
 	const FL_FO_DYNAMIC		= 1;	// options are subject to change (Ajax refresh must be implemented in client side logic)
 	const FL_FO_BINARY		= 2;	// restrictor has only 2 values (it implies checkbox to be used)
 	const FL_FO_MULTIVAL	= 4;	// restrictor has more than 2 values (it implies select box to be used)
+	const FL_FO_NE			= 8;	// field must have value (for string it means non-empty string)
 	
 	/**
 	 * Field definition flags.
