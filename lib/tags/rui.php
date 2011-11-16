@@ -29,10 +29,6 @@ class rui extends \io\creat\chassis\pers\rui
 	{
 		parent::__construct( $pi, $parent );
 		$cust_msg = $this->pi->msg( );
-		
-		/** @todo move to superclass */
-		$this->jscfg['loc']['edit'] = $cust_msg['rui']['edit'];
-		$this->jscfg['loc']['create'] = $cust_msg['rui']['create'];
 	}
 	
 	/**

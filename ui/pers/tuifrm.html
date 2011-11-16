@@ -39,7 +39,7 @@
 		</table>
 	</div>
 	{if array_key_exists('as',$USR_PERS_TUICFG)}
-	<div id="{$USR_UICMP_CMP->getHtmlId()}::sink" class="_uicmp_srch_frm{if $USR_PERS_TUICFG.as.show==false} _uicmp_data{/if}">
+	<div id="{$USR_UICMP_CMP->getHtmlId()}::sink" class="_uicmp_srch_frm{if $USR_PERS_TUICFG.as==false||$USR_PERS_TUICFG.as.show==false} _uicmp_data{/if}">
 		<table cellspacing="0" cellpadding="0" class="_uicmp_search">
 			<tr>
 				{if array_key_exists('f',$USR_PERS_TUICFG)}

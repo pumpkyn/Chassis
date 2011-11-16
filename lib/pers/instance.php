@@ -214,7 +214,8 @@ class instance extends \pers
 		$init = 'var ' . $var . " = new {$this->jsClass}( '{$this->table}', {$this->layout->getJsVar( )}, '{$this->url}', " . \io\creat\chassis\uicmp\vcmp::toJsArray( $this->params ) . ", {$tcfg}, {$rcfg} );";
 		
 		$this->tui->generateReqs( );
-		$this->rui->generateReqs( );
+		if ( $this->rui instanceof rui )
+			$this->rui->generateReqs( );
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( $requirer->getRelative() . 'css/_uicmp.css', __CLASS__ ) );
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative() . 'js/_pers.js', __CLASS__ ) );
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative() . '3rd/XMLWriter-1.0.0-min.js', __CLASS__ ) );
@@ -708,7 +709,7 @@ class instance extends \pers
 	 */
 	public function tableUi ( )
 	{
-		if ( ( $this->flags | self::FL_PI_TUI ) && is_null( $this->tui ) )
+		if ( ( $this->flags & self::FL_PI_TUI ) && is_null( $this->tui ) )
 			$this->buildTui( );
 		
 		return $this->tui;
@@ -722,7 +723,7 @@ class instance extends \pers
 	 */ 
 	public function recordUi ( )
 	{
-		if ( ( $this->flags | self::FL_PI_RUI ) && is_null( $this->rui ) )
+		if ( ( $this->flags & self::FL_PI_RUI ) && is_null( $this->rui ) )
 			$this->buildRui( );
 		
 		return $this->rui;

@@ -57,7 +57,10 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 		$fw_msg		= $this->parent->getMsgs( );
 		$cust_msg	= $this->pi->msg( );
 		$fields		= $this->pi->def( );
-
+		
+		$this->jscfg['loc']['edit'] = $cust_msg['rui']['edit'];
+		$this->jscfg['loc']['create'] = $cust_msg['rui']['create'];
+		
 		$this->tab = new \io\creat\chassis\uicmp\tab( $this->parent, $this->pi->id( ) . '.Rui' );
 			$headline = new \io\creat\chassis\uicmp\headline( $this->tab->getHead( ), $this->pi->id( ) . '.RuiHl', $cust_msg['rui']['edit'] );
 			$buttons = new \io\creat\chassis\uicmp\buttons( $this->tab->getHead( ), $this->pi->id( ) . '.Buttons' );
@@ -129,7 +132,7 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 															'',
 															'',
 															\io\creat\chassis\uicmp\frmitem::FIT_SELECT,
-															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onChange' => $this->pi->jsVar( ) . '.rui.preview( );' ) : NULL ) );
+															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onChange' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
 				break;
 			
 				case field::FT_ENUM:
@@ -141,7 +144,7 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 																'',
 																'',
 																\io\creat\chassis\uicmp\frmitem::FIT_SELECT,
-																( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onChange' => $this->pi->jsVar( ) . '.rui.preview( );' ) : NULL ) );
+																( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onChange' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
 					$fi->setOptions( $field->opts->values );
 				break;
 					
@@ -153,7 +156,7 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 															'',
 															'',
 															\io\creat\chassis\uicmp\frmitem::FIT_TEXT,
-															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onKeyUp' => $this->pi->jsVar( ) . '.rui.preview( );' ) : NULL ) );
+															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onKeyUp' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
 				break;
 			}
 		}

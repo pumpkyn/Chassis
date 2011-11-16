@@ -281,6 +281,33 @@ function _pers_rui ( pi )
 			disableSelection( document.getElementById( me.pi.rcfg.back_id ) );
 	};
 	
+	// Updates form caption with value of the form field given by parameter.
+	this.preview = function ( name )
+	{
+		var txt	= document.getElementById( me.pi.rcfg.frm_id + '.rui::' + name );
+		
+		/**
+		 * Extract proper caption string from embedded data.
+		 */
+		var cap = '';
+		if ( me.index != '' )
+			cap = me.pi.rcfg.loc.edit;
+		else
+			cap = me.pi.rcfg.loc.create;
+
+		/**
+		 * Set proper title of the tab.
+		 */
+		if ( txt )
+		{
+			document.getElementById( me.pi.rcfg.frmhl_id ).innerHTML = cap + ' <i>' + txt.value + '</i>';
+
+			txt.focus( );
+		}
+		else
+			document.getElementById( me.pi.rcfg.frmhl_id ).innerHTML = cap;
+	};
+	
 	//Interface to update scope with proper value. This should be used from
 	// subclass to set proper private member for whole inheritance hierarchy.
 	this.cp = function ( alter ) { me = alter; };
@@ -498,14 +525,18 @@ function _pers_rui ( pi )
 		me.reset( );
 		me.pi.layout.show( me.pi.rcfg.tab_id );
 		me.load( index );
-		me.preview( );
+		var field;
+		for ( field in me.pi.rcfg.f )
+			me.preview( field );
 	};
 	
 	this.create = function ( )
 	{
 		me.reset( );
 		me.pi.layout.show( me.pi.rcfg.tab_id );
-		me.preview( );
+		var field;
+		for ( field in me.pi.rcfg.f )
+			me.preview( field );
 	};
 }
 
