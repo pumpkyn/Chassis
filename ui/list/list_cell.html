@@ -28,19 +28,16 @@
 		<input type="checkbox" id="{$cell->data.html_id}">
 	</td>
 {elseif $cell->manager=='manDeco'}
-	{*if $manStuffItemNoTd!=1*}<td style="white-space:normal;" class="{$allItemClass} {$cell->data.class}" align="left">{*/if*}
-		<div onMouseOver="this.className='_list_deco_on {$cell->data.class_div}';" onMouseOut="this.className='_list_deco {$cell->data.class_div}';" {if $cell->data.do}onClick="{$cell->data.do}"{/if} class="_list_deco {$cell->data.class_div}">
-		{*if $cell->data.prj===true}<div class="stuffPrjIcon"></div>{/if*}
+	<td style="white-space:normal;" class="{$allItemClass} {$cell->data.class}" align="left">{*/if*}
+		<div onMouseOver="this.className='{if $cell->data.do}_list_deco_on{/if} {$cell->data.class_div}';" onMouseOut="this.className='{if $cell->data.do}_list_deco{/if} {$cell->data.class_div}';" {if $cell->data.do}onClick="{$cell->data.do}"{/if} class="{if $cell->data.do}_list_deco{/if} {$cell->data.class_div}">
 			{if $cell->data.ctxs}
 				{foreach from=$cell->data.ctxs item=USR_CTX}
-					{*assign var='USR_CTX' value=$context*}
 					{include file="$CHASSIS_UI_ROOT/ctx.html"}
 				{/foreach}
 			{/if}
 			<span class="_list_deco_title">{$cell->data.title} </span>
 			<span class="_list_deco_text">{if $cell->data.text&&$cell->data.title} - {/if}{$cell->data.text}</span>
 		</div>
-	{*if $manStuffItemNoTd!=1*}</td>{*/if*}
 {else}
 	{if $USR_LIST_CUST_MGR}{include file=$USR_LIST_CUST_MGR}{/if}
 {/if}

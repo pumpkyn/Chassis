@@ -232,7 +232,6 @@ div._list_deco_on span._list_deco_text,div._list_deco_on span._list_deco_title
 {
 	text-decoration:				underline;
 }
-
 /* Spacing between deco list item context badges */
 div._list_deco div._ctx_scheme,div._list_deco_on div._ctx_scheme
 {
@@ -252,8 +251,13 @@ span._list_deco_title
 {
 	padding:						0px;
 	margin:							0px;
-	color:							#003387;
+	margin-left:					2px;
 	white-space:					normal;
+}
+div._list_deco span._list_deco_title,div._list_deco_on span._list_deco_title
+{
+	color:							#003387;
+	margin-left:					0px;
 }
 
 td._list_pi
