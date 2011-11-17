@@ -33,6 +33,10 @@ function _pers_tui ( pi )
 	 */
 	this.effect = null;
 	
+	// Keeps track of last Ajax call from getr(). Used for not to calling Ajax
+	// server too often.
+	this.lastgr = Math.round( +new Date( ) / 1000 );
+	
 	/**
 	 * Called from Persistence instance startup( ) routine.
 	 */
@@ -72,6 +76,8 @@ function _pers_tui ( pi )
 		this.search( );
 	};
 	
+	// Calls Ajax server with request for new list according to search query
+	// parameters.
 	this.refresh = function ( )
 	{
 		this.focus( );
@@ -79,8 +85,13 @@ function _pers_tui ( pi )
 		
 		function onCreate( ) { me.effect_show( ); me.pi.tcfg.ind.show( 'loading', '_uicmp_ind_gray' ); }
 		function onFailure( ) { me.effect_hide( ); me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
-		function onComplete( ) { me.effect_hide( ); }
-		function onSuccess( data ) { me.effect_hide( ); me.pi.tcfg.ind.fade( 'loaded', '_uicmp_ind_green' ); }
+		function onComplete( ) { /*me.effect_hide( );*/ }
+		function onSuccess( )
+		{
+			me.effect_hide( );
+			me.pi.tcfg.ind.fade( 'loaded', '_uicmp_ind_green' );
+			me.getr( );
+		}
 
 		var data = {primitive: 'tui', method: 'refresh'};
 		data['k'] = document.getElementById( this.pi.tcfg.frm_id + '::keywords' ).value;
@@ -98,7 +109,7 @@ function _pers_tui ( pi )
 					data['f'] = f[f.selectedIndex].value;
 			}
 			
-			// extract values for restrictors
+			// extract values for restrictors part of the search query
 			if ( this.pi.tcfg.r )
 			{
 				for ( var id in this.pi.tcfg.r )
@@ -112,7 +123,68 @@ function _pers_tui ( pi )
 
 		me.pi.ajax.update(	data,
 							{onCreate: onCreate, onFailure: onFailure, onComplete: onComplete, onSuccess: onSuccess},
-							me.pi.tcfg.cnt_id );
+							me.pi.tcfg.cnt_id,
+							null,
+							true );
+	};
+	// Updates dynamic restrictor fields with new values.
+	this.getr = function ( )
+	{
+		// At least 30 seconds must pass between two consecutive calls to Ajax
+		// server.
+		var now = Math.round( +new Date( ) / 1000 );
+		if ( me.lastgr + 30 > now )
+			return;
+		else
+			me.lastgr = now;
+		
+		function onSuccess( data )
+		{
+			var parser	= new DOMImplementation( );
+			var domDoc	= parser.loadXML( data.responseText );
+			var tui		= domDoc.getDocumentElement( );
+			var rs		= tui.getElementsByTagName( 'r' );
+			
+			for( var i = 0; i < rs.length; ++i )
+			{
+				var r = rs.item( i );
+				var restrictor = me.pi.tcfg.r[r.getAttribute( 'n' )];
+				var el = document.getElementById( me.pi.tcfg.frm_id + '::restrictor::' + r.getAttribute( 'n' ) );
+				
+				if ( restrictor )
+				{
+					var j = 0;
+					var val = el[el.selectedIndex].value;
+					
+					for ( j  = el.length - 1; j >= 0; --j )
+						el.remove( j );
+							
+					var o = r.getElementsByTagName( 'o' );
+					for ( j = 0; j < o.length; ++j )
+					{
+						var opt = document.createElement( 'option' );
+						opt.value = o.item( j ).getAttribute( 'v' );
+						opt.text = o.item( j ).getFirstChild( ).getNodeValue( );
+						try
+						{
+							el.add( opt, null );
+						}
+						catch ( ex )
+						{
+							el.add( opt );	// MSIE
+						}
+								
+						if ( opt.value == val )
+							el.selectedIndex = j;
+					}
+				}
+			}
+		}
+		
+		me.pi.ajax.send(	{primitive: 'tui', method: 'getr'},
+							{onSuccess: onSuccess},
+							null,
+							false );
 	};
 	
 	this.focus = function ( )
@@ -132,13 +204,10 @@ function _pers_tui ( pi )
 		}
 	};
 	
-	/**
-	 * Renders semitransparent cover effect over the search container during the
-	 * execution of refresh() method.
-	 */
+	// Renders semitransparent cover effect over the search container during the
+	// execution of refresh() method.
 	this.effect_show = function ( )
 	{
-				//alert('a');
 		if ( !me.effect )
 			me.effect = document.getElementById( me.pi.tcfg.cnt_id + '.effect' );
 		
@@ -156,15 +225,13 @@ function _pers_tui ( pi )
 		}
 	};
 	
-	/**
-	 * Hides cover effect.
-	 */
+	// Hides the cover effect.
 	this.effect_hide = function ( )
 	{
 		if ( !me.effect )
 			me.effect = document.getElementById( me.pi.tcfg.cnt_id + '.effect' );
 		
-		if ( this.effect )	
+		if ( me.effect )	
 		{
 			me.effect.style.visibility = 'hidden';
 			me.effect.style.display = 'none';

@@ -227,8 +227,8 @@ class instance extends \pers
 	
 	/**
 	 * Provides associative array of options (value->display pairs) for
-	 * a restrictor field. This implementation provides empty list (false).
-	 * Overrride in the subclass.
+	 * a dynamic restrictor field. This implementation provides empty list
+	 * (false). Overrride in the subclass.
 	 * @param string $restrictor name (identifier) of the field
 	 * @return mixed
 	 */
@@ -558,7 +558,6 @@ class instance extends \pers
 		 * @todo validate result of the operation and return appropriate result
 		 */
 		_db_query( "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', $vals ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs ) . "" );
-		echo( "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', $vals ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs ) . "" );
 	}
 	
 	/**
@@ -591,13 +590,33 @@ class instance extends \pers
 					if ( $_POST['primitive'] == 'rui' )
 						echo ( $this->save( ) ? 'OK' : 'KO' );
 				break;
+				
+				// to obtain restrictors values, it requires subclass to
+				// implement the restrictions() method
+				case 'getr':
+					$writer = new \SimonsXmlWriter( '\t' );
+					$writer->push( 'tui' );
+					foreach( $this->fields as $field )
+					{
+						if ( $field->opts->flags & field::FL_FO_DYNAMIC )
+						{
+							$writer->push( 'r', array( 'n' => $field->name ) );
+								if ( is_array( $options = $this->restrictions( $field->name ) ) )
+									foreach( $options as $key => $value )
+										$writer->element( 'o', $name, array( 'v' => $value ) );
+							$writer->pop( );
+						}
+					}
+					$writer->pop( );
+					echo $writer->getXml( );
+				break;
 			
 				// perform search by conditions passed from table UI
 				case 'refresh':
 					$params = $this->searchp( );
 					$qstub = $this->searchq( $params );
 					$query = "SELECT COUNT(*) " . $qstub;
-					
+					echo $query;
 					$count = _db_1field( $query );
 
 					if ( $count !== false )
@@ -632,7 +651,7 @@ class instance extends \pers
 						// compose search SQL
 						$order = $this->orderq( $params );
 						$query = "SELECT * " . $qstub . " {$order} LIMIT {$first},{$llen}";
-
+						
 						$res = _db_query( $query );
 
 						if ( $res && _db_rowcount( $res ) )

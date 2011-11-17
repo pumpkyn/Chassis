@@ -66,6 +66,7 @@ class settproxy
 		$this->gsett	= $gsett;
 		$this->llenkey	= $llenkey;
 		$this->lsett	= $lsett;
+		$this->phkey	= $phkey;
 	}
 	
 	/**
