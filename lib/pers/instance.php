@@ -274,7 +274,7 @@ class instance extends \pers
 			{
 				$and[] = "`{$field->name}` = \"" . _db_escape( $field->value ) . "\"";
 			}
-			elseif ( $field->flags & field::FL_FD_RESTRICT )
+			elseif ( ( $search['as'] ) && ( $field->flags & field::FL_FD_RESTRICT ) )
 			{
 				if ( array_key_exists( 'r_' . $field->name, $_POST ) )
 				{
@@ -391,7 +391,7 @@ class instance extends \pers
 			{
 				
 				switch ( $field->type )
-				{
+				{			
 					case field::FT_TAG:
 						if ( $field instanceof tag )
 						{
@@ -602,7 +602,7 @@ class instance extends \pers
 						{
 							$writer->push( 'r', array( 'n' => $field->name ) );
 								if ( is_array( $options = $this->restrictions( $field->name ) ) )
-									foreach( $options as $key => $value )
+									foreach( $options as $value => $name )
 										$writer->element( 'o', $name, array( 'v' => $value ) );
 							$writer->pop( );
 						}
@@ -616,7 +616,7 @@ class instance extends \pers
 					$params = $this->searchp( );
 					$qstub = $this->searchq( $params );
 					$query = "SELECT COUNT(*) " . $qstub;
-					echo $query;
+					
 					$count = _db_1field( $query );
 
 					if ( $count !== false )

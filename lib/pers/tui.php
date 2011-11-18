@@ -103,7 +103,10 @@ class tui extends \io\creat\chassis\uicmp\vcmp
 						$restr['prompt'] = $field->title;
 						$restr['dyn'] = ( $field->flags & \pers::FL_FO_DYNAMIC ) > 0;
 						$restr['type'] = 'multi';			/** @todo implement also binary */
-						$restr['selected'] = ( $saved === false ) ? '[norestr]' : $saved['r'][$field->name];
+						if ( ( $saved === false ) || !array_key_exists( $field->name, $saved['r'] ) )
+							$restr['selected'] =  '[norestr]';
+						else
+							$restr['selected'] =  $saved['r'][$field->name];
 						
 						$ops = $this->pi->restrictions( $field->name );
 						if ( is_array( $ops ) )
