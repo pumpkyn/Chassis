@@ -6,8 +6,8 @@
 {elseif $cell->manager=='manJavascript'}
 	<td class="{$allItemClass} {$cell->data.class}" nowrap="nowrap" align="left"><div onClick="{$cell->data.code}" class="iFwListAction">{$cell->data.text}</div></td>
 {elseif $cell->manager=='manDateTime'}
-	<td class="{$allItemClass} _list_row_itemDate {if $smarty.foreach.cells.first} _list_col_first{/if} {$cell->data.class}" width="50%" nowrap="nowrap" align="right">{$cell->data.date}</td>
-	<td class="{$allItemClass}{if $smarty.foreach.cells.last} _list_col_last{/if} {$cell->data.class}" width="50%" nowrap="nowrap" align="left">{$cell->data.time}</td>
+	<td class="{$allItemClass} _list_row_item_date {if $smarty.foreach.cells.first} _list_col_first{/if} {$cell->data.class}" width="1%" nowrap="nowrap" align="left">{$cell->data.date}</td>
+	<td class="{$allItemClass}{if $smarty.foreach.cells.last} _list_col_last{/if} {$cell->data.class}" width="1%" nowrap="nowrap" align="left">{$cell->data.time}</td>
 {elseif $cell->manager=='manDateOrTime'}
 	<td class="{$allItemClass} {$cell->data.class}" cwidth="1%" nowrap="nowrap" align="left">{$cell->data.text}</td>
 {elseif $cell->manager=='manIconRemove'}
@@ -29,7 +29,7 @@
 	</td>
 {elseif $cell->manager=='manDeco'}
 	<td style="white-space:normal;" class="{$allItemClass} {$cell->data.class}" align="left">{*/if*}
-		<div onMouseOver="this.className='{if $cell->data.do}_list_deco_on{/if} {$cell->data.class_div}';" onMouseOut="this.className='{if $cell->data.do}_list_deco{/if} {$cell->data.class_div}';" {if $cell->data.do}onClick="{$cell->data.do}"{/if} class="{if $cell->data.do}_list_deco{/if} {$cell->data.class_div}">
+		<div onMouseOver="this.className='_list_deco{if $cell->data.do}_on{/if} {$cell->data.class_div}';" onMouseOut="this.className='_list_deco{if $cell->data.do}_off{/if} {$cell->data.class_div}';" {if $cell->data.do}onClick="{$cell->data.do}"{/if} class="_list_deco{if $cell->data.do}_off{/if} {$cell->data.class_div}">
 			{if $cell->data.ctxs}
 				{foreach from=$cell->data.ctxs item=USR_CTX}
 					{include file="$CHASSIS_UI_ROOT/ctx.html"}

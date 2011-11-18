@@ -21,7 +21,7 @@ td._list_row_item
 }
 td._list_row_item_date
 {
-	padding-right:				8px;
+	padding-right:				0px;
 }
 
 /* Style of items of last list row */
@@ -221,10 +221,14 @@ td._list_form td._uicmp_buttons
 }
 
 /* deco list item */
-div._list_deco,div._list_deco_on
+div._list_deco,div._list_deco_on,div._list_deco_off
 {
 	overflow:						hidden;
 	height:							15px;
+}
+
+div._list_deco_on,div._list_deco_off
+{
 	cursor:							pointer;
 }
 
@@ -233,7 +237,7 @@ div._list_deco_on span._list_deco_text,div._list_deco_on span._list_deco_title
 	text-decoration:				underline;
 }
 /* Spacing between deco list item context badges */
-div._list_deco div._ctx_scheme,div._list_deco_on div._ctx_scheme
+div._list_deco div._ctx_scheme,div._list_deco_on div._ctx_scheme,div._list_deco_off div._ctx_scheme
 {
 	margin-right:					2px;
 }
@@ -251,10 +255,10 @@ span._list_deco_title
 {
 	padding:						0px;
 	margin:							0px;
-	margin-left:					2px;
+	/*margin-left:					2px;*/
 	white-space:					normal;
 }
-div._list_deco span._list_deco_title,div._list_deco_on span._list_deco_title
+div._list_deco_off span._list_deco_title,div._list_deco_on span._list_deco_title
 {
 	color:							#003387;
 	margin-left:					0px;

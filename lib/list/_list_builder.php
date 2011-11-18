@@ -60,6 +60,7 @@ class _list_builder extends _list_descriptor
 		parent::__construct( $i18n_loader );
 		$this->rows = null;
 		$this->client_var = $client_id;
+		$this->registerJumper( _list_cell::MAN_DATETIME );
 	}
 
 	/**
