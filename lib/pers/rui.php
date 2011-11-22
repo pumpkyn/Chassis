@@ -51,9 +51,17 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 	 */
 	public function __construct( $pi, $parent )
 	{
-		
 		parent::__construct( $parent );
 		$this->pi	= $pi;
+		$this->build( );
+	}
+	
+	/**
+	 * Builder method creating the UICMP for the RUI. Can be overridden in the
+	 * subclass to provide different behaviour or UI.
+	 */
+	protected function build ( )
+	{
 		$fw_msg		= $this->parent->getMsgs( );
 		$cust_msg	= $this->pi->msg( );
 		$fields		= $this->pi->def( );
@@ -110,6 +118,14 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 		$this->jscfg['frm_id'] = $form->getHtmlId( );
 	}
 	
+	/**
+	 * Creates UI component and populates configuration structures for single
+	 * item.
+	 * @param \io\creat\chassis\uicmp\simplefrm $form reference to the form instance
+	 * @param \io\creat\chassis\pers\field $field reference to the table field configuration
+	 * @param array $index array of index fields
+	 * @return \io\creat\chassis\uicmp\frmitem 
+	 */
 	protected function item ( &$form, &$field, &$index )
 	{
 		// indexes were already processed
@@ -177,7 +193,7 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 	/**
 	 * Generate client side requirements for whole subtree of UICMP components.
 	 */
-	public function generateReqs ( ) { $this->tab->generateReqs( ); }
+	public function generateReqs ( ) { if ( !is_null( $this->tab ) ) $this->tab->generateReqs( ); }
 }
 
 ?>

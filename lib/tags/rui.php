@@ -11,7 +11,6 @@
 namespace io\creat\chassis\tags;
 
 require_once CHASSIS_LIB . 'pers/rui.php';
-
 require_once CHASSIS_LIB . 'tags/preview.php';
 
 /**
@@ -25,11 +24,7 @@ class rui extends \io\creat\chassis\pers\rui
 	 * @param \io\creat\chassis\pers\instance $pi parent Persistence instance
 	 * @param \io\creat\chassis\uicmp\layout $parent parent UICMP component (layout)
 	 */
-	public function __construct( $pi, $parent )
-	{
-		parent::__construct( $pi, $parent );
-		$cust_msg = $this->pi->msg( );
-	}
+	public function __construct( $pi, $parent ) { parent::__construct( $pi, $parent ); }
 	
 	/**
 	 * Overriding superclass to plant preview field into the edit form.
@@ -40,7 +35,7 @@ class rui extends \io\creat\chassis\pers\rui
 	 */
 	protected function item ( &$form, &$field, &$index )
 	{
-		// we need to create preview badge instead of 
+		// we need to create preview badge instead of simple form item
 		if ( $field->name == \tags::FN_ID )
 		{
 			$cust_msg = $this->pi->msg( );
