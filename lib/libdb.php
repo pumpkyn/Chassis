@@ -5,9 +5,7 @@
  * @author giorno
  * @package Chassis
  * @license Apache License, Version 2.0, see LICENSE file
- */
-
-/**
+ * 
  * API for access to the MySQL database. Backend may change, and this library should
  * be changed respectively.
  */
@@ -68,26 +66,23 @@ function _db_query ( $query )
  * Fetch one row from query results (first one). This facilitates
  * 'fetch array' method of backend. Pointer in result resource is moved
  * forward.
- *
- * @param result resource from _db_query()
+ * @param resource $result resource from _db_query()
+ * @param int $type type of result, MYSQL_ASSOC, MYSQL_NUM, or MYSQL_BOTH
  * @return array of row values
  */
-function _db_fetchrow ( $result )
-{
-	return mysql_fetch_array( $result, MYSQL_BOTH );
-}
+function _db_fetchrow ( $result, $type = MYSQL_BOTH ) { return mysql_fetch_array( $result, $type ); }
 
 /**
  * Perform query and return array of first row from results or false on failure.
- *
- * @param query SQL query
+ * @param string $query SQL query
+ * @param int $type type of result, MYSQL_ASSOC, MYSQL_NUM, or MYSQL_BOTH
  * @return row array or false
  */
-function _db_1line ( $query )
+function _db_1line ( $query, $type = MYSQL_BOTH )
 {
 	$res = _db_query( $query );
 	if ( $res && _db_rowcount( $res ) )
-		return _db_fetchrow( $res );
+		return _db_fetchrow( $res, $type );
 	else
 		return false;
 }
@@ -100,7 +95,7 @@ function _db_1line ( $query )
  */
 function _db_1field ( $query )
 {
-	if ( ( $line = _db_1line( $query ) ) && ( count( $line ) > 0 ) )
+	if ( ( $line = _db_1line( $query, MYSQL_NUM ) ) && ( count( $line ) > 0 ) )
 		return $line[0];
 	else
 		return false;
