@@ -459,7 +459,7 @@ div._uicmp_gi_back,div._uicmp_gi_add,div._uicmp_gi_copy,div._uicmp_dlg_close,div
 	background-position:	center left;
 	padding-left:			20px;
 	min-height:				16px;
-	padding-top:			2px;
+	padding-top:			1px;
 }
 div._uicmp_gi_back
 {
@@ -546,6 +546,7 @@ td._uicmp_frm_field,td._uicmp_frm_field_1st,td._uicmp_frm_field_rest/*,td._uicmp
 	padding:				4px;
 	padding-left:			12px;
 	padding-right:			12px;
+	vertical-align:			middle;
 }
 td._uicmp_frm_fdesc
 {
