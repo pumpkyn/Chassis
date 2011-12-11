@@ -46,7 +46,7 @@ function _tags_rui( pi )
 				ptxt.innerHTML = txt.value;
 		}
 
-		preview.className = '_ctx_scheme _ctx_scheme_' + scheme;
+		preview.className = '_tsch _tsch_' + scheme;
 
 		/**
 		 * Extract proper caption string from embedded data.
@@ -81,6 +81,22 @@ function _tags_rui( pi )
 							null,
 							false );
 	};
+	
+	// Callback from cloud of schemes onClick event.
+	_tags_rui.prototype.sch_set = function ( picked )
+	{
+		var sch	= document.getElementById( me.pi.rcfg.frm_id + '.rui::scheme' );
+		if ( sch )
+		{
+			for ( var i = 0; i < sch.options.length; ++i )
+				if ( sch.options[i].value == picked )
+				{
+					sch.selectedIndex = i;
+					break;
+				}
+			me.preview( );
+		}
+	}
 }
 
 _tags_instance.prototype.constructor = _tags_instance;

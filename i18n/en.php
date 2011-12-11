@@ -61,14 +61,24 @@ $__chassis_msg['cdesNoCtxs']			= 'No contexts available';
  * Contexts + CDES.
  */
 $__chassis_msg['ctx']['dar']			= 'Darth Vader';		// black scheme
+$__chassis_msg['ctx']['dfw']			= 'Design Flaw';
+$__chassis_msg['ctx']['mpi']			= 'Message Passing';
+$__chassis_msg['ctx']['oyl']			= 'Out Of Your League';
 $__chassis_msg['ctx']['des']			= 'Desire';			// red scheme
-$__chassis_msg['ctx']['blu']			= 'Blue Wave';		// blue scheme
-$__chassis_msg['ctx']['wee']			= 'Surak';			// green scheme
-$__chassis_msg['ctx']['roq']			= 'Roquefort';		// magenta scheme
+$__chassis_msg['ctx']['anh']			= 'Anihilation';
+$__chassis_msg['ctx']['str']			= 'Strain';
 $__chassis_msg['ctx']['flw']			= 'Sunflower';		// orange scheme
-$__chassis_msg['ctx']['sky']			= 'Skynet';			// blue scheme
-$__chassis_msg['ctx']['cle']			= 'Vogon Poetry';		// darker gray scheme
 $__chassis_msg['ctx']['sun']			= 'Sunshine';			// yellow scheme
+$__chassis_msg['ctx']['blu']			= 'Blue Wave';		// blue scheme
+$__chassis_msg['ctx']['pro']			= 'Propagation';
+$__chassis_msg['ctx']['dst']			= 'Depth-First';
+$__chassis_msg['ctx']['zon']			= 'Neutral Zone';
+$__chassis_msg['ctx']['roq']			= 'Roquefort';		// magenta scheme
+$__chassis_msg['ctx']['sky']			= 'Skynet';			// blue scheme
+$__chassis_msg['ctx']['wee']			= 'Surak';			// green scheme
+$__chassis_msg['ctx']['sya']			= 'Mount Seleya';
+$__chassis_msg['ctx']['pgr']			= 'Positive Gradient';
+$__chassis_msg['ctx']['cle']			= 'Vogon Poetry';		// darker gray scheme
 $__chassis_msg['ctx']['sil']			= 'Argentina';		// gray scheme
 $__chassis_msg['ctx']['sio']			= 'Zion Gates';		// white scheme with edges
 
@@ -137,20 +147,6 @@ $__chassis_msg['tags']['rui']['create']				= 'Create tag';
 $__chassis_msg['tags']['schemes']					= $__chassis_msg['ctx'];
 $__chassis_msg['tags']['Q']							= 'Do you really want to remove context? <b>%s</b>? This operation cannot be undone.';
 $__chassis_msg['tags']['remove']					= 'Remove';
-
-/*
-$__chassis_msg['cdesCaption']			= $__chassis_msg['cdesCreateContext'];
-
-$__chassis_msg['cdesScheme']			= 'Color scheme';
-$__chassis_msg['cdesDisplay']			= 'Text to display';
-
-
-$__chassis_msg['cdesEmpty']			= 'You do not have any labels created.';
-$__chassis_msg['cdesNoMatch']			= 'Not match found for search request.';
-
-$__chassis_msg['cdesOShowAll']		= 'Show all labels';
-$__chassis_msg['cdesOSearch']			= 'Change keywords and search again';
-$__chassis_msg['cdesNoCtxs']			= 'No contexts available';*/
 
 /**
  * SkyDome messages.

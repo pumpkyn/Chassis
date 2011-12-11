@@ -608,7 +608,7 @@ function _uicmp_cdes_editor ( id, layout, tabId, captionId, previewId, ind, url,
 				prTextEl.innerHTML = txtEl.value;
 		}
 
-		prevEl.className = '_ctx_scheme _ctx_scheme_' + scheme;
+		prevEl.className = '_tsch _tsch_' + scheme;
 
 		/**
 		 * Extract proper caption string from embedded data.
@@ -909,9 +909,9 @@ function _uicmp_cdes_cloud ( js_var, html_id, url, params )
 
 		var el = document.getElementById( this.html_id + '.' + id );
 		if ( this.ctxs[id][1] == false )
-			el.className = '_ctx_scheme _ctx_scheme_' + this.ctxs[id][0];
+			el.className = '_tsch _tsch_' + this.ctxs[id][0];
 		else
-			el.className = '_ctx_scheme _ctx_scheme_dum';
+			el.className = '_tsch _tdum';
 
 		this.ctxs[id][1] = !this.ctxs[id][1];
 	};

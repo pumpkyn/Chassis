@@ -1,0 +1,36 @@
+{*
+ * Renderer for tag scheme selection widget in the Tags Persistence.
+ *
+ * @file scheme.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage Tags
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+
+{assign var=USR_UICMP_FICBS value=$USR_UICMP_FI->getCbs()}
+
+<tr>
+	<td class="_uicmp_frm_prompt">{$USR_UICMP_FI->getPrompt()}</td>
+	<td class="_uicmp_frm_field" width="100%">
+		{assign var=USR_UICMP_FI_OPTS value=$USR_UICMP_FI->getOptions()}
+		<select {if !is_null( $USR_UICMP_FICBS )}{foreach from=$USR_UICMP_FICBS key=event item=code}{$event}="{$code}" {/foreach}{/if} id="{$USR_UICMP_FI->getHtmlId()}">
+			{if !is_null( $USR_UICMP_FI_OPTS )}
+			{foreach from=$USR_UICMP_FI_OPTS key=value item=display}
+			<option value="{$value}">{$display}</option>
+			{/foreach}
+			{/if}
+		</select>
+	</td>
+</tr>
+<tr>
+	<td></td>
+	<td class="_uicmp_frm_field">
+		<div class="_uicmp_cdes_cloud">
+		{assign var=USR_UICMP_FI_SCHEMES value=$USR_UICMP_FI->getSchemes()}
+		{foreach from=$USR_UICMP_FI_SCHEMES key=id item=USR_CTX}
+			{include file="$CHASSIS_UI_ROOT/ctx.html"}
+		{/foreach}
+		</div>
+	</td>
+</tr>

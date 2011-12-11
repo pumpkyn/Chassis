@@ -444,6 +444,8 @@ div._uicmp_gi
 {
 	white-space:			nowrap;
 	cursor:					pointer;
+	min-height:				16px;
+	padding-top:			2px;
 }
 
 /* Button element */
@@ -459,7 +461,7 @@ div._uicmp_gi_back,div._uicmp_gi_add,div._uicmp_gi_copy,div._uicmp_dlg_close,div
 	background-position:	center left;
 	padding-left:			20px;
 	min-height:				16px;
-	padding-top:			1px;
+	padding-top:			2px;
 }
 div._uicmp_gi_back
 {
@@ -594,10 +596,11 @@ div._uicmp_cdes_cloud
 	overflow:						auto;
 }
 
-div._uicmp_cdes_cloud div._ctx_scheme
+div._uicmp_cdes_cloud div._tsch
 {
 	margin-right:					2px;
 	margin-bottom:					2px;
+	cursor:							pointer;
 }
 /* Form section header strip, has same paper effect as UICMP framework */
 td._uicmp_frm_hdr

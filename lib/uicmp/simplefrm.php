@@ -96,8 +96,9 @@ class frmitem extends uicmp implements \_uicmp
 	}
 	
 	/**
-	 * Adds new option for SELECT type item.
-	 * 
+	 * Adds new option for SELECT type item or custom option for any other type
+	 * of form item. This is also used for delivery of special properties to
+	 * UI template (e.g. textarea height).
 	 * @param string $value value for OPTION element
 	 * @param string $display text to display
 	 */
@@ -147,6 +148,12 @@ class frmitem extends uicmp implements \_uicmp
 	public function getCbs ( ) { return $this->cbs; }
 	
 	/**
+	 * Read interface for custom options (beside the SELECT box).
+	 * @return mixed
+	 */
+	public function getOption ( $key ) { return $this->options[$key]; }
+	
+	/**
 	 * Read interface for SELECT box options array.
 	 * 
 	 * @return array
@@ -156,7 +163,7 @@ class frmitem extends uicmp implements \_uicmp
 	/**
 	 * Dummy implementation to conform abstract parent.
 	 */
-	public function generateReqs () { }
+	public function generateReqs ( ) { }
 }
 
 /**
@@ -183,7 +190,7 @@ class simplefrm extends pool
 			$this->hooked = TRUE;
 		}
 		
-		$this->jsPrefix		= '_uicmp_frm_i:';
+		$this->jsPrefix		= '_uicmp_frm_i';
 		$this->renderer		= CHASSIS_UI . 'uicmp/frm.html';
 	}
 }

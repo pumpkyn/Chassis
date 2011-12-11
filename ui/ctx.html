@@ -2,10 +2,10 @@
    of _ctx class (UI subpackage). *}
 
 {if $USR_CTX}
-<div{if $USR_CTX->act!=''} onClick="{$USR_CTX->act}"{/if} id="{$USR_CTX->getHtmlId()}" class="_ctx_scheme _ctx_scheme_{$USR_CTX->rend}">
+<div{if $USR_CTX->act!=''} onClick="{$USR_CTX->act}"{/if} id="{$USR_CTX->getHtmlId()}" class="_tsch _tsch_{$USR_CTX->rend}">
 	<table cellspacing="0" cellpadding="0">
 		<tr>
-			<td class="_ctx_scheme_l">
+			<td class="_tsch_l">
 				<div>&nbsp;</div>
 				{* XHTML container for name and description data *}
 				<div style="visibility:hidden; display:none;">
@@ -15,8 +15,8 @@
 					<div id="{$USR_CTX->getHtmlId()}.desc">{$USR_CTX->desc}</div>
 				</div>
 			</td>
-			<td class="_ctx_scheme" id="{$USR_CTX->getHtmlId()}:txt">{$USR_CTX->disp}</td>
-			<td class="_ctx_scheme_l"><div>&nbsp;</div></td>
+			<td class="_tsch" id="{$USR_CTX->getHtmlId()}:txt">{$USR_CTX->disp}</td>
+			<td class="_tsch_l"><div>&nbsp;</div></td>
 		</tr>
 	</table>
 </div>

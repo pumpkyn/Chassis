@@ -1,108 +1,131 @@
-div._ctx_scheme
-{
-	cursor:							pointer;
-}
-div._ctx_scheme table
-{
-	background-color:				transparent;
-}
-div._ctx_scheme td._ctx_scheme_l,div._ctx_scheme td._ctx_scheme_r
-{
-	padding-top:					1px;
-	padding-bottom:					1px;
-}
 
-td._ctx_scheme
-{
-	padding:						0px;
-	padding-left:					2px;
-	padding-right:					2px;
-	vertical-align:					middle;
-	white-space:					nowrap;
-	font-size:						10px;
-	/* To stop inheritance here */
-	font-weight:					normal;
-	font-style:						normal;
-	text-decoration:				none;
-}
-div._ctx_scheme_dum td._ctx_scheme,div._ctx_scheme_dum td._ctx_scheme_l div,div._ctx_scheme_dum td._ctx_scheme_r div
-{
-	background-color:				#ffffff;
-	color:							#a5a5a5;
-}
-div._ctx_scheme_dum:hover td._ctx_scheme,div._ctx_scheme_dum:hover td._ctx_scheme_l div,div._ctx_scheme_dum:hover td._ctx_scheme_r div
-{
-	background-color:				#d5d5d5;
-	color:							#ffffff;
-}
-div._ctx_scheme_des td._ctx_scheme,div._ctx_scheme_des td._ctx_scheme_l div,div._ctx_scheme_des td._ctx_scheme_r div
-{
-	background-color:				#cb0000;
-	color:							#ffffff;
-}
-div._ctx_scheme_blu td._ctx_scheme,div._ctx_scheme_blu td._ctx_scheme_l div,div._ctx_scheme_blu td._ctx_scheme_r div
-{
-	background-color:				#2b6bff;
-	color:							#ffffff;
-}
-div._ctx_scheme_wee td._ctx_scheme,div._ctx_scheme_wee td._ctx_scheme_l div,div._ctx_scheme_wee td._ctx_scheme_r div
-{
-	background-color:				#54992b;
-	color:							#ffffff;
-}
-div._ctx_scheme_sil td._ctx_scheme,div._ctx_scheme_sil td._ctx_scheme_l div,div._ctx_scheme_sil td._ctx_scheme_r div
-{
-	background-color:				#eeeeec;
-	color:							#666666;
-}
-div._ctx_scheme_sun td._ctx_scheme,div._ctx_scheme_sun td._ctx_scheme_l div,div._ctx_scheme_sun td._ctx_scheme_r div
-{
-	background-color:				#fff98f;
-	color:							#d82900;
-}
-div._ctx_scheme_flw td._ctx_scheme,div._ctx_scheme_flw td._ctx_scheme_l div,div._ctx_scheme_flw td._ctx_scheme_r div
-{
-	background-color:				#fcaf3e;
-	color:							#333300;
-}
+/*
+ @file _tags.css
+ @author giorno
+ @package Chassis
+ @subpackage Tags
+ @license Apache License, Version 2.0, see LICENSE file
+ 
+ Styles for Tags Persistence instance badges.
+ */
 
-div._ctx_scheme_sky td._ctx_scheme,div._ctx_scheme_sky td._ctx_scheme_l div,div._ctx_scheme_sky td._ctx_scheme_r div
-{
-	background-color:				#729fcf;
-	color:							#ffffff;
-}
-div._ctx_scheme_dar td._ctx_scheme,div._ctx_scheme_dar td._ctx_scheme_l div,div._ctx_scheme_dar td._ctx_scheme_r div
-{
-	background-color:				#2e3436;
-	color:							#ffffff;
-}
-div._ctx_scheme_roq td._ctx_scheme,div._ctx_scheme_roq td._ctx_scheme_l div,div._ctx_scheme_roq td._ctx_scheme_r div
-{
-	background-color:				#75507b;
-	color:							#ffffff;
-}
-div._ctx_scheme_cle td._ctx_scheme,div._ctx_scheme_cle td._ctx_scheme_l div,div._ctx_scheme_cle td._ctx_scheme_r div
-{
-	background-color:				#babdb6;
-	color:							#333333;
-}
-div._ctx_scheme_sio td._ctx_scheme
-{
-	background-color:				#ffffff;
-	border-top:						1px solid #e7e7e7;
-	border-bottom:					1px solid #e7e7e7;
-	color:							#878787;
-}
-div._ctx_scheme_sio td._ctx_scheme_l div,div._ctx_scheme_sio td._ctx_scheme_r div
-{
-	background-color:				#e7e7e7;
-	color:							#333333;
-}
-td._ctx_scheme_l div,td._ctx_scheme_r div
-{
-	height:							13px;
-	width:							1px;
-	min-width:						1px;
-	max-width:						1px;
-	font-size:						1px;
-}
+
+/* Basic tag badge scheme */
+div._tsch { cursor: default; }
+div._tsch table { background-color: transparent; }
+/* Left and right edges of the badge */
+div._tsch td._tsch_l,div._tsch td._tsch_r {
+ padding-top: 1px;
+ padding-bottom: 1px; }
+td._tsch_l div,td._tsch_r div {
+ height: 13px;
+ width: 1px;
+ min-width: 1px;
+ max-width: 1px;
+ font-size: 1px; }
+td._tsch {
+ padding: 0px;
+ padding-left: 2px;
+ padding-right: 2px;
+ vertical-align: middle;
+ white-space: nowrap;
+ font-size: 10px;
+ font-weight: normal; /* To stop inheritance here */
+ font-style: normal;
+ text-decoration: none; }
+/* Dummy badge for tag cloud */
+div._tdum td._tsch,div._tdum td._tsch_l div,div._tdum td._tsch_r div {
+ background-color: #ffffff;
+ color: #a5a5a5; }
+div._tdum:hover td._tsch,div._tdum:hover td._tsch_l div,div._tdum:hover td._tsch_r div {
+ background-color: #d5d5d5;
+ color: #ffffff; }
+/* Desire */
+div._tsch_des td._tsch,div._tsch_des td._tsch_l div,div._tsch_des td._tsch_r div {
+ background-color: #cb0000;
+ color: #ffffff; }
+/* Blue wave */
+div._tsch_blu td._tsch,div._tsch_blu td._tsch_l div,div._tsch_blu td._tsch_r div {
+ background-color: #2b6bff;
+ color: #ffffff; }
+/* Surak */
+div._tsch_wee td._tsch,div._tsch_wee td._tsch_l div,div._tsch_wee td._tsch_r div {
+ background-color: #54992b;
+ color: #ffffff; }
+/* John Silver */
+div._tsch_sil td._tsch,div._tsch_sil td._tsch_l div,div._tsch_sil td._tsch_r div {
+ background-color: #eeeeec;
+ color: #666666; }
+/* Sunshine */
+div._tsch_sun td._tsch,div._tsch_sun td._tsch_l div,div._tsch_sun td._tsch_r div {
+ background-color: #fff98f;
+ color: #d82900; }
+/* Sunflower */
+div._tsch_flw td._tsch,div._tsch_flw td._tsch_l div,div._tsch_flw td._tsch_r div {
+ background-color: #fcaf3e;
+ color: #333300; }
+/* Skyline */
+div._tsch_sky td._tsch,div._tsch_sky td._tsch_l div,div._tsch_sky td._tsch_r div {
+ background-color: #729fcf;
+ color: #ffffff; }
+/* Darth Vader */
+div._tsch_dar td._tsch,div._tsch_dar td._tsch_l div,div._tsch_dar td._tsch_r div {
+ background-color: #2e3436;
+ color: #ffffff; }
+/* Roquefort */
+div._tsch_roq td._tsch,div._tsch_roq td._tsch_l div,div._tsch_roq td._tsch_r div {
+ background-color: #75507b;
+ color: #ffffff; }
+/* Vogon Poetry */
+div._tsch_cle td._tsch,div._tsch_cle td._tsch_l div,div._tsch_cle td._tsch_r div {
+ background-color: #babdb6;
+ color: #333333; }
+/* Sion */
+div._tsch_sio td._tsch {
+ background-color: #ffffff;
+ border-top: 1px solid #e7e7e7;
+ border-bottom: 1px solid #e7e7e7;
+ color: #878787; }
+div._tsch_sio td._tsch_l div,div._tsch_sio td._tsch_r div {
+ background-color: #e7e7e7;
+ color: #333333; }
+/* Neutral Zone */
+div._tsch_zon td._tsch,div._tsch_zon td._tsch_l div,div._tsch_zon td._tsch_r div {
+ background-color: #50616e;
+ color: #ffffff; }
+/* Positive Gradient */
+div._tsch_pgr td._tsch,div._tsch_pgr td._tsch_l div,div._tsch_pgr td._tsch_r div {
+ background-color: #5a9847;
+ color: #ffffff; }
+/* Design Flaw */
+div._tsch_dfw td._tsch,div._tsch_dfw td._tsch_l div,div._tsch_dfw td._tsch_r div {
+ background-color: #63453a;
+ color: #ffffff; }
+/* Depth-First */
+div._tsch_dst td._tsch,div._tsch_dst td._tsch_l div,div._tsch_dst td._tsch_r div {
+ background-color: #007eaa;
+ color: #ffffff; }
+/* Propagation */
+div._tsch_pro td._tsch,div._tsch_pro td._tsch_l div,div._tsch_pro td._tsch_r div {
+ background-color: #694dbc;
+ color: #ffffff; }
+/* Strain */
+div._tsch_str td._tsch,div._tsch_str td._tsch_l div,div._tsch_str td._tsch_r div {
+ background-color: #f64100;
+ color: #ffffff; }
+/* Out Of Your League */
+div._tsch_oyl td._tsch,div._tsch_oyl td._tsch_l div,div._tsch_oyl td._tsch_r div {
+ background-color: #a50000;
+ color: #ffffff; }
+/* Message Passing */
+div._tsch_mpi td._tsch,div._tsch_mpi td._tsch_l div,div._tsch_mpi td._tsch_r div {
+ background-color: #881442;
+ color: #ffffff; }
+/* Anihilation */
+div._tsch_anh td._tsch,div._tsch_anh td._tsch_l div,div._tsch_anh td._tsch_r div {
+ background-color: #ef1c19;
+ color: #ffffff; }
+/* Mount Seleya */
+div._tsch_sya td._tsch,div._tsch_sya td._tsch_l div,div._tsch_sya td._tsch_r div {
+ background-color: #5a9847;
+ color: #ffffff; }

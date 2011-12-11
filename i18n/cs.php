@@ -60,15 +60,25 @@ $__chassis_msg['cdesNoCtxs']			= 'Žádny obsah není dostupný';
 /**
  * Contexts + CDES.
  */
-$__chassis_msg['ctx']['dar']			= 'Darth Vader';	// black scheme
+$__chassis_msg['ctx']['dar']			= 'Darth Vader';		// black scheme
+$__chassis_msg['ctx']['dfw']			= 'Design Flaw';
+$__chassis_msg['ctx']['mpi']			= 'Message Passing';
+$__chassis_msg['ctx']['oyl']			= 'Out Of Your League';
 $__chassis_msg['ctx']['des']			= 'Desire';			// red scheme
-$__chassis_msg['ctx']['blu']			= 'Blue Wave';		// blue scheme
-$__chassis_msg['ctx']['wee']			= 'Surak';			// green scheme
-$__chassis_msg['ctx']['roq']			= 'Roquefort';		// magenta scheme
+$__chassis_msg['ctx']['anh']			= 'Anihilation';
+$__chassis_msg['ctx']['str']			= 'Strain';
 $__chassis_msg['ctx']['flw']			= 'Sunflower';		// orange scheme
+$__chassis_msg['ctx']['sun']			= 'Sunshine';			// yellow scheme
+$__chassis_msg['ctx']['blu']			= 'Blue Wave';		// blue scheme
+$__chassis_msg['ctx']['pro']			= 'Propagation';
+$__chassis_msg['ctx']['dst']			= 'Depth-First';
+$__chassis_msg['ctx']['zon']			= 'Neutral Zone';
+$__chassis_msg['ctx']['roq']			= 'Roquefort';		// magenta scheme
 $__chassis_msg['ctx']['sky']			= 'Skynet';			// blue scheme
-$__chassis_msg['ctx']['cle']			= 'Vogon Poetry';	// darker gray scheme
-$__chassis_msg['ctx']['sun']			= 'Sunshine';		// yellow scheme
+$__chassis_msg['ctx']['wee']			= 'Surak';			// green scheme
+$__chassis_msg['ctx']['sya']			= 'Mount Seleya';
+$__chassis_msg['ctx']['pgr']			= 'Positive Gradient';
+$__chassis_msg['ctx']['cle']			= 'Vogon Poetry';		// darker gray scheme
 $__chassis_msg['ctx']['sil']			= 'Argentina';		// gray scheme
 $__chassis_msg['ctx']['sio']			= 'Zion Gates';		// white scheme with edges
 
