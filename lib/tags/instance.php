@@ -63,7 +63,7 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 		$requirer = $this->layout->getRequirer( );
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative( ) . 'js/_pers.js', __CLASS__ ) );	// a requirement
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative() . 'js/_tags.js', __CLASS__ ) );
-		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( $requirer->getRelative() . 'css/_ctx.css', __CLASS__ ) );
+		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( $requirer->getRelative() . 'css/_tags.css', __CLASS__ ) );
 		parent::client( );
 	}
 	

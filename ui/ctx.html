@@ -2,7 +2,7 @@
    of _ctx class (UI subpackage). *}
 
 {if $USR_CTX}
-<div{if $USR_CTX->act!=''} onClick="{$USR_CTX->act}"{/if} id="{$USR_CTX->getHtmlId()}" class="_tsch _tsch_{$USR_CTX->rend}">
+<div{if $USR_CTX->act!=''} onClick="{$USR_CTX->act}"{/if} id="{$USR_CTX->getHtmlId()}" class="_tsch _tsch_{$USR_CTX->rend} {if $USR_CTX->act!=''}_tsch_link{/if}">
 	<table cellspacing="0" cellpadding="0">
 		<tr>
 			<td class="_tsch_l">

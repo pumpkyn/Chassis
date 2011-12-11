@@ -72,7 +72,7 @@ class cdesedt extends uicmp
 	{
 		$requirer = $this->getRequirer( );
 		if ( !is_null( $requirer ) )
-			$requirer->call( vlayout::RES_CSS, array( $requirer->getRelative( ) . 'css/_ctx.css', __CLASS__ ) );
+			$requirer->call( vlayout::RES_CSS, array( $requirer->getRelative( ) . 'css/_tags.css', __CLASS__ ) );
 	}
 
 	/**
