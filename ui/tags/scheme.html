@@ -26,7 +26,7 @@
 <tr>
 	<td></td>
 	<td class="_uicmp_frm_field">
-		<div class="_uicmp_cdes_cloud">
+		<div class="_uicmp_cdes_cloud" id="{$USR_UICMP_FI->getHtmlId()}::cloud">
 		{assign var=USR_UICMP_FI_SCHEMES value=$USR_UICMP_FI->getSchemes()}
 		{foreach from=$USR_UICMP_FI_SCHEMES key=id item=USR_CTX}
 			{include file="$CHASSIS_UI_ROOT/ctx.html"}

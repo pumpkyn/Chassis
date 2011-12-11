@@ -24,7 +24,10 @@ function _tags_rui( pi )
 	{
 		me.cp( me );
 		if ( me.pi.rcfg !== null )
+		{
 			disableSelection( document.getElementById( me.pi.rcfg.back_id ) );
+			disableSelection( document.getElementById( me.pi.rcfg.frm_id + '.rui::scheme::cloud' ) );
+		}
 	};
 	
 	_tags_rui.prototype.preview = function ( )
