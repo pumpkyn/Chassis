@@ -379,9 +379,11 @@ function _pers_rui ( pi )
 	// subclass to set proper private member for whole inheritance hierarchy.
 	this.cp = function ( alter ) { me = alter; };
 	
+	// Erase the form and set it into initial state.
 	this.reset = function ( )
 	{
 		this.index = '';
+		me.pi.rcfg.ind.hide( );
 		var field;
 		for ( field in me.pi.rcfg.f )
 		{
