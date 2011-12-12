@@ -31,12 +31,18 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 	protected $uid = 0;
 	
 	/**
-	 * Lozalized headline text for TUI. This is the only userspace localization
-	 * passed to the instance.
-	 * @var string
+	 * Constructor.
+	 * 
+	 * @param int $uid user ID
+	 * @param string $table database table name
+	 * @param string $headline text to display as TUI headline
+	 * @param \io\creat\chassis\uicmp\layout $layout parent UICMP instance
+	 * @param string $url Ajax server URL (a channel)
+	 * @param array $params Ajax request base parameters
+	 * @param \io\creat\chassis\tags\settproxy $proxy proxy instance for tags
+	 * 
+	 * @todo throw if proxy is not instanceof \io\creat\chassis\tags\settproxy
 	 */
-	//protected $headline = 0;
-	
 	public function __construct ( $uid, $table, $headline, &$layout, $url, $params, &$proxy )
 	{
 		$this->uid		= $uid;	// needed in explicit(), therefore setting it here
@@ -146,7 +152,7 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 		{
 			switch ( $_POST['method'] )
 			{
-				// The only method served here.
+				// Remove tag from the table.
 				case 'remove':
 					if ( $this->uid < 0 )
 						_db_query( "DELETE FROM `" . $this->table . "`
@@ -155,6 +161,12 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 						_db_query( "DELETE FROM `" . $this->table . "`
 									WHERE `" . self::FN_ID . "` = \"" . _db_escape ( $_POST['id'] ) . "\"
 										AND `" . self::FN_UID . "` = \"" . _db_escape ( $this->uid ) . "\"" );
+					return;
+				break;
+				
+				// Update setting of palette (visible/hidden)
+				case 'palette':
+					$this->settproxy->setl( 'usr.palette.shown.' . $this->table, ( ( (int)$_POST['shown'] == 0 ) ? 'false' : 'true' ) );
 					return;
 				break;
 			}

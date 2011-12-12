@@ -12,20 +12,28 @@
 
 <tr>
 	<td class="_uicmp_frm_prompt">{$USR_UICMP_FI->getPrompt()}</td>
-	<td class="_uicmp_frm_field" width="100%">
-		{assign var=USR_UICMP_FI_OPTS value=$USR_UICMP_FI->getOptions()}
-		<select {if !is_null( $USR_UICMP_FICBS )}{foreach from=$USR_UICMP_FICBS key=event item=code}{$event}="{$code}" {/foreach}{/if} id="{$USR_UICMP_FI->getHtmlId()}">
-			{if !is_null( $USR_UICMP_FI_OPTS )}
-			{foreach from=$USR_UICMP_FI_OPTS key=value item=display}
-			<option value="{$value}">{$display}</option>
-			{/foreach}
-			{/if}
-		</select>
+	<td cclass="_uicmp_frm_field" width="100%">
+		<table cellspacing="0" cellpadding="0">
+			<tr>
+				<td class="_uicmp_frm_field_1st">
+					{assign var=USR_UICMP_FI_OPTS value=$USR_UICMP_FI->getOptions()}
+					<select {if !is_null( $USR_UICMP_FICBS )}{foreach from=$USR_UICMP_FICBS key=event item=code}{$event}="{$code}" {/foreach}{/if} id="{$USR_UICMP_FI->getHtmlId()}">
+						{if !is_null( $USR_UICMP_FI_OPTS )}
+						{foreach from=$USR_UICMP_FI_OPTS key=value item=display}
+						<option value="{$value}">{$display}</option>
+						{/foreach}
+						{/if}
+					</select>
+				</td>
+				<td class="_uicmp_gi_chk"><input onClick="{$USR_UICMP_FI->getJsVar()}.rui.palette( );" type="checkbox" {if $USR_UICMP_FI->isPaletteShown()}checked="checked" {/if}id="{$USR_UICMP_FI->getHtmlId()}::pchk"></td>
+				<td class="_uicmp_frm_field_rest"><div id="{$USR_UICMP_FI->getHtmlId()}::ph" onClick="document.getElementById( '{$USR_UICMP_FI->getHtmlId()}::pchk' ).click( );" class="_uicmp_blue">{$CHASSIS_UICMP_MESSAGES.tags.palette}</div></td>
+			</tr>
+		</table>
 	</td>
 </tr>
 <tr>
 	<td></td>
-	<td class="_uicmp_frm_field">
+	<td class="_uicmp_frm_field" id="{$USR_UICMP_FI->getHtmlId()}::palette" {if !$USR_UICMP_FI->isPaletteShown()} style="visibility:hidden;display:none;"{/if}>
 		<div class="_uicmp_cdes_cloud" id="{$USR_UICMP_FI->getHtmlId()}::cloud">
 		{assign var=USR_UICMP_FI_SCHEMES value=$USR_UICMP_FI->getSchemes()}
 		{foreach from=$USR_UICMP_FI_SCHEMES key=id item=USR_CTX}

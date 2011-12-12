@@ -56,7 +56,8 @@ class frmitem extends uicmp implements \_uicmp
 	protected $cbs = NULL;
 	
 	/**
-	 * Associative array of SELECT item values.
+	 * Associative array of SELECT item values or special values for other
+	 * imputs: textarea renderer uses 'tah' for its height.
 	 * 
 	 * @var array
 	 */

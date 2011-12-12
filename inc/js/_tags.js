@@ -18,7 +18,6 @@ function _tags_rui( pi )
 {
 	var me = this;
 	this.pi = pi;
-	//s_pers_rui.prototype.constructor( this );
 	
 	_tags_rui.prototype.startup = function ( )
 	{
@@ -27,6 +26,7 @@ function _tags_rui( pi )
 		{
 			disableSelection( document.getElementById( me.pi.rcfg.back_id ) );
 			disableSelection( document.getElementById( me.pi.rcfg.frm_id + '.rui::scheme::cloud' ) );
+			disableSelection( document.getElementById( me.pi.rcfg.frm_id + '.rui::scheme::ph' ) );
 		}
 	};
 	
@@ -99,7 +99,33 @@ function _tags_rui( pi )
 				}
 			me.preview( );
 		}
-	}
+	};
+	
+	// Toggles visibility of color scheme palette cloud.
+	_tags_rui.prototype.palette = function ( )
+	{
+		var chk = document.getElementById( me.pi.rcfg.frm_id + '.rui::scheme::pchk' );
+		var cloud = document.getElementById( me.pi.rcfg.frm_id + '.rui::scheme::palette' );
+		if ( chk )
+		{
+			if ( chk.checked )
+			{
+				cloud.style.visibility = 'visible';
+				cloud.style.display = '';
+			}
+			else	
+			{
+				cloud.style.visibility = 'hidden';
+				cloud.style.display = 'none';
+			}
+
+			me.pi.ajax.send(	{primitive: 'rui', method: 'palette', shown: ( ( chk.checked ) ? '1' : '0' ) },
+								{},
+								null,
+								true );
+		}
+		document.getElementById( me.pi.rcfg.frm_id + '.rui::name' ).focus( );
+	};
 }
 
 _tags_instance.prototype.constructor = _tags_instance;

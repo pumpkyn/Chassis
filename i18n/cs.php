@@ -143,6 +143,7 @@ $__chassis_msg['tags']['label']						= 'Nálepka';
 $__chassis_msg['tags']['scheme']					= 'Barevná schéma';
 $__chassis_msg['tags']['name']						= 'Zobrazit text';
 $__chassis_msg['tags']['preview']					= 'Náhled';
+$__chassis_msg['tags']['palette']					= 'použít paletu';
 $__chassis_msg['tags']['tui']['fold']				= 'Nálepky';
 $__chassis_msg['tags']['tui']['headline']			= 'Přehled, přidávání a úpravy nálepek';	// should be overriden by custome message in the instance parameter
 $__chassis_msg['tags']['tui']['anchor']				= 'Vytvořit nálepku';

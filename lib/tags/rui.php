@@ -27,25 +27,41 @@ class scheme extends \io\creat\chassis\uicmp\frmitem
 	protected $schemes = NULL;
 	
 	/**
-	 *
+	 * Reference to Persistance instance.
+	 * @var \io\creat\chassis\tags\instance
+	 */
+	protected $pi = NULL;
+	
+	/**
+	 * Constructor.
+	 * 
 	 * @param \io\creat\chassis\uicmp\simplefrm $parent parent form
 	 * @param string $id component ID (not derived from form's ID)
+	 * @param \io\creat\chassis\tags\instance $pi Persistence instance used for extraction of additional data
 	 * @param string $title display title of the field
 	 * @param array $schemes schemes to display and pick
 	 * @param string $cbs Javascript callbacks relayed to the parent constructor
 	 */
-	public function __construct ( &$parent, $id, $title, $schemes, $cbs )
+	public function __construct ( &$parent, $id, $pi, $title, $schemes, $cbs )
 	{
 		parent::__construct( $parent, $id, $title, "", "", \_uicmp::FIT_SELECT, $cbs );
 		$this->renderer	= CHASSIS_UI . 'tags/scheme.html';
 		$this->schemes	= $schemes;
+		$this->jsVar	= $pi->jsVar( );
+		$this->pi		= $pi;
 	}
 	
 	/**
 	 * Getter for schemes.
 	 * @return array
 	 */
-	public function getSchemes( ) { return $this->schemes; }
+	public function getSchemes ( ) { return $this->schemes; }
+	
+	/**
+	 * Provides setting of palette visibility status.
+	 * @return boolean
+	 */
+	public function isPaletteShown ( ) { return ( $this->pi->settproxy()->getl( 'usr.palette.shown.' . $this->pi->name( ) ) == 'true' ); }
 }
 
 /**
@@ -89,6 +105,7 @@ class rui extends \io\creat\chassis\pers\rui
 
 				$fi = new scheme(	$form,
 									'rui::' . $field->name,
+									$this->pi,
 									$field->title,
 									$schemes,
 									( ( $field->flags & \pers::FL_FD_PREVIEW ) ? array( 'onChange' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );

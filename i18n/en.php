@@ -139,6 +139,7 @@ $__chassis_msg['tags']['label']						= 'Label';
 $__chassis_msg['tags']['scheme']					= 'Color scheme';
 $__chassis_msg['tags']['name']						= 'Text to display';
 $__chassis_msg['tags']['preview']					= 'Preview';
+$__chassis_msg['tags']['palette']					= 'show palette';
 $__chassis_msg['tags']['tui']['fold']				= 'Tags';
 $__chassis_msg['tags']['tui']['headline']			= 'Search, add and edit tags';	// should be overriden by custome message in the instance parameter
 $__chassis_msg['tags']['tui']['anchor']				= 'Create new label';
