@@ -909,9 +909,9 @@ function _uicmp_cdes_cloud ( js_var, html_id, url, params )
 
 		var el = document.getElementById( this.html_id + '.' + id );
 		if ( this.ctxs[id][1] == false )
-			el.className = '_tsch _tsch_' + this.ctxs[id][0];
+			el.className = '_tsch _tsch_' + this.ctxs[id][0] + ' _tsch_link';
 		else
-			el.className = '_tsch _tdum';
+			el.className = '_tsch _tdum _tsch_link';
 
 		this.ctxs[id][1] = !this.ctxs[id][1];
 	};

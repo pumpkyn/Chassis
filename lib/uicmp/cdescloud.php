@@ -65,7 +65,7 @@ class cdescloud extends uicmp
 			foreach ( $ctxs as $id => $ctx )
 			{
 				$this->ctxs[$id] = $ctx;
-				$this->ctxs[$id]->rend = 'dum';
+				$this->ctxs[$id]->rend = '_tdum';
 				$this->ctxs[$id]->htmlId = $this->prefix . '.' . $id;
 				$this->ctxs[$id]->act = $this->jsVar . '.set( \'' . $id . '\' );';
 			}

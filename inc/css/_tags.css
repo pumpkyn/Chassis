@@ -12,7 +12,8 @@
 
 /* Basic tag badge scheme */
 div._tsch { cursor: default; }
-div._tsch_link { cursor: pointer; }
+div._tsch_link,div._list_deco div._tsch,div._list_deco_on div._tsch {
+ cursor: pointer; }
 div._tsch table { background-color: transparent; }
 /* Left and right edges of the badge */
 div._tsch td._tsch_l,div._tsch td._tsch_r {

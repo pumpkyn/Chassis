@@ -76,7 +76,7 @@ class _ctx
 	{
 		$this->id	= $id;
 		$this->sch	= $sch;
-		$this->rend	= $sch;
+		$this->rend	= '_tsch_' . $sch;
 		$this->disp	= $disp;
 		$this->desc = $desc;
 		$this->act	= $act;
