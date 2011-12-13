@@ -49,7 +49,7 @@ $__chassis_msg['cdesDisplay']			= 'Text to display';
 $__chassis_msg['cdesDesc']			= 'Description';
 $__chassis_msg['cdesContext']			= 'Label';
 $__chassis_msg['cdesRemove']			= 'Remove';
-$__chassis_msg['cdesQuestion']		= 'Do you really want to remove context? <b>%s</b>? This operation cannot be undone.';
+$__chassis_msg['cdesQuestion']		= 'Do you really want to remove tag <b>%s</b>? This operation cannot be undone.';
 $__chassis_msg['cdesEmpty']			= 'You do not have any labels created.';
 $__chassis_msg['cdesNoMatch']			= 'Not match found for search request.';
 $__chassis_msg['cdesOCreate']			= 'Create new label';
@@ -146,7 +146,7 @@ $__chassis_msg['tags']['tui']['anchor']				= 'Create new label';
 $__chassis_msg['tags']['rui']['edit']				= 'Edit tag';
 $__chassis_msg['tags']['rui']['create']				= 'Create tag';
 $__chassis_msg['tags']['schemes']					= $__chassis_msg['ctx'];
-$__chassis_msg['tags']['Q']							= 'Do you really want to remove context? <b>%s</b>? This operation cannot be undone.';
+$__chassis_msg['tags']['Q']							= 'Do you really want to remove tag <b>%s</b>? This operation cannot be undone.';
 $__chassis_msg['tags']['remove']					= 'Remove';
 
 /**
