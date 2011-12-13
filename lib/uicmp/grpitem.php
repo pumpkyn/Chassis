@@ -10,7 +10,7 @@
 
 namespace io\creat\chassis\uicmp;
 
-require_once CHASSIS_LIB . 'uicmp/uicmp.php';
+require_once CHASSIS_LIB . 'uicmp/item.php';
 require_once CHASSIS_LIB . 'uicmp/buttons.php';
 require_once CHASSIS_LIB . 'uicmp/vsearch.php';
 
@@ -19,42 +19,24 @@ require_once CHASSIS_LIB . 'uicmp/vsearch.php';
  * is usually to provide additional actions specific for given tab component.
  * GI stands for 'group item'.
  */
-class grpitem extends uicmp
+class grpitem extends item
 {
-	/**
-	 * Constants for item type.
-	 */
-	const IT_TXT	= 'txt';	// plain text ( like '|' for separator)
-	const IT_IND	= 'ind';	// status indicator (e.g. for Ajax operations)
-	const IT_BT		= 'bt';		// button
-	const IT_CHK	= 'chk';	// checkbox
-	const IT_A		= 'a';		// anchor-like control
+	/** @deprecated */
+	const IT_TXT	= self::GIT_TEXT;
+	/** @deprecated */
+	const IT_IND	= self::GIT_INDICATOR;
+	/** @deprecated */
+	const IT_BT		= self::GIT_BUTTON;
+	/** @deprecated */
+	const IT_CHK	= self::GIT_CHECKBOX;
+	/** @deprecated */
+	const IT_A		= self::GIT_ANCHOR;
+	/** @deprecated */
+	const IT_ENUM	= self::GIT_SELECT;
 
 	/**
-	 * Defines type of the item.
-	 * 
+	 * Additional CSS style for the HTML element. This is extra parameter.
 	 * @var string
-	 */
-	protected $what = self::IT_A;
-
-	/**
-	 * Text to display.
-	 *
-	 * @var string
-	 */
-	protected $title = NULL;
-
-	/**
-	 * Javascript code executed in onClick event.
-	 *
-	 * @var string
-	 */
-	protected $action = NULL;
-
-	/**
-	 * Additional CSS style for the HTML element.
-	 *
-	 * @var class
 	 */
 	protected $class = NULL;
 
@@ -64,14 +46,36 @@ class grpitem extends uicmp
 	 *
 	 * @param pool $parent parent component instance
 	 * @param string $id identifier of the component
-	 * @param string $what type of the item (see member constants)
+	 * @param string $itype type of the item (see member constants)
 	 * @param string $title text to display
 	 * @param string $action Javascript code to execute on onClick event
 	 * @param string $class additional CSS style for the item
 	 */
-    public function  __construct( &$parent, $id, $what, $title, $action = NULL, $class = NULL )
+    public function  __construct( &$parent, $id, $itype, $title, $action = NULL, $class = NULL )
 	{
-		parent::__construct( $parent, $id );
+		// Pack action into callbacks array before it is passed to parent's
+		// constructor.
+		if ( !is_null( $action ) )
+			switch ( $itype )
+			{
+				case self::GIT_TEXT:
+					$cbs = NULL;
+				break;
+				case self::GIT_SELECT:
+					$cbs = array( 'onChange' => $action );
+				break;
+				
+				case self::GIT_BUTTON:
+				case self::GIT_ANCHOR:
+				case self::GIT_CHECKBOX:
+				default:
+					$cbs = array( 'onClick' => $action );
+				break;
+			}
+		else
+			$cbs = NULL;
+		
+		parent::__construct( $parent, $id, $title, $itype, $cbs );
 		
 		/**
 		 * Automatic hook-up to known types of parent.
@@ -84,39 +88,14 @@ class grpitem extends uicmp
 		
 		$this->type		= __CLASS__;
 		$this->renderer	= CHASSIS_UICMP . 'gi.html';
-		$this->title	= $title;
-		$this->action	= $action;
 		$this->class	= $class;
-		$this->what		= $what;
 	}
 
 	/**
-	 * Read interface for item title.
-	 *
-	 * @return string
-	 */
-	public function getTitle ( ) { return $this->title; }
-
-	/**
-	 * Read interface for item Javascript action.
-	 *
-	 * @return string
-	 */
-	public function getAction ( ) { return $this->action; }
-
-	/**
 	 * Read interface for item additional CSS style.
-	 *
-	 * @return <string>
+	 * @return string
 	 */
 	public function getClass ( ) { return $this->class; }
-
-	/**
-	 * Read interface for item true essence.
-	 *
-	 * @return string
-	 */
-	public function getWhat ( ) { return $this->what; }
 
 	/**
 	 * Dummy implementation to conform abstract parent.

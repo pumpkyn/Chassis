@@ -1,22 +1,41 @@
-{* Group item template *}
+{* Renders any group item.
+ *
+ * @file gi.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage UICMP
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
 
-{if $USR_UICMP_ITEM->getWhat() == 'txt'}
-	<div id="{$USR_UICMP_ITEM->getHtmlId()}" class="_uicmp_gi_txt{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}">{$USR_UICMP_ITEM->getTitle()}</div>
-{elseif $USR_UICMP_ITEM->getWhat() == 'ind'}
-	<div id="{$USR_UICMP_ITEM->getHtmlId()}"{if $USR_UICMP_ITEM->getClass()} class="{$USR_UICMP_ITEM->getClass()}"{/if}>{$USR_UICMP_ITEM->getTitle()}</div>
-{elseif $USR_UICMP_ITEM->getWhat() == 'bt'}
-	<input id="{$USR_UICMP_ITEM->getHtmlId()}" type="button" {if $USR_UICMP_ITEM->getAction()} onClick="{$USR_UICMP_ITEM->getAction()}"{/if} class="_uicmp_gi_bt{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}" value="{$USR_UICMP_ITEM->getTitle()}"/>
-{elseif $USR_UICMP_ITEM->getWhat() == 'chk'}
+{assign var=USR_UICMP_GICBS value=$USR_UICMP_ITEM->getCbs()}
+{if $USR_UICMP_ITEM->getIType() == _uicmp::GIT_TEXT}
+	<div id="{$USR_UICMP_ITEM->getHtmlId()}" class="_uicmp_gi_txt{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}">{$USR_UICMP_ITEM->getPrompt()}</div>
+{elseif $USR_UICMP_ITEM->getIType() == _uicmp::GIT_INDICATOR}
+	<div id="{$USR_UICMP_ITEM->getHtmlId()}"{if $USR_UICMP_ITEM->getClass()} class="{$USR_UICMP_ITEM->getClass()}"{/if}>{$USR_UICMP_ITEM->getPrompt()}</div>
+{elseif $USR_UICMP_ITEM->getIType() == _uicmp::GIT_BUTTON}
+	<input id="{$USR_UICMP_ITEM->getHtmlId()}" type="button" {if !is_null( $USR_UICMP_GICBS )}{foreach from=$USR_UICMP_GICBS key=event item=code}{$event}="{$code}" {/foreach}{/if} class="_uicmp_gi_bt{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}" value="{$USR_UICMP_ITEM->getPrompt()}"/>
+{elseif $USR_UICMP_ITEM->getIType() == _uicmp::GIT_CHECKBOX}
 	<div id="{$USR_UICMP_ITEM->getHtmlId()}">
 		<table cellspacing="0" cellpadding="0">
 			<tr>
-				<td class="_uicmp_gi_chk"><input id="{$USR_UICMP_ITEM->getHtmlId()}.box" type="checkbox" checked="checked" {if $USR_UICMP_ITEM->getAction()} onChange="{$USR_UICMP_ITEM->getAction()}"{/if} class="_uicmp_gi{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}"/></td>
-				<td class="_uicmp_gi_chk"><div id="{$USR_UICMP_ITEM->getHtmlId()}.txt" onClick="document.getElementById('{$USR_UICMP_ITEM->getHtmlId()}.box').click();" class="_uicmp_blue">{$USR_UICMP_ITEM->getTitle()}</div></td>
+				<td class="_uicmp_gi_chk"><input id="{$USR_UICMP_ITEM->getHtmlId()}.box" type="checkbox" checked="checked" {if !is_null( $USR_UICMP_GICBS )}{foreach from=$USR_UICMP_GICBS key=event item=code}{$event}="{$code}" {/foreach}{/if} class="_uicmp_gi{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}"/></td>
+				<td class="_uicmp_gi_chk"><div id="{$USR_UICMP_ITEM->getHtmlId()}.txt" onClick="document.getElementById('{$USR_UICMP_ITEM->getHtmlId()}.box').click();" class="_uicmp_blue">{$USR_UICMP_ITEM->getPrompt()}</div></td>
 			</tr>
 		</table>
 	</div>
-{else} {* == 'a' *}
-	<div id="{$USR_UICMP_ITEM->getHtmlId()}"{if $USR_UICMP_ITEM->getAction()} onClick="{$USR_UICMP_ITEM->getAction()}"{/if} class="_uicmp_gi{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}">
-		{$USR_UICMP_ITEM->getTitle()}
+{elseif $USR_UICMP_ITEM->getIType()==_uicmp::GIT_SELECT}
+	<div id="{$USR_UICMP_ITEM->getHtmlId()}">
+		{assign var=USR_UICMP_GI_OPTS value=$USR_UICMP_ITEM->getOptions()}
+		<select {if !is_null( $USR_UICMP_GICBS )}{foreach from=$USR_UICMP_GICBS key=event item=code}{$event}="{$code}" {/foreach}{/if} id="{$USR_UICMP_ITEM->getHtmlId()}">
+			{if !is_null( $USR_UICMP_GI_OPTS )}
+			{foreach from=$USR_UICMP_GI_OPTS key=value item=display}
+			<option value="{$value}">{$display}</option>
+			{/foreach}
+			{/if}
+		</select>
+	</div>
+{else} {* assumes _uicmp::GIT_ANCHOR *}
+	<div id="{$USR_UICMP_ITEM->getHtmlId()}"{if !is_null( $USR_UICMP_GICBS )}{foreach from=$USR_UICMP_GICBS key=event item=code}{$event}="{$code}" {/foreach}{/if} class="_uicmp_gi{if $USR_UICMP_ITEM->getClass()} {$USR_UICMP_ITEM->getClass()}{/if}">
+		{$USR_UICMP_ITEM->getPrompt()}
 	</div>
 {/if}

@@ -14,15 +14,31 @@
  */
 interface _uicmp
 {
-	/**
-	 * Form item types.
-	 */
-	const FIT_TEXT		= 0;	// Simple text input.
-	const FIT_PASSWORD	= 1;	// Password field. Value for it is ignored.
-	const FIT_CHECKBOX	= 2;	// Checkbox field. Value is boolean. Description for it is ignored.
-	const FIT_SELECT	= 3;	// Multioption chooser. 
-	const FIT_TEXTAREA	= 4;	// Textarea.
-	const FIT_ROTEXT	= 5;	// Read-only text input.
+	/** Simple form item. Simple text input. */
+	const FIT_TEXT		= 0;
+	/** Simple form item. Password field. Value for it is ignored. */
+	const FIT_PASSWORD	= 1;
+	/** Simple form item. Checkbox field. Value is boolean. Description for it is ignored. */
+	const FIT_CHECKBOX	= 2;
+	/** Simple form item. Multioption chooser. */
+	const FIT_SELECT	= 3;
+	/** Simple form item. Textarea. */
+	const FIT_TEXTAREA	= 4;
+	/** Simple form item. Read-only text input. */
+	const FIT_ROTEXT	= 5;
+	
+	/** Group item. Plain text, e.g. pipe character for separator. */
+	const GIT_TEXT		= 32;
+	/** Group item. Indicator widget. */
+	const GIT_INDICATOR	= 33;
+	/** Group item. Button input. */
+	const GIT_BUTTON	= 34;
+	/** Group item. Checkbox input. */
+	const GIT_CHECKBOX	= 35;
+	/** Group item. Anchor-like control. Uses event callbacks to execute Javascript handler. */
+	const GIT_ANCHOR	= 36;
+	/** Group item. Enumeration, multioption chooser. */
+	const GIT_SELECT	= 37;
 }
 
 ?>
