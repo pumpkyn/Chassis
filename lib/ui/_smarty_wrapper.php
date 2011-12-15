@@ -58,8 +58,7 @@ class _smarty_wrapper
 
 	/**
 	 * Singleton interface. Provides instance of a class.
-	 *
-	 * @return <_smarty_wrapper> Singleton instance
+	 * @return _smarty_wrapper Singleton instance
 	 */
 	public static function getInstance ( )
 	{

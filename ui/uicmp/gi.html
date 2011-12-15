@@ -24,7 +24,7 @@
 		</table>
 	</div>
 {elseif $USR_UICMP_ITEM->getIType()==_uicmp::GIT_SELECT}
-	<div id="{$USR_UICMP_ITEM->getHtmlId()}">
+	<div id="{$USR_UICMP_ITEM->getHtmlId()}.cnt">
 		{assign var=USR_UICMP_GI_OPTS value=$USR_UICMP_ITEM->getOptions()}
 		<select {if !is_null( $USR_UICMP_GICBS )}{foreach from=$USR_UICMP_GICBS key=event item=code}{$event}="{$code}" {/foreach}{/if} id="{$USR_UICMP_ITEM->getHtmlId()}">
 			{if !is_null( $USR_UICMP_GI_OPTS )}
