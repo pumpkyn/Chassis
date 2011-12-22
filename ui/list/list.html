@@ -1,10 +1,15 @@
-{* Template rendering list *}
-
+{* Renderer of whole list.
+ *
+ * @file list.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage List
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+ 
 <table cellspacing="0" cellpadding="0" width="100%">
 	<tr>
-		<td colspan="10" class="_list_pager_row">{include file="$CHASSIS_UI_ROOT/list/list_pager.html"}
-			{*<div style="visibility:hidden; display:none" id="mFwListPageCount">{$USR_LIST_DATA.pager.pageCount}</div>*}
-		</td>
+		<td colspan="10" class="_list_pager_row">{include file="$CHASSIS_UI_ROOT/list/list_pager.html"}</td>
 	</tr>
 	<tr>
 		<td class="_list_main">

@@ -16,15 +16,13 @@ class _request_globals
 {
 	/**
 	 * Data structure for values.
-	 *
-	 * @var <array>
+	 * @var array
 	 */
 	protected $storage = NULL;
 
 	/**
 	 * Singleton instance.
-	 *
-	 * @var <_request_globals>
+	 * @var _request_globals
 	 */
 	protected static $instance = NULL;
 
@@ -35,9 +33,8 @@ class _request_globals
 	protected function __clone ( ) { }
 
 	/**
-	 * Singleton interface
-	 *
-	 * @return <_request_globals>
+	 * Singleton interface.
+	 * @return _request_globals
 	 */
 	public static function getInstance ( )
 	{
@@ -49,18 +46,13 @@ class _request_globals
 
 	/**
 	 * Write interface for variable.
-	 *
-	 * @param <string> $key
-	 * @param <mixed> $value
+	 * @param string $key
+	 * @param mixed $value
 	 */
-	public function set ( $key, &$value )
-	{
-		$this->storage[$key] = $value;
-	}
+	public function set ( $key, &$value ) { 	$this->storage[$key] = $value; }
 
 	/**
 	 * Read interface for variable stored in internal storage.
-	 * 
 	 * @param string $key
 	 * @return mixed
 	 */

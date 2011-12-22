@@ -1,4 +1,13 @@
-/* Lists stylesheet */
+
+/*
+ @file _list.css
+ @author giorno
+ @package Chassis
+ @subpackage List
+ @license Apache License, Version 2.0, see LICENSE file
+ 
+ Styles for list elements.
+ */
 
 /* Main container of list table */
 td._list_main
@@ -89,28 +98,16 @@ div._list_pager_no,div._list_pager_act
 	cursor:							pointer;
 	color:							#000000;
 	background-color:				#e7e7e7;
-	/*border-style:					solid;
-	_border-color:					transparent;
-	border-color:					transparent;
-	border-width:					1px;
-	border-left-width:				3px;
-	border-right-width:				3px;*/
 	text-align:						center;
 	border-radius:					2px;
 	-moz-border-radius:				2px;
-	/*-webkit-border-radius:			3px;*/
-	/*min-width:						9px;
-	min-height:						13px;*/
 }
 div._list_pager_no:hover,div._list_pager_act
 {
 	background-color:				#b5b5b5;
 	color:							#000000;
 	border-color:					#b5b5b5;
-
-	/*text-decoration:				underline;*/
 }
-
 /* Pager number of actual page */
 div._list_pager_act
 {
@@ -118,16 +115,12 @@ div._list_pager_act
 	color:							#ffffff;
 	border-color:					#3465a4;
 }
-
 /* Orderable header style */
-div._list_header_ordle
-{
-	/*font-size:						12px;*/
-	cursor:							pointer;
-	font-weight:					bold;
-	float:							left;
-	padding-right:					12px;
-}
+div._list_header_ordle {
+ cursor: pointer;
+ font-weight: bold;
+ float: none;
+ padding-right: 12px; }
 div._list_header_ordle:hover
 {
 	text-decoration:				underline;
@@ -157,9 +150,6 @@ div._list_footer
 /* Row containing pager */
 td._list_pager_row
 {
-	/*padding-top:						4px;
-	padding-bottom:						3px;*/
-	/*vertical-align:					middle;
 	min-height:						20px;*/
 	padding-left:					12px;
 	padding-right:					12px;
@@ -173,22 +163,6 @@ td._list_pager_text
 	vertical-align:					middle;
 	padding-top:					1px;
 }
-/*td._list_pager_row td
-{
-	vertical-align:					middle;
-}*/
-
-/* Clickable text (e.g. manJavascript) */
-/*a.iFwListAction,div.iFwListAction
-{
-	cursor:				pointer;
-	color:				#003387;
-}
-a.iFwListAction:hover,div.iFwListAction:hover
-{
-	text-decoration:	underline;
-}*/
-
 /* Icons */
 div._list_ico_remove
 {
@@ -255,7 +229,6 @@ span._list_deco_title
 {
 	padding:						0px;
 	margin:							0px;
-	/*margin-left:					2px;*/
 	white-space:					normal;
 }
 div._list_deco_off span._list_deco_title,div._list_deco_on span._list_deco_title
