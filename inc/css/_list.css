@@ -116,12 +116,16 @@ div._list_pager_act
 	border-color:					#3465a4;
 }
 /* Orderable header style */
-div._list_header_ordle {
+div._list_header_ordle_,div._list_header_ordle_left,div._list_header_ordle_right {
  cursor: pointer;
  font-weight: bold;
- float: none;
+ float: left;
  padding-right: 12px; }
-div._list_header_ordle:hover
+div._list_header_ordle_right {
+ float: right;
+}
+/* div._list_header_ordle_ is obsolete and should be removed */
+div._list_header_ordle_:hover,div._list_header_ordle_left:hover,div._list_header_ordle_right:hover
 {
 	text-decoration:				underline;
 }
