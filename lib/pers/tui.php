@@ -103,7 +103,7 @@ class tui extends \io\creat\chassis\uicmp\vcmp
 						$restr['prompt'] = $field->title;
 						$restr['dyn'] = ( $field->flags & \pers::FL_FO_DYNAMIC ) > 0;
 						$restr['type'] = 'multi';			/** @todo implement also binary */
-						if ( ( $saved === false ) || !array_key_exists( $field->name, $saved['r'] ) )
+						if ( ( $saved === false ) || !( array_key_exists( 'r', $saved ) && array_key_exists( $field->name, $saved['r'] ) ) )
 							$restr['selected'] =  '[norestr]';
 						else
 							$restr['selected'] =  $saved['r'][$field->name];
@@ -135,7 +135,7 @@ class tui extends \io\creat\chassis\uicmp\vcmp
 						{
 							$this->jscfg['f'] = true;
 							$this->uicfg['f']['prompt'] = $fw_msg['pers']['tui']['as']['field'];
-							$this->uicfg['f']['selected'] = ( $saved === false ) ? '[allfields]' : $saved['f'];
+							$this->uicfg['f']['selected'] = ( ( $saved !== false ) && array_key_exists( 'f', $saved ) ) ? $saved['f'] : '[allfields]';
 							$this->uicfg['f']['option']['[allfields]'] = $fw_msg['pers']['tui']['as']['allfields'];
 						}
 						$this->uicfg['f']['option'][$field->name] = $field->title;
