@@ -8,68 +8,77 @@
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
+namespace io\creat\chassis;
+
 require_once CHASSIS_CFG . 'class.Config.php';
 require_once CHASSIS_LIB . 'libfw.php';
 require_once CHASSIS_LIB . 'libdb.php';
 
 /**
- * Session tracking instance.
+ * Singleton providing session tracking object responsible for authentication
+ * and persistence of user session.
  */
-class _session extends Config
+class session extends \Config
 {
 	/**
-	 * User Id. Integer number from users table.
-	 * 
-	 * @var <int>
+	 * Singleton instance.
+	 * @var \io\creat\chassis\session
 	 */
-	private $UID = NULL;
+	protected static $instance = NULL;
+	
+	/**
+	 * Authentication backend used for verification of username and password. If
+	 * NULL, default (code_users) table is used.
+	 * @var \io\creat\chassis\authbe
+	 */
+	protected $authbe = NULL;
+	
+	/**
+	 * User Id. Integer number from users table.
+	 * @var int
+	 */
+	private $uid = NULL;
 
 	/**
 	 * User's nickname (=login).
-	 * 
-	 * @var <string>
+	 * @var string
 	 */
 	private $nickName = NULL;
 	
 	/**
 	 * User's e-mail address.
-	 * 
 	 * @var string
 	 */
 	private $email = NULL;
 
 	/**
 	 * Indicated if session exists and user is authenticated.
-	 * 
-	 * @var <bool>
+	 * @var bool
 	 */
 	private $signed = FALSE;
 
 	/**
 	 * Cookie. Client identifier.
-	 *
-	 * @var <string>
+	 * @var string
 	 */
 	private $clientId;
 
 	/**
 	 * Cookie. Session identifier.
-	 *
-	 * @var <string>
+	 * @var string
 	 */
 	private $sessionId;
 
 	/**
 	 * Cookie. Autologin token identifier.
-	 * 
-	 * @var <string>
+	 * @var string
 	 */
 	private $alToken;
 
 	/**
-	 * Constructor.
+	 * Concealed constructor.
 	 */
-	public function __construct ( )
+	protected function __construct ( )
 	{
 		/**
 		 * Load client Id from cookies.
@@ -84,6 +93,30 @@ class _session extends Config
 			$this->validateAutologin();
 		}
 	}
+	
+	/**
+	 * Concealed copy constructor.
+	 */
+	protected function __clone() { }
+	
+	/**
+	 * Singleton interface.
+	 * @return \io\creat\chassis\session
+	 */
+	public static function getInstance ( )
+	{
+		if ( is_null ( static::$instance ) )
+			static::$instance = new session( );
+
+		return static::$instance;
+	}
+	
+	/**
+	 * Set (replace) authentication backend used for verification of username
+	 * and password.
+	 * @param \io\creat\chassis\authbe $authbe reference to authentication backend instance
+	 */
+	public function setAuthBe ( &$authbe ) { $this->authbe = $authbe; }
 
 	/**
 	 * If there is client ID in cookies, return its value and renew expiration datetime, if ID is not
@@ -129,7 +162,7 @@ class _session extends Config
 
 			if ( $record && count( $record ) )
 			{
-				$this->UID = $record[self::F_UID];
+				$this->uid = $record[self::F_UID];
 				$this->signed = true;
 
 				_db_query( "UPDATE `" . self::T_SESSIONS . "`
@@ -148,8 +181,7 @@ class _session extends Config
 
 	/**
 	 * Validates autologin cookies and tokens.
-	 *
-	 * @return <bool>
+	 * @return bool
 	 */
 	private function validateAutologin ( )
 	{
@@ -167,12 +199,12 @@ class _session extends Config
 									WHERE `" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\"
 									AND `" . self::F_TOKEN . "` = \"" . _db_escape( $this->alToken ) . "\"" ) )
 			{
-				$this->UID = $record;
+				$this->uid = $record;
 
 				_db_query( "UPDATE `" . self::T_SIGNTOKENS . "`
 								SET `" . self::F_VALID . "` = (NOW() + INTERVAL " . self::COOKIE_EXPIRATION * 24 * 60 * 60 . " SECOND)
 								WHERE `" . self::F_TOKEN . "` = \"" . _db_escape( $this->alToken ) . "\" AND
-								`" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\" AND
+								`" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\" AND
 								`" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\" ");
 
 				_fw_set_cookie( self::COOKIE_TOKENID, $this->alToken, time() + self::COOKIE_EXPIRATION * 24 * 60 * 60 );
@@ -189,55 +221,62 @@ class _session extends Config
 	
 	/**
 	 * Checks if password for the signed user is correct or not.
-	 * 
 	 * @param string $password plain password
 	 * @return bool 
 	 */
 	public function checkPassword ( $password )
 	{
-		if ( is_null( $this->UID ) )
+		if ( is_null( $this->uid ) )
 			return false;
 		
-		return ( $this->UID == (int)_db_1field ( "SELECT `" . self::F_UID . "`
+		return ( $this->uid == (int)_db_1field ( "SELECT `" . self::F_UID . "`
 												FROM `" . self::T_USERS . "`
-												WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\"
+												WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\"
 												AND `" . self::F_PASSWD . "` = \"" . _db_escape( _fw_hash_passwd( $password  ) ) . "\"" ) );
 	}
 	
 	/**
 	 * Sets new password for signed user.
-	 * 
 	 * @param string $password plain new password
 	 */
 	public function setPassword ( $password )
 	{
 		_db_query( "UPDATE `" . self::T_USERS . "`
 						SET `" . self::F_PASSWD . "` = \"" . _db_escape( _fw_hash_passwd( $password  ) ) . "\"
-						WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\"" );
+						WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\"" );
 	}
 
 	/**
 	 * Performs login operation.
-	 *
-	 * @param <string> $ns namespace,identifier of user solution
-	 * @param <string> $username login
-	 * @param <string> $password password
-	 * @param <bool> $auto autologin flag
-	 * @return <bool>
+	 * @param string $ns namespace,identifier of user solution
+	 * @param string $username login
+	 * @param string $password password
+	 * @param bool $auto autologin flag
+	 * @return bool
 	 */
 	public function login ( $ns, $username, $password, $auto = FALSE )
 	{
 		$hash =  _fw_hash_passwd( $password );
+		$cache = $this->uid;
 
-		/**
-		 * Check provided login data.
-		 */
-		$cache = $this->UID;
-		if ( ( $this->UID = _db_1field ( "SELECT `" . self::F_UID . "`
-											FROM `" . self::T_USERS . "`
-											WHERE `" . self::F_LOGIN . "` = \"" . _db_escape( $username ) . "\"
-											AND `" . self::F_PASSWD . "` = \"" . _db_escape( $hash ) . "\"
-											AND `" . self::F_ENABLED . "` = '1'" ) ) !== false )
+		$this->uid = FALSE;
+		
+		// First, if configured, plugin is used.
+		if ( !is_null( $this->authbe ) )
+			$this->uid = $this->authbe->validate( $username, $password );
+
+		// Login using plugin has failed, root user is trying to connect, or
+		// plugin is not configured. This will match also any table record
+		// created before plugin has been configured.
+		if ( (int)$this->uid < 1 )
+			$this->uid = _db_1field ( "SELECT `" . self::F_UID . "`
+										FROM `" . self::T_USERS . "`
+										WHERE `" . self::F_LOGIN . "` = \"" . _db_escape( $username ) . "\"
+										AND `" . self::F_PASSWD . "` = \"" . _db_escape( $hash ) . "\"
+										AND `" . self::F_ENABLED . "` = '1'" );
+		
+		// Any of atuhentication methods was successful.
+		if ( ( $this->uid > 0 ) )
 		{
 			/**
 			 * Create session record.
@@ -254,7 +293,7 @@ class _session extends Config
 				$this->alToken = _fw_rand_hash( );
 				_db_query( "INSERT INTO `" . self::T_SIGNTOKENS . "`
 							SET `" . self::F_TOKEN . "` = \"" . _db_escape( $this->alToken ) . "\",
-							`" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\",
+							`" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\",
 							`" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\",
 							`" . self::F_IP . "` = \"" . _db_escape( $ipAddr ) . "\",
 							`" . self::F_VALID . "` = (NOW() + INTERVAL " . self::COOKIE_EXPIRATION * 24 * 60 * 60 . " SECOND) ");
@@ -263,7 +302,7 @@ class _session extends Config
 
 
 			_db_query( "INSERT INTO `" . self::T_LOGINS . "`
-						SET `" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\",
+						SET `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\",
 						`" . self::F_NS . "` = \"" . _db_escape( $ns ) . "\",
 						`" . self::F_STAMP . "` = NOW()" );
 			return true;
@@ -273,7 +312,7 @@ class _session extends Config
 			/*
 			 * Revert from cache.
 			 */
-			$this->UID = $cache;
+			$this->uid = $cache;
 			return false;
 		}
 	}
@@ -286,7 +325,7 @@ class _session extends Config
 		_db_query( "DELETE FROM `" . self::T_SESSIONS . "`
 					WHERE `" . self::F_SID . "` = \"" . _db_escape( $this->sessionId ) . "\"
 					AND `" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\"
-					AND `" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\"" );
+					AND `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\"" );
 
 		_db_query( "DELETE FROM `" . self::T_SIGNTOKENS . "`
 					WHERE `" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\"" );
@@ -301,8 +340,7 @@ class _session extends Config
 
 	/**
 	 * Create session for user.
-	 *
-	 * @return <bool>
+	 * @return bool
 	 */
 	private function create ( )
 	{
@@ -316,7 +354,7 @@ class _session extends Config
 		$this->sessionId = _fw_rand_hash( );
 		_db_query( "INSERT INTO `" . self::T_SESSIONS . "`
 					SET `" . self::F_SID . "` = \"" . _db_escape( $this->sessionId ) . "\",
-					`" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\",
+					`" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\",
 					`" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\",
 					`" . self::F_IP . "` = \"" . _db_escape( $ipAddr ) . "\",
 					`" . self::F_VALID . "` = (NOW() + INTERVAL " . self::SESSIONEXPIRATION * 60 . " SECOND) ");
@@ -342,47 +380,41 @@ class _session extends Config
 
 	/**
 	 * Load user name (nick).
-	 *
-	 * @return <string>
+	 * @return string
 	 */
 	private function loadNick (  )
 	{
 		return ( ( $this->nickName = _db_1field ( "SELECT `" . self::F_LOGIN . "`
 											FROM `" . self::T_USERS . "`
-											WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\"" ) ) !== false );
+											WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\"" ) ) !== false );
 	}
 
 	/**
 	 * Queries status of session.
-	 *
-	 * @return <bool>
+	 * @return bool
 	 */
 	public function isSigned ( ) { return $this->signed === TRUE; }
 
 	/**
 	 * Returns nickname of the user.
-	 *
-	 * @return <string>
+	 * @return string
 	 */
 	public function getNick ( ) { return $this->nickName; }
 
 	/**
 	 * Returns user Id.
-	 *
-	 * @return <int>
+	 * @return int
 	 */
-	public function getUid ( ) { return $this->UID; }
+	public function getUid ( ) { return $this->uid; }
 
 	/**
 	 * Returns session Id.
-	 *
-	 * @return <string>
+	 * @return string
 	 */
 	public function getSid ( ) { return $this->sessionId; }
 	
 	/**
 	 * Read interface for user e-mail address.
-	 * 
 	 * @return string
 	 */
 	public function getEmail ( )
@@ -390,7 +422,7 @@ class _session extends Config
 		if ( is_null( $this->email ) )
 			$this->email = _db_1field ( "SELECT `" . self::F_EMAIL . "`
 											FROM `" . self::T_USERS . "`
-											WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->UID ) . "\"" );
+											WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\"" );
 		return $this->email;
 	}
 }

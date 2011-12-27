@@ -9,12 +9,12 @@
  */
 
 require_once CHASSIS_CFG . 'class.Config.php';
-require_once CHASSIS_LIB . 'session/_session_wrapper.php';
+require_once CHASSIS_LIB . 'session/session.php';
 
 /**
  * Class responsible for accessing and manipulating variable scope settings. It
  * is configured only by scope of the settings. Security identifiers are
- * extracted internaly from _session_wrapper instance.
+ * extracted internaly from \io\creat\chassis\session instance.
  */
 abstract class _settings extends Config
 {
@@ -79,13 +79,13 @@ abstract class _settings extends Config
 			break;
 		
 			case static::SCOPE_USER:
-				if ( _session_wrapper::getInstance( )->isSigned( ) )
-					$this->id = _session_wrapper::getInstance( )->getUid( );
+				if ( \io\creat\chassis\session::getInstance( )->isSigned( ) )
+					$this->id = \io\creat\chassis\session::getInstance( )->getUid( );
 			break;
 
 			case static::SCOPE_SESSION:
-				if ( _session_wrapper::getInstance( )->isSigned( ) )
-					$this->id = _session_wrapper::getInstance( )->getSid( );
+				if ( \io\creat\chassis\session::getInstance( )->isSigned( ) )
+					$this->id = \io\creat\chassis\session::getInstance( )->getSid( );
 			break;
 
 			default:
