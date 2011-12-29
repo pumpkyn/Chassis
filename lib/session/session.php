@@ -263,7 +263,11 @@ class session extends \Config
 		
 		// First, if configured, plugin is used.
 		if ( !is_null( $this->authbe ) )
-			$this->uid = $this->authbe->validate( $username, $password );
+		{
+			// Skip authentication using the plugin for root username (uid=1).
+			if ( (int)_db_1field( "SELECT `" . self::F_UID . "` FROM `" . self::T_USERS . "` WHERE `" . self::F_LOGIN . "` = \"" . _db_escape( $username ) . "\"" ) != 1 )
+				$this->uid = $this->authbe->validate( $username, $password );
+		}
 
 		// Login using plugin has failed, root user is trying to connect, or
 		// plugin is not configured. This will match also any table record
