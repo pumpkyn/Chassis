@@ -447,7 +447,12 @@ class instance extends \pers
 		if ( !is_array( $and ) )
 			return FALSE;
 		else
-			return _db_1line( "SELECT * FROM `" . $this->table . "` WHERE " . implode( " AND ", $and ) );
+		{
+			_db_query( "BEGIN" );
+			$record = _db_1line( "SELECT * FROM `" . $this->table . "` WHERE " . implode( " AND ", $and ) );
+			_db_query( "COMMIT" );
+			return $record;
+		}
 	}
 	
 	/**
@@ -554,10 +559,12 @@ class instance extends \pers
 			}
 		}
 		
+		_db_query( "BEGIN" );
 		/**
 		 * @todo validate result of the operation and return appropriate result
 		 */
 		_db_query( "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', $vals ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs ) . "" );
+		_db_query( "COMMIT" );
 	}
 	
 	/**
@@ -617,7 +624,9 @@ class instance extends \pers
 					$qstub = $this->searchq( $params );
 					$query = "SELECT COUNT(*) " . $qstub;
 					
+					_db_query( "BEGIN" );
 					$count = _db_1field( $query );
+					_db_query( "COMMIT" );
 
 					if ( $count !== false )
 					{
@@ -652,7 +661,9 @@ class instance extends \pers
 						$order = $this->orderq( $params );
 						$query = "SELECT * " . $qstub . " {$order} LIMIT {$first},{$llen}";
 						
+						_db_query( "BEGIN" );
 						$res = _db_query( $query );
+						_db_query( "COMMIT" );
 
 						if ( $res && _db_rowcount( $res ) )
 						{

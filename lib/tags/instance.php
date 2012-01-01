@@ -154,6 +154,7 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 			{
 				// Remove tag from the table.
 				case 'remove':
+					_db_query( "BEGIN" );
 					if ( $this->uid < 0 )
 						_db_query( "DELETE FROM `" . $this->table . "`
 									WHERE `" . self::FN_ID . "` = \"" . _db_escape ( $_POST['id'] ) . "\"" );
@@ -161,6 +162,7 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 						_db_query( "DELETE FROM `" . $this->table . "`
 									WHERE `" . self::FN_ID . "` = \"" . _db_escape ( $_POST['id'] ) . "\"
 										AND `" . self::FN_UID . "` = \"" . _db_escape ( $this->uid ) . "\"" );
+					_db_query( "COMMIT" );
 					return;
 				break;
 				
