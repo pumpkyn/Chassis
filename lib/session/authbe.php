@@ -75,6 +75,13 @@ abstract class authbe
 	public abstract function validate ( $login, $password );
 	
 	/**
+	 * Member is supposed to provide name (host/domain name) of authorization
+	 * authority in the form of string. If plugin does not use such an
+	 * authority, return NULL.
+	 */
+	public abstract function authority ( );
+	
+	/**
 	 * Empty (stub) method. When implemented, should provide change password
 	 * feature.
 	 * @param string $newpass plain new password
