@@ -216,10 +216,12 @@ class instance extends \pers
 		$this->tui->generateReqs( );
 		if ( $this->rui instanceof rui )
 			$this->rui->generateReqs( );
-		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( $requirer->getRelative() . 'css/_uicmp.css', __CLASS__ ) );
+		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( $requirer->getRelative() . 'css/_uicmp.css', __CLASS__ ) );	// a requirement
+		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( $requirer->getRelative() . 'css/_list.css', __CLASS__ ) );	// a requirement
+		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( $requirer->getRelative() . 'css/_tags.css', __CLASS__ ) );	// a requirement
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative() . 'js/_pers.js', __CLASS__ ) );
-		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative() . '3rd/XMLWriter-1.0.0-min.js', __CLASS__ ) );
-		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative() . 'js/wa.js', __CLASS__ ) );
+		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative() . '3rd/XMLWriter-1.0.0-min.js', __CLASS__ ) );	// a requirement
+		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative() . 'js/wa.js', __CLASS__ ) );	// a requirement
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $init );
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $this->layout->getJsVar( ) . '.registerTabCb( \'' . $this->tui->id( ) . '\', \'onShow\', ' . $this->jsVar( ) . '.refresh );' );
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $this->layout->getJsVar( ) . '.registerTabCb( \'' . $this->tui->id( ) . '\', \'onLoad\', ' . $this->jsVar( ) . '.startup );' );

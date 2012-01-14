@@ -46,10 +46,10 @@ function _uicmp_layout (  )
 	 */
 	this.startup = function ( )
 	{
-		this.show( this.current );
-
 		for ( var tab in this.tabs )
 			this.tabs[tab].startup( );
+		
+		this.show( this.current ); // only after tabs were successfully initialized by means of startup() method
 	};
 
 	/**
@@ -59,7 +59,7 @@ function _uicmp_layout (  )
 	{
 		this.tabs[id] = new _uicmp_tab( id, hidden, stackable, foldId );
 
-		if ( hidden == false )
+		if ( hidden === false )
 			this.current = id;
 	};
 
@@ -83,8 +83,10 @@ function _uicmp_layout (  )
 	{
 		if ( this.tabs[id] )
 		{
-			if (typeof this.tabs[this.current] !== 'undefined')
+			if ( ( typeof this.tabs[this.current] !== 'undefined' )
+					&& ( this.current!=id ) )
 				this.tabs[this.current].hide( );
+
 			this.tabs[id].show( );
 			this.current = id;
 			this.stack.push( id );
