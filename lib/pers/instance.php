@@ -702,6 +702,29 @@ class instance extends \pers
 							
 							return;
 						}
+						else // no results to display
+						{
+							// Framework localization strings.
+							$lmsgs = $this->layout->getMsgs( );
+							$empty['o1'] = $lmsgs['listEmptyOptions'];
+							$empty['o2'] = $lmsgs['listEmptyLastOpt'];
+							
+							if ( trim( $params['k'] ) == '' )
+							{
+								$empty['msg'] = $this->messages['empty'];
+								if ( $this->has( self::FL_PI_CREATE ) ) // make offer only if it makes sense
+									$empty['act'] = array( $params['jsvar'] . '.rui.create();' => $this->messages['create'] ) ;
+							}
+							else
+							{
+								$empty['msg'] = $this->messages['nomatch'];
+								$empty['act'] = array( $params['jsvar'] . '.tui.refresh();' => $this->messages['redo'], $params['jsvar'] . '.tui.showall();' => $this->messages['all'] ) ;
+							}
+							
+							\_smarty_wrapper::getInstance( )->getEngine()->assignByRef( 'USR_PERS_EMPTY', $empty );
+							\_smarty_wrapper::getInstance( )->setContent( CHASSIS_UI . '/pers/empty.html' );
+							\_smarty_wrapper::getInstance( )->render( );
+						}
 					}
 				break;
 			}

@@ -1,0 +1,27 @@
+{*
+ * Show message about zero matches and offers options. This is reworked template
+ * originally (and still being) used by Lists subpackage.
+ * @file empty.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage Persistence
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+
+<table cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+		<td class="_list_empty">
+			<div>{$USR_PERS_EMPTY.msg}</div>
+			{if $USR_PERS_EMPTY.act}
+			<div>&nbsp;{$USR_PERS_EMPTY.o1}</div>
+			{foreach name=USR_PERS_EMPTY_OPTS from=$USR_PERS_EMPTY.act key=act item=msg}
+			{if $smarty.foreach.USR_PERS_EMPTY_OPTS.last && !$smarty.foreach.USR_PERS_EMPTY_OPTS.first}
+			<div>&nbsp;{$USR_PERS_EMPTY.o2}</div>
+			{/if}
+			<div class="_uicmp_blue" onClick="{$act}">&nbsp;{$msg}</div>
+			{/foreach}
+			.
+			{/if}
+		</td>
+	</tr>
+</table>

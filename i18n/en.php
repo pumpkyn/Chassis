@@ -148,6 +148,11 @@ $__chassis_msg['tags']['rui']['create']				= 'Create tag';
 $__chassis_msg['tags']['schemes']					= $__chassis_msg['ctx'];
 $__chassis_msg['tags']['Q']							= 'Do you really want to remove tag <b>%s</b>? This operation cannot be undone.';
 $__chassis_msg['tags']['remove']					= 'Remove';
+$__chassis_msg['tags']['empty']						= 'There are no tags to display!';
+$__chassis_msg['tags']['nomatch']					= 'There are no tags matching your search query!';
+$__chassis_msg['tags']['redo']						= 'Search again';
+$__chassis_msg['tags']['all']						= 'Show all';
+$__chassis_msg['tags']['create']					= $__chassis_msg['tags']['tui']['anchor'];
 
 /**
  * SkyDome messages.

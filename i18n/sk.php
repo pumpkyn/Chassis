@@ -148,6 +148,11 @@ $__chassis_msg['tags']['rui']['create']				= 'Nová nálepka';
 $__chassis_msg['tags']['schemes']					= $__chassis_msg['ctx'];
 $__chassis_msg['tags']['Q']							= 'Skutočne chcete zmazať nálepku <b>%s</b>? Táto operácia je nevratná.';
 $__chassis_msg['tags']['remove']					= 'Odstrániť';
+$__chassis_msg['tags']['empty']						= 'Nemáte žiadne nálepky!';
+$__chassis_msg['tags']['nomatch']					= 'Žiadne nálepky nevyhovujú podmienkam vyhľadávania!';
+$__chassis_msg['tags']['redo']						= 'Hľadať znovu';
+$__chassis_msg['tags']['all']						= 'Zobraziť všetko';
+$__chassis_msg['tags']['create']					= $__chassis_msg['tags']['tui']['anchor'];
 
 /**
  * SkyDome messages.
