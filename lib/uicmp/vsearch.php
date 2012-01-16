@@ -93,7 +93,13 @@ class srchres extends pool
 	 *
 	 * @var int
 	 */
-	protected $sizer = 10;
+	protected $size = 10;
+	
+	/**
+	 * Remembering if we already set client side resizer size.
+	 * @var bool
+	 */
+	protected static $jsSizeSet = FALSE;
 
 	/**
 	 * Constructor.
@@ -110,6 +116,7 @@ class srchres extends pool
 		$this->renderer	= CHASSIS_UI . 'uicmp/search_resizer.html';
 		$this->jsVar	= $js_var;
 		$this->size		= $size;
+		$this->setJsSize( $this->size );
 		
 		if ( $parent instanceof body )
 			$parent->add( $this );
@@ -121,6 +128,23 @@ class srchres extends pool
 	 * @return int
 	 */
 	public function getSize ( ) { return $this->size; }
+	
+	/**
+	 * Sets size for resizer value cache variable. Any call to constructor of
+	 * this class triggers this method.
+	 * @param int $size value initalizing client side
+	 */
+	protected function setJsSize ( $size )
+	{
+		/**
+		 * To make sure Javascript variable for resizing has correct value.
+		 */
+		if ( self::$jsSizeSet === FALSE )
+		{
+			$this->parent->getRequirer( )->call( vlayout::RES_JSPLAIN, '_uicmp_resizer_size = ' . $this->size . ';' );
+			self::$jsSizeSet = TRUE;
+		}
+	}
 }
 
 /**
@@ -244,20 +268,6 @@ class vsearch extends vcmp
 	protected $config = NULL;
 
 	/**
-	 * Size for resizers.
-	 * 
-	 * @var int
-	 */
-	protected $size = NULL;
-
-	/**
-	 * Flag describing if Javascript variable for resizer size was set.
-	 *
-	 * @var bool
-	 */
-	protected $jsSizeSet = false;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param string $id identifier for the solution
@@ -279,7 +289,6 @@ class vsearch extends vcmp
 		$this->config	= $list_cfg->get( );
 		$this->layout	= $this->tab->getParent( );
 		$this->requirer	= $this->layout->getRequirer( );
-		$this->size		= $resizer_size;
 		$this->jsPrefix	= '_uicmp_search_i_';
 
 		/**
@@ -306,7 +315,7 @@ class vsearch extends vcmp
 
 		if ( !$this->isFlagSet( self::FLAG_NORESIZER ) && !$this->isFlagSet( self::FLAG_DUMMYRESIZER ) )
 		{
-			$this->resizer = new srchres( $body, $this->id . '.Resizer', $this->getJsVar( ), $this->size );
+			$this->resizer = new srchres( $body, $this->id . '.Resizer', $this->getJsVar( ), $resizer_size );
 			$body->add( $this->resizer );
 		}
 
@@ -336,23 +345,6 @@ class vsearch extends vcmp
 		$this->requirer->call( vlayout::RES_JSPLAIN, 'var ' . $this->getJsVar( ) . ' = new _uicmp_search( \'' . $this->id . '\', \'' . $this->tab->getHtmlId( ) . '\', '. $this->ind->getJsVar( ) . ', \'' . $this->url . '\', ' . uicmp::toJsArray( $this->params ) . ', ' . uicmp::toJsArray( $this->config ) . ', \'' . $this->form->getHtmlId( ) . '\', \'' . $this->container->getHtmlId( ) . '\', ' . ( ( ( !$this->isFlagSet( self::FLAG_DUMMYRESIZER ) ) && ( !$this->isFlagSet( self::FLAG_NORESIZER ) ) ) ? '\'' . $this->resizer->getHtmlId( ) . '\'' : 'null' ) . ' );' );
 		$this->requirer->call( vlayout::RES_JSPLAIN, $this->layout->getJsVar( ) . '.registerTabCb( \'' . $this->tab->getHtmlId( ) . '\', \'onShow\', ' . $this->getJsVar( ) . '.tabShown );' );
 		$this->requirer->call( vlayout::RES_JSPLAIN, $this->layout->getJsVar( ) . '.registerTabCb( \'' . $this->tab->getHtmlId( ) . '\', \'onLoad\', ' . $this->getJsVar( ) . '.startup );' );
-
-		$this->setJsSize( );
-	}
-
-	/**
-	 * Sets size for resizer value cache variable.
-	 */
-	protected function setJsSize ( )
-	{
-		/**
-		 * To make sure Javascript variable for resizing has correct value.
-		 */
-		if ( $this->jsSizeSet === false )
-		{
-			$this->requirer->call( vlayout::RES_JSPLAIN, '_uicmp_resizer_size = ' . $this->size . ';' );
-			$this->jsSizeSet = true;
-		}
 	}
 
 }
