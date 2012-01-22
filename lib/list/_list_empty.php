@@ -8,7 +8,8 @@
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-/** 
+/**
+ * @deprecated should be replaced by use of Persistence classes
  * Data abstraction for UI element showing empty result set message and offers
  * options.
  */
@@ -36,7 +37,6 @@ class _list_empty
 	 */
 	public function __construct( $message )
 	{
-		parent::__construct( );
 		$this->message = $message;
 	}
 	

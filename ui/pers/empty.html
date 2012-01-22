@@ -1,5 +1,5 @@
-{*
- * Show message about zero matches and offers options. This is reworked template
+{* Show message about zero matches and offers options. This is reworked template
+ *
  * originally (and still being) used by Lists subpackage.
  * @file empty.html
  * @author giorno
@@ -8,15 +8,17 @@
  * @license Apache License, Version 2.0, see LICENSE file
  *}
 
+{assign var=CHASSIS_MSG value=i18n::getInstance()->msg()}
+ 
 <table cellspacing="0" cellpadding="0" width="100%">
 	<tr>
 		<td class="_list_empty">
 			<div>{$USR_PERS_EMPTY.msg}</div>
 			{if $USR_PERS_EMPTY.act}
-			<div>&nbsp;{$USR_PERS_EMPTY.o1}</div>
+			<div>&nbsp;{$CHASSIS_MSG.list.opts}</div>
 			{foreach name=USR_PERS_EMPTY_OPTS from=$USR_PERS_EMPTY.act key=act item=msg}
 			{if $smarty.foreach.USR_PERS_EMPTY_OPTS.last && !$smarty.foreach.USR_PERS_EMPTY_OPTS.first}
-			<div>&nbsp;{$USR_PERS_EMPTY.o2}</div>
+			<div>&nbsp;{$CHASSIS_MSG.list.lastopt}</div>
 			{/if}
 			<div class="_uicmp_blue" onClick="{$act}">&nbsp;{$msg}</div>
 			{/foreach}

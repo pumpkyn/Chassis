@@ -707,8 +707,6 @@ class instance extends \pers
 						{
 							// Framework localization strings.
 							$lmsgs = $this->layout->getMsgs( );
-							$empty['o1'] = $lmsgs['listEmptyOptions'];
-							$empty['o2'] = $lmsgs['listEmptyLastOpt'];
 							
 							if ( trim( $params['k'] ) == '' )
 							{

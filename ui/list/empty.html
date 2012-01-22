@@ -1,17 +1,24 @@
-{* Show message about zero matches and offers options. *}
+{* Show message about zero matches and offers options.
+ *
+ * @file empty.html
+ * @author giorno
+ * @package Chassis
+ * @subpackage List
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
 
+{assign var=CHASSIS_MSG value=i18n::getInstance()->msg()}
+ 
 <table cellspacing="0" cellpadding="0" width="100%">
 	<tr>
 		<td class="_list_empty">
 			<div>{$USR_LIST_EMPTY->getMsg( )}</div>
 			{assign var=opts value=$USR_LIST_EMPTY->getOptions()}
-			{assign var=i18n value=$USR_LIST_EMPTY->getI18n()}
-			
 			{if $opts}
-			<div>&nbsp;{$i18n.listEmptyOptions}</div>
+			<div>&nbsp;{$CHASSIS_MSG.list.opts}</div>
 			{foreach name=USR_LIST_EMPTY_FE from=$opts item=opt}
 			{if $smarty.foreach.USR_LIST_EMPTY_FE.last && !$smarty.foreach.USR_LIST_EMPTY_FE.first}
-			<div>&nbsp;{$i18n.listEmptyLastOpt}</div>
+			<div>&nbsp;{$CHASSIS_MSG.list.lastopt}</div>
 			{/if}
 			<div class="_uicmp_blue{if $opt.class} {$opt.class}{/if}" onClick="{$opt.action}">&nbsp;{$opt.display}</div>
 			{/foreach}

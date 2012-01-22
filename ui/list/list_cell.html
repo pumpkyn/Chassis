@@ -39,5 +39,9 @@
 			<span class="_list_deco_text">{if $cell->data.text&&$cell->data.title} - {/if}{$cell->data.text}</span>
 		</div>
 {else}
-	{if $USR_LIST_CUST_MGR}{include file=$USR_LIST_CUST_MGR}{/if}
+	{if isset($USR_LIST_CUST_MGR)}
+		{include file=$USR_LIST_CUST_MGR}
+	{else}
+		<td class="{$allItemClass}">&nbsp;</td>
+	{/if}
 {/if}
