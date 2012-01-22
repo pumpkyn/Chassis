@@ -282,7 +282,7 @@ class instance extends \pers
 					$val = $search['r'][$field->name] = $_POST['r_' . $field->name];
 					
 					if ( $val != '[norestr]' )
-						$and[] = "`{$field->name}` = \"" . _db_escape( $val ) . "\"";
+						$and[] = "`{$this->table}`.`{$field->name}` = \"" . _db_escape( $val ) . "\"";
 				}
 			}
 			elseif ( ( ( $search['k'] != '' ) && ( $field->flags & field::FL_FD_SEARCH ) ) && ( !$search['as'] || ( ( $search['as'] ) && ( ( $search['f'] == '[allfields]' ) || ( $search['f'] == $field->name ) ) ) ) )
@@ -290,11 +290,11 @@ class instance extends \pers
 				switch ( $field->type )
 				{
 					case field::FT_INT:
-						$or[] = "`{$field->name}` = \"{$search['k']}\"";
+						$or[] = "`{$this->table}`.`{$field->name}` = \"{$search['k']}\"";
 					break;
 				
 					case field::FT_STRING:
-						$or[] = "`{$field->name}` LIKE \"%{$search['k']}%\"";
+						$or[] = "`{$this->table}`.`{$field->name}` LIKE \"%{$search['k']}%\"";
 					break;
 				}
 			}
@@ -334,6 +334,26 @@ class instance extends \pers
 		
 		return "FROM `{$this->table}` {$where}";
 	}
+	
+	/**
+	 * Builder of query used to extract information about number of records
+	 * matching search conditions. Separated so that derived classes may
+	 * override and supply own behaviour.
+	 * @param string $stub product of searchq()
+	 * @return string SQL query providing number of matching records
+	 */
+	protected function countq ( &$stub ) { return "SELECT COUNT(*) " . $stub; }
+
+	/**
+	 * Builder of query used to extract page of data records from the table.
+	 * Separated so that derived classes may override and supply own behaviour.
+	 * @param string $stub product of searchq()
+	 * @param string $order ORDER BY clause
+	 * @param int $first number of first record in the page
+	 * @param int $llen size of the page
+	 * @return string SQL query providing page of records
+	 */
+	protected function dataq ( &$stub, &$order, &$first, &$llen ) { return "SELECT * " . $stub . " {$order} LIMIT {$first},{$llen}"; }
 	
 	/**
 	 * Builds a list header. Exposed as separate method to allow override in the
@@ -623,10 +643,9 @@ class instance extends \pers
 					$start = microtime( true );
 					$params = $this->searchp( );
 					$qstub = $this->searchq( $params );
-					$query = "SELECT COUNT(*) " . $qstub;
 					
 					_db_query( "BEGIN" );
-					$count = _db_1field( $query );
+					$count = _db_1field( $this->countq( $qstub ) );
 					_db_query( "COMMIT" );
 
 					if ( $count !== false )
@@ -660,10 +679,9 @@ class instance extends \pers
 						
 						// compose search SQL
 						$order = $this->orderq( $params );
-						$query = "SELECT * " . $qstub . " {$order} LIMIT {$first},{$llen}";
 						
 						_db_query( "BEGIN" );
-						$res = _db_query( $query );
+						$res = _db_query( $this->dataq( $qstub, $order, $first, $llen ) );
 						_db_query( "COMMIT" );
 
 						if ( $res && _db_rowcount( $res ) )
@@ -708,7 +726,7 @@ class instance extends \pers
 							// Framework localization strings.
 							$lmsgs = $this->layout->getMsgs( );
 							
-							if ( trim( $params['k'] ) == '' )
+							if ( ( trim( $params['k'] ) == '' ) && ( !$params['as'] ) )
 							{
 								$empty['msg'] = $this->messages['empty'];
 								if ( $this->has( self::FL_PI_CREATE ) ) // make offer only if it makes sense
