@@ -416,7 +416,7 @@ class instance extends \pers
 									break;
 								}
 						}
-						return new \_list_cell( \_list_cell::Text( '' ) );
+						return new \_list_cell( \_list_cell::Text( '' ), '', $field->align );
 					break;
 					
 					default:
@@ -427,7 +427,7 @@ class instance extends \pers
 							return new \_list_cell( \_list_cell::deco( $record[$field->name], '', null, '', $search['jsvar'] . '.rui.edit( \'' . implode( '::', $index ) . '\' );' ), \_list_cell::MAN_DECO );
 						}
 						else
-							return new \_list_cell( \_list_cell::Text( $record[$field->name] ) );
+							return new \_list_cell( \_list_cell::Text( $record[$field->name], '', $field->align ) );
 					break;
 				}
 			}	
