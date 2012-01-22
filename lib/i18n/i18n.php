@@ -1,36 +1,36 @@
 <?php
 
 /**
- * @file _i18n_loader.php
+ * @file i18n.php
  * @author giorno
  * @package Chassis
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
 /**
+ * [Smarty]
  * Singleton loading framework localization file depending on language code
  * supplied and providing these resources to other objects, primarily within
- * the framework.
+ * the framework. Once initialized, it is used from both, PHP logic and Smarty
+ * templates to obtain framework localization. Put intentionally out of any
+ * namespaces to be accessible from the Smarty template engine.
  */
-class _i18n_loader
+class i18n
 {
 	/**
 	 * Singleton instance.
-	 * 
-	 * @var _i18n_loader
+	 * @var i18n
 	 */
 	protected static $instance = NULL;
 	
 	/**
 	 * Two-character code of language currently being used.
-	 * 
 	 * @var string
 	 */
 	protected static $lang = NULL;
 	
 	/**
 	 * Array of localization strings.
-	 * 
 	 * @var array 
 	 */
 	protected $messages = NULL;
@@ -59,9 +59,8 @@ class _i18n_loader
 	
 	/**
 	 * Singleton interface.
-	 * 
 	 * @param string $lang two-char lanugage code
-	 * @return _i18n_loader 
+	 * @return i18n 
 	 */
 	public static function getInstance ( $lang = NULL )
 	{
@@ -76,7 +75,7 @@ class _i18n_loader
 		 * been created yet.
 		 */
 		if ( ( ( !is_null( $lang ) ) && ( self::$lang != $lang ) ) || ( is_null( self::$instance ) ) )
-			self::$instance = new _i18n_loader( );
+			self::$instance = new i18n( );
 		
 		return self::$instance;
 	}
@@ -84,7 +83,6 @@ class _i18n_loader
 	/**
 	 * Read interface to localization messages. If key is not provided,
 	 * reference to whole messages storage is provided.
-	 * 
 	 * @param string $key optional, used onyl for lookup
 	 * @return mixed
 	 */

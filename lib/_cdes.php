@@ -18,6 +18,7 @@ require_once CHASSIS_LIB . 'ui/_ctx.php';
 require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
 
 /**
+ * @deprecated use Tags Persistence instance
  * Class for CDES (Context Displaying and Editing Solution) backend operations.
  */
 class _cdes
@@ -66,22 +67,14 @@ class _cdes
 	 * @var array
 	 */
 	protected $messages = NULL;
-
-	/**
-	 * Localization loader.
-	 * 
-	 * @var _i18n_loader 
-	 */
-	protected $i18n_loader = NULL;
 	
 	/**
 	 * Constructor. Sets database table as contexts storage.
 	 * 
 	 * @param int $UID user ID
 	 * @param string $table name of contexts database table
-	 * @param _i18n_loader $i18n_loader instance of localization provider
 	 */
-	function __construct ( $UID, $table, $i18n_loader )
+	function __construct ( $UID, $table )
 	{
 		$this->i18n_loader	= $i18n_loader;
 		$this->UID			= $UID;
@@ -124,7 +117,7 @@ class _cdes
 		/**
 		 * Create list builder and it header.
 		 */
-		$builder = new _list_builder( $js_id, $this->i18n_loader );
+		$builder = new _list_builder( $js_id );
 			$builder->addField( self::F_CTXNAME, $this->messages['cdesContext'], '150px', 1, 'left', true, ( $order == self::F_CTXNAME ), $dir );
 			$builder->addField( self::F_CTXDESC, $this->messages['cdesDesc'], '*', 1, '', false );
 			$builder->addField( '__rem', '', '0px', 1, '', false );
@@ -154,13 +147,13 @@ class _cdes
 		{
 			if ( trim( $keyword ) != '' )
 			{
-				$empty = new _list_empty( $this->messages['cdesNoMatch'], $this->i18n_loader );
+				$empty = new _list_empty( $this->messages['cdesNoMatch'] );
 				$empty->add( $this->messages['cdesOSearch'], "_uicmp_lookup.lookup( '{$js_id}' ).focus();" );
 				$empty->add( $this->messages['cdesOShowAll'], "_uicmp_lookup.lookup( '{$js_id}' ).showAll();" );
 			}
 			else
 			{
-				$empty = new _list_empty( $this->messages['cdesEmpty'], $this->i18n_loader );
+				$empty = new _list_empty( $this->messages['cdesEmpty'] );
 				$empty->add( $this->messages['cdesOCreate'], "{$cdes_ed}.create();" );
 			}
 			$empty->render( );

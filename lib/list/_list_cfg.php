@@ -9,6 +9,7 @@
  */
  
 /**
+ * @deprecated replace at all places with Persistence instances
  * Class responsible for management of list of search results configuration
  * (page, order, ...). De facto wrapper of settings instance and methods
  * responsible for list configuration.

@@ -1,9 +1,9 @@
 {if $USR_LIST_DATA.pager}
 <table width="100%" cellspacing="0" cellpadding="0">
 	<tr>
-		{if $USR_LIST_DATA.messages.listPage}
+		{if $CHASSIS_MSG.list.page}
 		<td class="_list_pager_text">
-			{$USR_LIST_DATA.messages.listPage}:
+			{$CHASSIS_MSG.list.page}:
 		</td>
 		{/if}
 		<td class="_list_pager_text">
@@ -34,7 +34,8 @@
 		</td>
 		<td width="99%"></td>
 		<td class="_list_pager_text">
-			{$USR_LIST_DATA.messages.listItems} <b>{$USR_LIST_DATA.pager.firstItem}</b> {$USR_LIST_DATA.messages.listTo} <b>{$USR_LIST_DATA.pager.lastItem}</b> {$USR_LIST_DATA.messages.listOf} <b>{$USR_LIST_DATA.pager.itemCount}</b>
+			{$CHASSIS_MSG.list.items} <b>{$USR_LIST_DATA.pager.firstItem}</b> {$CHASSIS_MSG.list.to} <b>{$USR_LIST_DATA.pager.lastItem}</b> {$CHASSIS_MSG.list.of} <b>{$USR_LIST_DATA.pager.itemCount}</b>
+			{if !is_null($USR_LIST_DATA.pager.elapsed)}({$USR_LIST_DATA.pager.elapsed} {$CHASSIS_MSG.list.sec}) {/if}
 		</td>
 	</tr>
 </table>

@@ -11,7 +11,6 @@
 namespace io\creat\chassis\uicmp;
 
 require_once CHASSIS_LIB . 'uicmp/vcmp.php';
-/*require_once CHASSIS_LIB . 'uicmp/_uicmp_cdes_editor.php';*/
 require_once CHASSIS_LIB . 'uicmp/buttons.php';
 require_once CHASSIS_LIB . 'uicmp/grpitem.php';
 require_once CHASSIS_LIB . 'uicmp/indicator.php';

@@ -15,15 +15,14 @@
 $__chassis_msg['srchBtSearch']		= 'Search';
 $__chassis_msg['srchBtShowAll']		= 'Show all';
 
-/**
- * List subpackage.
- */
-$__chassis_msg['listOf']				= 'of';
-$__chassis_msg['listTo']				= '-';
-$__chassis_msg['listItems']			= 'Records';
-$__chassis_msg['listPage']			= 'Page';
-$__chassis_msg['listEmptyOptions']	= 'You may want to';
-$__chassis_msg['listEmptyLastOpt']	= 'or';
+/** List subpackage messages. */
+$__chassis_msg['list']['of']		= 'of';
+$__chassis_msg['list']['to']		= '-';
+$__chassis_msg['list']['items']		= 'Records';
+$__chassis_msg['list']['page']		= 'Page';
+$__chassis_msg['list']['opts']		= 'You may want to';
+$__chassis_msg['list']['lastopt']	= 'or';
+$__chassis_msg['list']['sec']		= 'secs';
 
 /**
  * Lists Batch Processing (BP) form.

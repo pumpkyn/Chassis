@@ -61,18 +61,15 @@ class _list_bp
 
 	/**
 	 * Used to generate HTML ID's for UICMP container.
-	 *
-	 * @var <int>
+	 * @var int
 	 */
 	protected static $lastId = 0;
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param <string> $client_var name of Javascript variable
-	 * @param <array> $messages framework localization messages
+	 * @param string $client_var name of Javascript variable
 	 */
-	public function __construct( $client_var, $messages )
+	public function __construct( $client_var )
 	{
 		$this->client_var	= $client_var;
 		$this->messages		= $messages;

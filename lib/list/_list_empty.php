@@ -8,13 +8,11 @@
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . 'list/_list_i18n.php';
-
 /** 
  * Data abstraction for UI element showing empty result set message and offers
  * options.
  */
-class _list_empty extends _list_i18n
+class _list_empty
 {
 	/**
 	 * Array of options.
@@ -36,9 +34,9 @@ class _list_empty extends _list_i18n
 	 * @param string $message informational text to be displayed above list of options
 	 * @param _i18n_loader $i18n_loader instance of localization provider, NULL allowed only for none option
 	 */
-	public function __construct( $message, $i18n_loader = NULL )
+	public function __construct( $message )
 	{
-		parent::__construct( $i18n_loader );
+		parent::__construct( );
 		$this->message = $message;
 	}
 	

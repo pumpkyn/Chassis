@@ -1,4 +1,4 @@
-{* Renderer of whole list.
+{* Renderer of whole list content.
  *
  * @file list.html
  * @author giorno
@@ -6,7 +6,9 @@
  * @subpackage List
  * @license Apache License, Version 2.0, see LICENSE file
  *}
- 
+
+{assign var=CHASSIS_MSG value=i18n::getInstance()->msg()}
+
 <table cellspacing="0" cellpadding="0" width="100%">
 	<tr>
 		<td colspan="10" class="_list_pager_row">{include file="$CHASSIS_UI_ROOT/list/list_pager.html"}</td>

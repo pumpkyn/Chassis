@@ -15,15 +15,14 @@
 $__chassis_msg['srchBtSearch']			= 'Hľadaj';
 $__chassis_msg['srchBtShowAll']			= 'Zobraz všetko';
 
-/**
- * List subpackage.
- */
-$__chassis_msg['listOf']				= 'z';
-$__chassis_msg['listTo']				= '-';
-$__chassis_msg['listItems']				= 'Záznamy';
-$__chassis_msg['listPage']				= 'Strana';
-$__chassis_msg['listEmptyOptions']		= 'Môžete';
-$__chassis_msg['listEmptyLastOpt']		= 'alebo';
+/** List subpackage messages. */
+$__chassis_msg['list']['of']		= 'z';
+$__chassis_msg['list']['to']		= '-';
+$__chassis_msg['list']['items']		= 'Záznamy';
+$__chassis_msg['list']['page']		= 'Strana';
+$__chassis_msg['list']['opts']		= 'Môžete';
+$__chassis_msg['list']['lastopt']	= 'alebo';
+$__chassis_msg['list']['sec']		= 'sek.';
 
 /**
  * Lists Batch Processing (BP) form.

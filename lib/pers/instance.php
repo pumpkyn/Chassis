@@ -15,8 +15,6 @@ require_once CHASSIS_3RD . 'class.SimonsXmlWriter.php';
 require_once CHASSIS_LIB . 'libdb.php';
 require_once CHASSIS_LIB . 'class.Wa.php';
 
-require_once CHASSIS_LIB . 'i18n/_i18n_loader.php';
-
 require_once CHASSIS_LIB . 'pers/common.php';
 require_once CHASSIS_LIB . 'pers/field.php';
 require_once CHASSIS_LIB . 'pers/tui.php';
@@ -622,6 +620,7 @@ class instance extends \pers
 			
 				// perform search by conditions passed from table UI
 				case 'refresh':
+					$start = microtime( true );
 					$params = $this->searchp( );
 					$qstub = $this->searchq( $params );
 					$query = "SELECT COUNT(*) " . $qstub;
@@ -669,9 +668,9 @@ class instance extends \pers
 
 						if ( $res && _db_rowcount( $res ) )
 						{
-							$builder = new \_list_builder( $params['jsvar'] . '.tui', \_i18n_loader::getInstance( ) );
+							$builder = new \_list_builder( $params['jsvar'] . '.tui' );
 								$this->listh( $builder, $params );
-								$builder->computePaging( $llen, $count, $page, $pages, $this->settproxy->ph( ) );
+								$builder->computePaging( $llen, $count, $page, $pages, $this->settproxy->ph( ), sprintf( "%4.4f", microtime( true ) - $start ) );
 							
 							while ( $row = _db_fetchrow( $res ) )
 							{
