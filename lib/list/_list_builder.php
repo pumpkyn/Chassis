@@ -193,8 +193,9 @@ class _list_builder extends _list_descriptor
 	 * @param page actual page number
 	 * @param pageCount number of pages
 	 * @param width number of shown page numbers on sides of current page, e.g. 2 may mean [ 4, 5, 6, 7, 8 ] for actual page 6
+	 * @param float $elapsed time it took extracting data (in seconds), will not be displayed if NULL
 	 */
-	public function computePaging ( $pageSize, $itemCount, $page, $pageCount, $width = 2 )
+	public function computePaging ( $pageSize, $itemCount, $page, $pageCount, $width = 2, $elapsed = NULL )
 	{
 		/*
 		 * no records

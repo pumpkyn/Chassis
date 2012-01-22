@@ -120,7 +120,7 @@ div._list_header_ordle_,div._list_header_ordle_left,div._list_header_ordle_right
  cursor: pointer;
  font-weight: bold;
  float: left;
- padding-right: 12px; }
+ /*padding-right: 12px;*/ }
 div._list_header_ordle_right {
  float: right;
 }
