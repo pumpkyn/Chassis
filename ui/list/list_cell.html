@@ -29,7 +29,7 @@
 	</td>
 {elseif $cell->manager=='manDeco'}
 	<td style="white-space:normal;" class="{$allItemClass} {$cell->data.class}" align="left">{*/if*}
-		<div onMouseOver="this.className='_list_deco{if $cell->data.do}_on{/if} {$cell->data.class_div}';" onMouseOut="this.className='_list_deco{if $cell->data.do}_off{/if} {$cell->data.class_div}';" {if $cell->data.do}onClick="{$cell->data.do}"{/if} class="_list_deco{if $cell->data.do}_off{/if} {$cell->data.class_div}">
+		<div {if $cell->data.do}onMouseOver="this.className='_list_deco_on {$cell->data.class_div}';" onMouseOut="this.className='_list_deco_off {$cell->data.class_div}';"{/if} {if $cell->data.do}onClick="{$cell->data.do}"{/if} class="_list_deco{if $cell->data.do}_off{/if} {$cell->data.class_div}">
 			{if $cell->data.ctxs}
 				{foreach from=$cell->data.ctxs item=USR_CTX}
 					{include file="$CHASSIS_UI_ROOT/ctx.html"}
