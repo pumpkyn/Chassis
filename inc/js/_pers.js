@@ -115,7 +115,7 @@ function _pers_tui ( pi )
 				for ( var id in this.pi.tcfg.r )
 				{
 					var el = document.getElementById( this.pi.tcfg.frm_id + '::restrictor::' + id );
-					if ( el )
+					if ( el && ( el.selectedIndex >= 0 ) )
 						data['r_' + id] = el[el.selectedIndex].value;
 				}
 			}
