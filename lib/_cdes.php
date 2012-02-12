@@ -1,5 +1,7 @@
 <?php
 
+// vim: ts=4
+
 /**
  * @file _cdes.php
  * @author giorno
@@ -76,10 +78,8 @@ class _cdes
 	 */
 	function __construct ( $UID, $table )
 	{
-		$this->i18n_loader	= $i18n_loader;
 		$this->UID			= $UID;
 		$this->tableName	= $table;
-		$this->messages		= $i18n_loader->msg( );
 	}
 
 	/**
