@@ -9,10 +9,11 @@
 
 namespace io\creat\chassis;
 
-require_once CHASSIS_LIB . 'libdb.php';
+require_once CHASSIS_LIB . 'libpdo.php';
 
 /**
- * Stub, a common parent of all authentication plugins.
+ * Stub, a common parent of all authentication plugins. Uses global repository
+ * PDO.
  * 
  * BE stands for backend.
  */
@@ -34,7 +35,7 @@ abstract class authbe
 	/**
 	 * Instance of settings object used for access to global scope configuration
 	 * of the beackend (e.g. hostnames or connect details).
-	 * @var _settings
+	 * @var \io\creat\chassis\session\settings
 	 */
 	protected $sett = NULL;
 	
@@ -45,11 +46,18 @@ abstract class authbe
 	protected $flags = 0;
 	
 	/**
+	 * PDO instance referenced in global repository.
+	 * @var PDO
+	 */
+	protected $pdo = NULL;
+	
+	/**
 	 * Constructor.
 	 * @param _settings $sett reference to settings instance for access to plugin config
 	 */
 	public function __construct ( &$sett, $flags = 0 )
 	{
+		$this->pdo = session\repo::getInstance()->get( session\repo::PDO );
 		$this->sett = $sett;
 		$this->flags = $flags;
 	}
@@ -108,9 +116,12 @@ abstract class authbe
 	 */
 	protected function mkid ( $login )
 	{
-		$user = \_db_1line( "SELECT `" . \Config::F_UID . "`,`" . \Config::F_ENABLED . "`
-								FROM `" . \Config::T_USERS . "`
-								WHERE `" . \Config::F_LOGIN . "` = \"" . \_db_escape( $login ) . "\"", MYSQL_NUM );
+		$sql = $this->pdo->prepare( "SELECT `" . \Config::F_UID . "`,`" . \Config::F_ENABLED . "`
+				FROM `" . \Config::T_USERS . "`
+				WHERE `" . \Config::F_LOGIN . "` = ?" );
+		
+		$sql->bindValue( 1, $login );
+		$user = pdo1l( $sql, \PDO::FETCH_NUM );
 		
 		// Record does exist, but user was disabled. Treated as failure to
 		// create record, therefore failure to login.
@@ -124,10 +135,12 @@ abstract class authbe
 			return $uid;
 		else // == 0
 		{
-			\_db_query( "INSERT INTO `" . \Config::T_USERS . "`
-				SET `" . \Config::F_LOGIN . "` = \"" . \_db_escape( $login ) . "\",
-					`" . \Config::F_ENABLED . "` = \"1\"" );
-			$uid = \_db_1field( "SELECT LAST_INSERT_ID()" );
+			$this->pdo->prepare( "INSERT INTO `" . \Config::T_USERS . "`
+				SET `" . \Config::F_LOGIN . "` = ?,
+					`" . \Config::F_ENABLED . "` = \"1\"" )->execute( array( $login ) );
+	
+			$uid = (int)$this->pdo->lastInsertId();
+			
 			if ( (int)$uid > 1 )
 				return $uid;
 			else

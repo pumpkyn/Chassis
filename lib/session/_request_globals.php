@@ -11,6 +11,7 @@
 /**
  * Singleton keeping variables, which are supposed to be available throughout
  * whole solution.
+ * @deprecated
  */
 class _request_globals
 {

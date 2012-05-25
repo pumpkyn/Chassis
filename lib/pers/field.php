@@ -13,6 +13,7 @@ namespace io\creat\chassis\pers;
 require_once CHASSIS_LIB . '_cdes.php';
 require_once CHASSIS_LIB . 'pers/common.php';
 require_once CHASSIS_LIB . 'tags/instance.php';
+require_once CHASSIS_LIB . 'session/repo.php';
 
 /**
  * Options container for definition of multivalued field options. Applicable
@@ -163,13 +164,19 @@ class tag extends field
 	public $cache = NULL;
 	
 	/**
+	 * PDO instance for database operation.
+	 * @var PDO
+	 */
+	protected $pdo = NULL;
+	
+	/**
 	 * Simple constructor taking instance of field as a prototype and metadata
 	 * to produce new instance to replace original instance of field.
 	 * @param \io\creat\chassis\pers\field $field reference to original instance
 	 * @param string $table tag table name
 	 * @param int $uid user ID, pass negative value to turn off per-user security restriction
 	 */
-	public function __construct ( &$field, $table, $uid )
+	public function __construct ( &$field, $table, $uid, $pdo = NULL )
 	{
 		parent::__construct(	$field->name,
 								$field->type,
@@ -183,6 +190,11 @@ class tag extends field
 		$this->table	= $table;
 		$this->uid		= $uid;
 		$this->opts		= new fopts( self::FL_FO_DYNAMIC );
+		
+		if ( is_null( $pdo ) )
+			$this->pdo = \io\creat\chassis\session\repo::getInstance( )->get(\io\creat\chassis\session\repo::PDO );
+		else
+			$this->pdo = $pdo;
 	}
 	
 	/**
@@ -194,14 +206,18 @@ class tag extends field
 		if ( is_null( $this->cache ) )
 		{
 			if ( $this->uid < 0 )
-				$res = _db_query( "SELECT * FROM `" . _db_escape( $this->table ) . "`
-									ORDER BY `" . \io\creat\chassis\tags\instance::FN_NAME . "`" );
+				$sql = $this->pdo->prepare( "SELECT * FROM `" . $this->table . "`
+						ORDER BY `" . \io\creat\chassis\tags\instance::FN_NAME . "`" );
 			else
-				$res = _db_query( "SELECT * FROM `" . _db_escape( $this->table ) . "`
-									WHERE `" . \io\creat\chassis\tags\instance::FN_UID . "` = \"" . _db_escape( $this->uid ) . "\"
-									ORDER BY `" . \io\creat\chassis\tags\instance::FN_NAME . "`" );
-			if ( $res && _db_rowcount( $res ) )
-				while( $row = _db_fetchrow( $res ) )
+			{
+				$sql = $this->pdo->prepare( "SELECT * FROM `" . $this->table . "`
+						WHERE `" . \io\creat\chassis\tags\instance::FN_UID . "` = ?
+						ORDER BY `" . \io\creat\chassis\tags\instance::FN_NAME . "`" );
+				$sql->bindValue( 1, $this->uid );
+			}
+			
+			if ( $sql->execute( ) )
+				while( $row = $sql->fetch( \PDO::FETCH_ASSOC ) )
 					$this->cache[$row[\io\creat\chassis\tags\instance::FN_ID]] = new \_ctx (	$row[\io\creat\chassis\tags\instance::FN_ID],
 																								$row[\io\creat\chassis\tags\instance::FN_SCHEME],
 																								$row[\io\creat\chassis\tags\instance::FN_NAME],

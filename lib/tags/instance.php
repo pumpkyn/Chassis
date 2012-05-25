@@ -40,10 +40,10 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 	 * @param string $url Ajax server URL (a channel)
 	 * @param array $params Ajax request base parameters
 	 * @param \io\creat\chassis\tags\settproxy $proxy proxy instance for tags
-	 * 
+	 * @param PDO $pdo PDO instance for this table
 	 * @todo throw if proxy is not instanceof \io\creat\chassis\tags\settproxy
 	 */
-	public function __construct ( $uid, $table, $headline, &$layout, $url, $params, &$proxy )
+	public function __construct ( $uid, $table, $headline, &$layout, $url, $params, &$proxy, $pdo = NULL )
 	{
 		$this->uid		= $uid;	// needed in explicit(), therefore setting it here
 		$this->jsClass	= '_tags_instance';
@@ -57,7 +57,8 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 								$messages['tags'],
 								$url,
 								$params,
-								$proxy );
+								$proxy,
+								$pdo );
 	}
 	
 	/**
@@ -154,15 +155,12 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 			{
 				// Remove tag from the table.
 				case 'remove':
-					_db_query( "BEGIN" );
 					if ( $this->uid < 0 )
-						_db_query( "DELETE FROM `" . $this->table . "`
-									WHERE `" . self::FN_ID . "` = \"" . _db_escape ( $_POST['id'] ) . "\"" );
+						$this->pdo->prepare( "DELETE FROM `" . $this->table . "`
+									WHERE `" . self::FN_ID . "` = ?")->execute( array( $_POST['id'] ) );
 					else
-						_db_query( "DELETE FROM `" . $this->table . "`
-									WHERE `" . self::FN_ID . "` = \"" . _db_escape ( $_POST['id'] ) . "\"
-										AND `" . self::FN_UID . "` = \"" . _db_escape ( $this->uid ) . "\"" );
-					_db_query( "COMMIT" );
+						$this->pdo->prepare( "DELETE FROM `" . $this->table . "`
+									WHERE `" . self::FN_ID . "` = ? AND `" . self::FN_UID . "` = ?")->execute( array( $_POST['id'], $this->uid ) );
 					return;
 				break;
 				
@@ -216,7 +214,7 @@ class instance extends \io\creat\chassis\pers\instance implements \tags
 	protected function orderq ( &$search )
 	{
 		if ( $search['o'] == self::FN_ID )
-			return "ORDER BY `" . _db_escape( self::FN_NAME ) . "` " . _db_escape( $search['d'] );
+			return "ORDER BY " . $this->cacheq( self::FN_NAME ) . " " . $this->cacheq( $search['d'] );
 		else
 			return parent::orderq( $search );
 	}

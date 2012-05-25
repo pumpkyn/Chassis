@@ -15,6 +15,7 @@ require_once CHASSIS_LIB . 'session/session.php';
  * Class responsible for accessing and manipulating variable scope settings. It
  * is configured only by scope of the settings. Security identifiers are
  * extracted internaly from \io\creat\chassis\session instance.
+ * @deprecated
  */
 abstract class _settings extends Config
 {

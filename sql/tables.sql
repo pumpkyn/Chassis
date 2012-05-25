@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `core_settings` (
   `ns` char(64) COLLATE utf8_unicode_ci NOT NULL,
   `key` char(64) COLLATE utf8_unicode_ci NOT NULL,
   `value` tinytext COLLATE utf8_unicode_ci NOT NULL,
+  UNIQUE KEY `core_settings_index` (`scope`,`id`,`ns`,`key`),
   KEY `uid` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

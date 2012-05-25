@@ -17,6 +17,8 @@ require_once CHASSIS_3RD . 'class.SimonsXmlWriter.php';
 require_once CHASSIS_LIB . 'libdb.php';
 require_once CHASSIS_LIB . 'class.Wa.php';
 
+require_once CHASSIS_LIB . 'session/repo.php';
+
 require_once CHASSIS_LIB . 'pers/common.php';
 require_once CHASSIS_LIB . 'pers/field.php';
 require_once CHASSIS_LIB . 'pers/tui.php';
@@ -117,6 +119,24 @@ class instance extends \pers
 	protected $settproxy = NULL;
 	
 	/**
+	 * Associative array keeping values for prepared PDOStatements.
+	 * @var array
+	 */
+	protected $cache = NULL;
+	
+	/**
+	 * Cache counter used to produce unique identifiers by simple increment.
+	 * @var int
+	 */
+	protected $cachec = 0;
+	
+	/**
+	 * PDO for this instance.
+	 * @var PDO 
+	 */
+	protected $pdo = NULL;
+	
+	/**
 	 * Constructor. Initializes Persistence instance.
 	 * @param string $table name of the database table
 	 * @param int $flags flags of the Persistence Instance.
@@ -125,9 +145,15 @@ class instance extends \pers
 	 * @param string $url Ajax server URL
 	 * @param array $params Ajax request parameters, identify Ajax server delivery channel
 	 * @param \io\creat\chassis\pers\settproxy $settproxy instance of setting proxy providing access to specific setting entries
+	 * @param PDO $pdo PDO instance for this table
 	 */
-	public function __construct ( $table, $flags, &$layout, $messages, $url, $params, $settproxy = NULL )
+	public function __construct ( $table, $flags, &$layout, $messages, $url, $params, $settproxy = NULL, $pdo = NULL )
 	{
+		if ( is_null( $pdo ) )
+			$this->pdo = \io\creat\chassis\session\repo::getInstance( )->get( \io\creat\chassis\session\repo::PDO );
+		else
+			$this->pdo = $pdo;
+		
 		$this->table			= $table;
 		$this->flags			= $flags;
 		$this->layout			= $layout;
@@ -250,13 +276,20 @@ class instance extends \pers
 		if ( $search['as'] )
 			$search['f'] = $_POST['f'];
 		
-		$search['k'] =  _db_escape( trim( $_POST['k'] ) );
+		$search['k'] =  trim( $_POST['k'] );
 		$search['p'] =  (int)$_POST['p'];
 		$search['o'] =  $_POST['o'];
 		$search['d'] =  $_POST['d'];
 		$search['jsvar'] =  $_POST['jsvar'];
 		
 		return $search;
+	}
+	
+	protected function cacheq ( $value )
+	{
+		$id = ':f' . (++$this->cachec);
+		$this->cache[$id] = $value;
+		return $id;
 	}
 	
 	/**
@@ -273,9 +306,7 @@ class instance extends \pers
 		if ( $field instanceof field )
 		{
 			if ( $field->flags & field::FL_FD_CONST )
-			{
-				$and[] = "`{$field->name}` = \"" . _db_escape( $field->value ) . "\"";
-			}
+				$and[] = "`{$field->name}` = " . $this->cacheq( $field->value );
 			elseif ( ( $search['as'] ) && ( $field->flags & field::FL_FD_RESTRICT ) )
 			{
 				if ( array_key_exists( 'r_' . $field->name, $_POST ) )
@@ -284,7 +315,7 @@ class instance extends \pers
 					$val = $search['r'][$field->name] = $_POST['r_' . $field->name];
 					
 					if ( $val != '[norestr]' )
-						$and[] = "`{$this->table}`.`{$field->name}` = \"" . _db_escape( $val ) . "\"";
+						$and[] = "`{$this->table}`.`{$field->name}` = " . $this->cacheq( $val );
 				}
 			}
 			elseif ( ( ( $search['k'] != '' ) && ( $field->flags & field::FL_FD_SEARCH ) ) && ( !$search['as'] || ( ( $search['as'] ) && ( ( $search['f'] == '[allfields]' ) || ( $search['f'] == $field->name ) ) ) ) )
@@ -292,11 +323,11 @@ class instance extends \pers
 				switch ( $field->type )
 				{
 					case field::FT_INT:
-						$or[] = "`{$this->table}`.`{$field->name}` = \"{$search['k']}\"";
+						$or[] = "`{$this->table}`.`{$field->name}` = " . $this->cacheq( $search['k'] );
 					break;
 				
 					case field::FT_STRING:
-						$or[] = "`{$this->table}`.`{$field->name}` LIKE \"%{$search['k']}%\"";
+						$or[] = "`{$this->table}`.`{$field->name}` LIKE " . $this->cacheq( "%{$search['k']}%" );
 					break;
 				}
 			}
@@ -309,7 +340,7 @@ class instance extends \pers
 	 * @param array $search reference to parsed search query
 	 * @return string
 	 */
-	protected function orderq ( &$search ) { return "ORDER BY `" . _db_escape( $search['o'] ) . "` " . _db_escape( $search['d'] ); }
+	protected function orderq ( &$search ) { return "ORDER BY " . $this->cacheq( $search['o'] ) . " " . $this->cacheq( $search['d'] ); }
 	
 	/**
 	 * Builds core of the SQL query for searching in the table.
@@ -322,10 +353,8 @@ class instance extends \pers
 		$or = '';
 		
 		if ( is_array( $this->fields ) )
-		{
 			foreach( $this->fields as $field )
 				$this->fieldq( $search, $field, $and, $or );
-		}
 		
 		$where = '';
 		
@@ -460,21 +489,19 @@ class instance extends \pers
 	 */
 	protected function record ( $index )
 	{
-		$and = NULL;
-		if (is_array( $this->index ) )
+		$and = $bind = NULL;
+		if ( is_array( $this->index ) )
 			foreach( $this->index as $i => $name )
 				if ( $i < count( $index ) )
-					$and[] = "`" . _db_escape( $name ) . "` = \"" . _db_escape ( $index[$i] ) . "\"";
+				{
+					$and[] = "`{$name}` = ?";
+					$bind[] = $index[$i];
+				}
 		
 		if ( !is_array( $and ) )
 			return FALSE;
 		else
-		{
-			_db_query( "BEGIN" );
-			$record = _db_1line( "SELECT * FROM `" . $this->table . "` WHERE " . implode( " AND ", $and ) );
-			_db_query( "COMMIT" );
-			return $record;
-		}
+			return \io\creat\chassis\pdo1lp( $this->pdo->prepare( "SELECT * FROM `" . $this->table . "` WHERE " . implode( " AND ", $and ) ), $bind );
 	}
 	
 	/**
@@ -535,6 +562,7 @@ class instance extends \pers
 	/**
 	 * Parses the client editor form save request XML and performs the save
 	 * (INSERT or UPDATE) operation.
+	 * @return bool success
 	 */
 	protected function save ( )
 	{
@@ -548,8 +576,8 @@ class instance extends \pers
 					foreach( $this->index as $i => $name )
 						if ( $i < count( $index ) )
 						{
-							$keys[] = "`" . _db_escape( $name ) . "`";
-							$vals[] = "\"" . _db_escape ( $index[$i] ) . "\"";
+							$keys[] = "`{$name}`";
+							$this->cacheq( $index[$i] );
 						}
 			}
 			else
@@ -560,8 +588,8 @@ class instance extends \pers
 					foreach( $this->index as $i => $name )
 						if ( $this->fields[$name]->flags & self::FL_FD_CONST )
 						{
-							$keys[] = "`" . _db_escape( $name ) . "`";
-							$vals[] = "\"" . _db_escape ( $this->fields[$name]->value ) . "\"";
+							$keys[] = "`{$name}`";
+							$this->cacheq( $this->fields[$name]->value );
 						}
 			}
 		}
@@ -572,21 +600,21 @@ class instance extends \pers
 			$f = $doc->xpath( '//rui/f' );
 			for ( $i = 0; $i < count( $f ); ++$i )
 			{
+				// Index has been already processed.
 				if ( in_array( $f[$i]['n'], $this->index ) )
 					continue;
 				
-				$pairs[] = "`" . _db_escape( $f[$i]['n'] ) . "` = \"" . _db_escape ( $f[$i]['v'] ) . "\"";
-				$keys[] = "`" . _db_escape( $f[$i]['n'] ) . "`";
-				$vals[] = "\"" . _db_escape ( $f[$i]['v'] ) . "\"";
+				$b = $this->cacheq( $f[$i]['v'] );
+				
+				$pairs[] = "`{$f[$i]['n']}` = " . $b;
+				$keys[] = "`{$f[$i]['n']}`";
 			}
 		}
 		
-		_db_query( "BEGIN" );
 		/**
 		 * @todo validate result of the operation and return appropriate result
 		 */
-		_db_query( "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', $vals ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs ) . "" );
-		_db_query( "COMMIT" );
+		return $this->pdo->prepare( "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', array_keys( $this->cache ) ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs ) )->execute( $this->cache );
 	}
 	
 	/**
@@ -646,11 +674,10 @@ class instance extends \pers
 					$params = $this->searchp( );
 					$qstub = $this->searchq( $params );
 					
-					_db_query( "BEGIN" );
-					$count = _db_1field( $this->countq( $qstub ) );
-					_db_query( "COMMIT" );
+					$this->pdo->beginTransaction( );
+					$count = \io\creat\chassis\pdo1f( $this->pdo->prepare( $this->countq( $qstub ) ), $this->cache );
 
-					if ( $count !== false )
+					if ( ( $count !== false ) && ( $count > 0 ) )
 					{
 						$llen = $this->settproxy->llen( );
 						$pages = ceil( $count / $llen );
@@ -678,21 +705,18 @@ class instance extends \pers
 							$params['d'] = 'ASC';
 						
 						$this->settproxy->lcfg( serialize( $params ) );
-						
-						// compose search SQL
-						$order = $this->orderq( $params );
-						
-						_db_query( "BEGIN" );
-						$res = _db_query( $this->dataq( $qstub, $order, $first, $llen ) );
-						_db_query( "COMMIT" );
 
-						if ( $res && _db_rowcount( $res ) )
+						$order = $this->orderq( $params );
+						$sql = $this->pdo->prepare( $this->dataq( $qstub, $order, $first, $llen ) );
+						$res = $sql->execute( $this->cache );
+						
+						if ( $res )
 						{
 							$builder = new \_list_builder( $params['jsvar'] . '.tui' );
 								$this->listh( $builder, $params );
 								$builder->computePaging( $llen, $count, $page, $pages, $this->settproxy->ph( ), sprintf( "%4.4f", microtime( true ) - $start ) );
 							
-							while ( $row = _db_fetchrow( $res ) )
+							while ( $row = $sql->fetch( \PDO::FETCH_ASSOC ) )
 							{
 								if ( is_array( $this->fields ) )
 								{
@@ -720,10 +744,12 @@ class instance extends \pers
 							\_smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'USR_LIST_DATA', $builder->export( ) );
 							\_smarty_wrapper::getInstance( )->setContent( CHASSIS_UI . '/list/list.html' );
 							\_smarty_wrapper::getInstance( )->render( );
-							
+							$this->pdo->commit( );
 							return;
 						}
 					}
+					
+					$this->pdo->commit( );
 
 					// No results to display.
 					// Framework localization strings.
@@ -814,11 +840,10 @@ class instance extends \pers
 	 */
 	protected function implicit ( )
 	{
-		$res = _db_query( "DESCRIBE `" . _db_escape( $this->table ) . "`" );
-		
-		if ( $res && _db_rowcount( $res ) )
+		$sql = $this->pdo->prepare( "DESCRIBE `" . $this->table . "`" );
+		if ( $sql->execute( ) )
 		{
-			while ( $field = _db_fetchrow( $res ) )
+			while ( $field = $sql->fetch( \PDO::FETCH_ASSOC) )
 			{
 				$entry = new field( $field["Field"], field::FT_UNKNOWN, 0, $field["Field"] );
 				$type = explode( "(", $field["Type"] );

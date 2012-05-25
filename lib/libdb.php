@@ -13,6 +13,7 @@
 /**
  * Create connection to the database. Global variable $__SQL_CONN is created and
  * assigned. Should be used only by methods of this library.
+ * @deprecated
  *
  * @param server MySQL server address
  * @param user MySQL username
@@ -41,6 +42,7 @@ function _db_connect ( $server, $user, $passwd, $db )
 
 /**
  * Close the connection.
+ * @deprecated
  */
 function _db_close ( )
 {
@@ -51,6 +53,7 @@ function _db_close ( )
 
 /**
  * Perform SQL query. Result resource is passed on return.
+ * @deprecated
  *
  * @param query SQL query
  * @return result of query
@@ -66,6 +69,7 @@ function _db_query ( $query )
  * Fetch one row from query results (first one). This facilitates
  * 'fetch array' method of backend. Pointer in result resource is moved
  * forward.
+ * @deprecated
  * @param resource $result resource from _db_query()
  * @param int $type type of result, MYSQL_ASSOC, MYSQL_NUM, or MYSQL_BOTH
  * @return array of row values
@@ -74,6 +78,7 @@ function _db_fetchrow ( $result, $type = MYSQL_BOTH ) { return mysql_fetch_array
 
 /**
  * Perform query and return array of first row from results or false on failure.
+ * @deprecated
  * @param string $query SQL query
  * @param int $type type of result, MYSQL_ASSOC, MYSQL_NUM, or MYSQL_BOTH
  * @return row array or false
@@ -89,7 +94,7 @@ function _db_1line ( $query, $type = MYSQL_BOTH )
 
 /**
  * Perform query and return first field from array of first row from results or false on failure.
- *
+ * @deprecated
  * @param query SQL query
  * @return cell value or false
  */
@@ -103,6 +108,7 @@ function _db_1field ( $query )
 
 /**
  * Computes size of result (row count).
+ * @deprecated
  *
  * @param result resource from _db_query()
  */
@@ -113,6 +119,7 @@ function _db_rowcount ( $result )
 
 /**
  * Safety mechanism. All data (variables) passed to the query should (must) be escaped.
+ * @deprecated
  *
  * @param input PLAIN text
  */
@@ -124,6 +131,7 @@ function _db_escape ( $input )
 
 /**
  * Returns last insered ID.
+ * @deprecated
  * 
  * @global resource $__SQL_CONN
  * @return int 

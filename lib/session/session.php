@@ -4,7 +4,7 @@
  * @file _session.php
  * @author giorno
  * @package Chassis
- * @subpackage Session.
+ * @subpackage Session
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
@@ -12,11 +12,15 @@ namespace io\creat\chassis;
 
 require_once CHASSIS_CFG . 'class.Config.php';
 require_once CHASSIS_LIB . 'libfw.php';
-require_once CHASSIS_LIB . 'libdb.php';
+require_once CHASSIS_LIB . 'libpdo.php';
+require_once CHASSIS_LIB . 'session/repo.php';
 
 /**
  * Singleton providing session tracking object responsible for authentication
  * and persistence of user session.
+ * 
+ * @todo remove IP field from tables
+ * @todo is 'enabled' field still necessary?
  */
 class session extends \Config
 {
@@ -43,7 +47,7 @@ class session extends \Config
 	 * User's nickname (=login).
 	 * @var string
 	 */
-	private $nickName = NULL;
+	private $nick = NULL;
 	
 	/**
 	 * User's e-mail address.
@@ -61,37 +65,40 @@ class session extends \Config
 	 * Cookie. Client identifier.
 	 * @var string
 	 */
-	private $clientId;
+	private $cid;
 
 	/**
 	 * Cookie. Session identifier.
 	 * @var string
 	 */
-	private $sessionId;
+	private $sid;
 
 	/**
 	 * Cookie. Autologin token identifier.
 	 * @var string
 	 */
 	private $alToken;
+	
+	/**
+	 * Reference to global repository PDO instance.
+	 * @var PDO
+	 */
+	private $pdo = NULL;
 
 	/**
-	 * Concealed constructor.
+	 * Concealed constructor. This class uses PDO registered in global
+	 * repository Singleton.
 	 */
 	protected function __construct ( )
 	{
-		/**
-		 * Load client Id from cookies.
-		 */
+		$this->pdo = \io\creat\chassis\session\repo::getInstance( )->get( \io\creat\chassis\session\repo::PDO );
+		
+		// Load client Id from cookies.
 		$this->handleClientId( );
 
-		/**
-		 * Session Id from cookies is invalid.
-		 */
+		// Session Id from cookies is invalid.
 		if ( !$this->validateSessionId( ) )
-		{
 			$this->validateAutologin();
-		}
 	}
 	
 	/**
@@ -124,22 +131,26 @@ class session extends \Config
 	 */
 	private function handleClientId ( )
 	{
-		$this->clientId = '';
+		$this->cid = '';
 
 		if ( array_key_exists( static::COOKIE_CLIENTID, $_COOKIE ) )
-			$this->clientId = (string)$_COOKIE[static::COOKIE_CLIENTID];
+			$this->cid = (string)$_COOKIE[static::COOKIE_CLIENTID];
 
 		/**
 		 * There is no cookie for client id or one we got from client side is
 		 * malformed. It means it is either expired or solution was never used
 		 * from this browser instance.
 		 */
-		if ( ( $this->clientId == '' ) || ( strlen( $this->clientId ) > 32 ) )
-			$this->clientId = substr( _fw_rand_hash( ), 0, 32 );
+		if ( ( $this->cid == '' ) || ( strlen( $this->cid ) > 32 ) )
+			$this->cid = substr( _fw_rand_hash( ), 0, 32 );
 		
-		_fw_set_cookie( self::COOKIE_CLIENTID, $this->clientId, time( ) + static::COOKIE_EXPIRATION * 24 * 60 * 60 );
+		_fw_set_cookie( self::COOKIE_CLIENTID, $this->cid, time( ) + static::COOKIE_EXPIRATION * 24 * 60 * 60 );
 	}
 
+	/**
+	 * Validates session using cookie values from the browser.
+	 * @return bool
+	 */
 	private function validateSessionId ( )
 	{
 		$this->wipe( );
@@ -147,34 +158,39 @@ class session extends \Config
 		/*
 		 * try SID from cookies
 		 */
-		$this->sessionId = '';
+		$this->sid = '';
 		if ( array_key_exists(self::COOKIE_SESSIONID, $_COOKIE) )
-			$this->sessionId = (string)$_COOKIE[self::COOKIE_SESSIONID];
+			$this->sid = (string)$_COOKIE[self::COOKIE_SESSIONID];
 
 		/**
 		 * Check if session Id from cookies is valid.
 		 */
-		if ( $this->sessionId != '' )
+		if ( $this->sid != '' )
 		{
-			$record = _db_1line( "SELECT * FROM `" . self::T_SESSIONS . "`
-							WHERE `" . self::F_SID . "` = \"" . _db_escape( $this->sessionId ) . "\"
-							AND `" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\"");
-
-			if ( $record && count( $record ) )
+			$sql = $this->pdo->prepare( "SELECT `" . self::F_UID . "`
+					FROM `" . self::T_SESSIONS . "`
+					WHERE `" . self::F_SID . "` = :sid
+					AND `" . self::F_CLID . "` = :cid" );
+			
+			$sql->bindValue( ':sid', $this->sid );
+			$sql->bindValue( ':cid', $this->cid );
+			
+			if ( $this->uid = (int)pdo1f( $sql ) )
 			{
-				$this->uid = $record[self::F_UID];
-				$this->signed = true;
-
-				_db_query( "UPDATE `" . self::T_SESSIONS . "`
-							SET `" . self::F_VALID . "` = (NOW() + INTERVAL " . self::SESSIONEXPIRATION * 60 . " MINUTE)
-							WHERE `" . self::F_SID . "` = \"" . _db_escape( $this->sessionId ) . "\"
-							AND `" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\"");
-
-				_fw_set_cookie( self::COOKIE_SESSIONID, $this->sessionId, 0 );
-				$this->loadNick( );
+				 $this->signed = true;
+				 
+				 $this->pdo->prepare( "UPDATE `" . self::T_SESSIONS . "`
+					SET `" . self::F_VALID . "` = (NOW() + INTERVAL " . self::SESSIONEXPIRATION * 60 . " MINUTE)
+					WHERE `" . self::F_SID . "` = ?
+					AND `" . self::F_CLID . "` = ?" )->execute( array( $this->sid, $this->cid ) );
+				 
+				_fw_set_cookie( self::COOKIE_SESSIONID, $this->sid, 0 );
+				
+				$this->load( );
 
 				return true;
 			}
+			$this->uid = NULL;
 		}
 		return false;
 	}
@@ -194,26 +210,30 @@ class session extends \Config
 
 		if ( $this->alToken != '' )
 		{
-			if ( $record = _db_1field ( "SELECT `" . self::F_UID . "`
-									FROM `" . self::T_SIGNTOKENS . "`
-									WHERE `" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\"
-									AND `" . self::F_TOKEN . "` = \"" . _db_escape( $this->alToken ) . "\"" ) )
+			$sql = $this->pdo->prepare( "SELECT `" . self::F_UID . "`
+					FROM `" . self::T_SIGNTOKENS . "`
+					WHERE `" . self::F_CLID . "` = :cid
+					AND `" . self::F_TOKEN . "` = :altoken" );
+			
+			$sql->bindValue( ':cid', $this->cid );
+			$sql->bindValue( ':altoken', $this->alToken );
+			
+			if ( $this->uid = (int)pdo1f( $sql ) )
 			{
-				$this->uid = $record;
+				$this->pdo->prepare( "UPDATE `" . self::T_SIGNTOKENS . "`
+					SET `" . self::F_VALID . "` = (NOW() + INTERVAL " . self::COOKIE_EXPIRATION * 24 * 60 * 60 . " SECOND)
+					WHERE `" . self::F_TOKEN . "` = ? AND
+							`" . self::F_UID . "` = ? AND
+							`" . self::F_CLID . "` = ?" )->execute( array( $this->alToken, $this->uid, $this->cid ) );
 
-				_db_query( "UPDATE `" . self::T_SIGNTOKENS . "`
-								SET `" . self::F_VALID . "` = (NOW() + INTERVAL " . self::COOKIE_EXPIRATION * 24 * 60 * 60 . " SECOND)
-								WHERE `" . self::F_TOKEN . "` = \"" . _db_escape( $this->alToken ) . "\" AND
-								`" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\" AND
-								`" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\" ");
-
-				_fw_set_cookie( self::COOKIE_TOKENID, $this->alToken, time() + self::COOKIE_EXPIRATION * 24 * 60 * 60 );
+				_fw_set_cookie( self::COOKIE_TOKENID, $this->alToken, time( ) + self::COOKIE_EXPIRATION * 24 * 60 * 60 );
 
 				$this->create( );
-				$this->loadNick( );
+				$this->load( );
 
 				return true;
 			}
+			$this->uid = NULL;
 		}
 
 		return false;
@@ -228,11 +248,17 @@ class session extends \Config
 	{
 		if ( is_null( $this->uid ) )
 			return false;
+
+		$sql = $this->pdo->prepare( "SELECT `" . self::F_UID . "`
+				FROM `" . self::T_USERS . "`
+				WHERE `" . self::F_UID . "` = :uid
+				AND `" . self::F_PASSWD . "` = :password" );
+
+		$sql->bindValue( ':uid', $this->uid );
+		$sql->bindValue( ':password', _fw_hash_passwd( $password ) );
+		$match = (int)pdo1f( $sql );
 		
-		return ( $this->uid == (int)_db_1field ( "SELECT `" . self::F_UID . "`
-												FROM `" . self::T_USERS . "`
-												WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\"
-												AND `" . self::F_PASSWD . "` = \"" . _db_escape( _fw_hash_passwd( $password  ) ) . "\"" ) );
+		return ( $this->uid === $match );
 	}
 	
 	/**
@@ -241,9 +267,9 @@ class session extends \Config
 	 */
 	public function setPassword ( $password )
 	{
-		_db_query( "UPDATE `" . self::T_USERS . "`
-						SET `" . self::F_PASSWD . "` = \"" . _db_escape( _fw_hash_passwd( $password  ) ) . "\"
-						WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\"" );
+		$this->pdo->prepare( "UPDATE `" . self::T_USERS . "`
+			SET `" . self::F_PASSWD . "` = ?
+			WHERE `" . self::F_UID . "` = ?" )->execute( array( _fw_hash_passwd( $password ), $this->uid ) );
 	}
 
 	/**
@@ -264,22 +290,34 @@ class session extends \Config
 		// First, if configured, plugin is used.
 		if ( !is_null( $this->authbe ) )
 		{
+			$sql = $this->pdo->prepare( "SELECT `" . self::F_UID . "`
+					FROM `" . self::T_USERS . "`
+					WHERE `" . self::F_LOGIN . "` = :login" );
+			
+			$sql->bindValue( ':login', $username );
+			
 			// Skip authentication using the plugin for root username (uid=1).
-			if ( (int)_db_1field( "SELECT `" . self::F_UID . "` FROM `" . self::T_USERS . "` WHERE `" . self::F_LOGIN . "` = \"" . _db_escape( $username ) . "\"" ) != 1 )
+			if ( (int)pdo1f( $sql ) != 1 )
 				$this->uid = $this->authbe->validate( $username, $password );
 		}
-
+		
 		// Login using plugin has failed, root user is trying to connect, or
 		// plugin is not configured. This will match also any table record
 		// created before plugin has been configured.
 		if ( (int)$this->uid < 1 )
-			$this->uid = _db_1field ( "SELECT `" . self::F_UID . "`
+		{
+			$sql = $this->pdo->prepare( "SELECT `" . self::F_UID . "`
 										FROM `" . self::T_USERS . "`
-										WHERE `" . self::F_LOGIN . "` = \"" . _db_escape( $username ) . "\"
-										AND `" . self::F_PASSWD . "` = \"" . _db_escape( $hash ) . "\"
+										WHERE `" . self::F_LOGIN . "` = :login
+										AND `" . self::F_PASSWD . "` = :password
 										AND `" . self::F_ENABLED . "` = '1'" );
+			
+			$sql->bindValue( ':login', $username );
+			$sql->bindValue( ':password', $hash );
+			$this->uid = (int)pdo1f( $sql );
+		}
 		
-		// Any of atuhentication methods was successful.
+		// Any of authentication methods was successful.
 		if ( ( $this->uid > 0 ) )
 		{
 			/**
@@ -293,22 +331,22 @@ class session extends \Config
 			 */
 			if ( $auto )
 			{
-				$ipAddr = $_SERVER['REMOTE_ADDR'];
 				$this->alToken = _fw_rand_hash( );
-				_db_query( "INSERT INTO `" . self::T_SIGNTOKENS . "`
-							SET `" . self::F_TOKEN . "` = \"" . _db_escape( $this->alToken ) . "\",
-							`" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\",
-							`" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\",
-							`" . self::F_IP . "` = \"" . _db_escape( $ipAddr ) . "\",
-							`" . self::F_VALID . "` = (NOW() + INTERVAL " . self::COOKIE_EXPIRATION * 24 * 60 * 60 . " SECOND) ");
+				
+				$this->pdo->prepare( "INSERT INTO `" . self::T_SIGNTOKENS . "`
+					SET `" . self::F_TOKEN . "` = ?,
+					`" . self::F_UID . "` = ?,
+					`" . self::F_CLID . "` = ?,
+					`" . self::F_VALID . "` = (NOW() + INTERVAL " . self::COOKIE_EXPIRATION * 24 * 60 * 60 . " SECOND)" )->execute( array( $this->alToken, $this->uid, $this->cid ) );
+				
 				_fw_set_cookie( self::COOKIE_TOKENID, $this->alToken, time( ) + self::COOKIE_EXPIRATION * 24 * 60 * 60 );
 			}
 
-
-			_db_query( "INSERT INTO `" . self::T_LOGINS . "`
-						SET `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\",
-						`" . self::F_NS . "` = \"" . _db_escape( $ns ) . "\",
-						`" . self::F_STAMP . "` = NOW()" );
+			$this->pdo->prepare( "INSERT INTO `" . self::T_LOGINS . "`
+				SET `" . self::F_UID . "` = ?,
+				`" . self::F_NS . "` = ?,
+				`" . self::F_STAMP . "` = NOW()" )->execute( array( $this->uid, $ns ) );
+			
 			return true;
 		}
 		else
@@ -326,17 +364,17 @@ class session extends \Config
 	 */
 	public function logout ( )
 	{
-		_db_query( "DELETE FROM `" . self::T_SESSIONS . "`
-					WHERE `" . self::F_SID . "` = \"" . _db_escape( $this->sessionId ) . "\"
-					AND `" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\"
-					AND `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\"" );
+		$this->pdo->prepare( "DELETE FROM `" . self::T_SESSIONS . "`
+			WHERE `" . self::F_SID . "` = ?
+				AND `" . self::F_CLID . "` = ?
+				AND `" . self::F_UID . "` = ?" )->execute( array( $this->sid, $this->cid, $this->uid ) );
+		
+		$this->pdo->prepare( "DELETE FROM `" . self::T_SIGNTOKENS . "`
+					WHERE `" . self::F_CLID . "` = ?" )->execute( array( $this->cid ) );
 
-		_db_query( "DELETE FROM `" . self::T_SIGNTOKENS . "`
-					WHERE `" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\"" );
-
-		_fw_set_cookie( 	self::COOKIE_SESSIONID, '', 0);
-		_fw_set_cookie( 	self::COOKIE_TOKENID, '', time() - self::COOKIE_EXPIRATION * 24 * 60 * 60 );
-		_fw_set_cookie( 	self::COOKIE_CLIENTID, '', time() - self::COOKIE_EXPIRATION * 24 * 60 * 60 );
+		_fw_set_cookie( self::COOKIE_SESSIONID, '', 0);
+		_fw_set_cookie( self::COOKIE_TOKENID, '', time() - self::COOKIE_EXPIRATION * 24 * 60 * 60 );
+		_fw_set_cookie( self::COOKIE_CLIENTID, '', time() - self::COOKIE_EXPIRATION * 24 * 60 * 60 );
 		$this->signed = FALSE;
 
 		return !$this->validateSessionId( );
@@ -355,22 +393,23 @@ class session extends \Config
 		/**
 		 * Creates session records in the table.
 		 */
-		$this->sessionId = _fw_rand_hash( );
-		_db_query( "INSERT INTO `" . self::T_SESSIONS . "`
-					SET `" . self::F_SID . "` = \"" . _db_escape( $this->sessionId ) . "\",
-					`" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\",
-					`" . self::F_CLID . "` = \"" . _db_escape( $this->clientId ) . "\",
-					`" . self::F_IP . "` = \"" . _db_escape( $ipAddr ) . "\",
-					`" . self::F_VALID . "` = (NOW() + INTERVAL " . self::SESSIONEXPIRATION * 60 . " SECOND) ");
+		$this->sid = _fw_rand_hash( );
+		$this->pdo->prepare( "INSERT INTO `" . self::T_SESSIONS . "`
+			SET `" . self::F_SID . "` = ?,
+				`" . self::F_UID . "` = ?,
+				`" . self::F_CLID . "` = ?,
+				`" . self::F_VALID . "` = (NOW() + INTERVAL " . self::SESSIONEXPIRATION * 60 . " SECOND) " )->execute( array( $this->sid, $this->uid, $this->cid ) );
 
-		/**
-		 * Session was created.
-		 */
-		if ( _db_1line( "SELECT `" . self::F_SID . "`
+		$sql = $this->pdo->prepare( "SELECT `" . self::F_SID . "`
 							FROM `" . self::T_SESSIONS . "`
-							WHERE `" . self::F_SID . "` = \"" . _db_escape( $this->sessionId ) . "\"" ) !== false )
+							WHERE `" . self::F_SID . "` = ?" );
+		
+		$sql->bindValue( 1, $this->sid );
+		
+		// Session has been successfuly created.
+		if ( is_array( pdo1l( $sql, \PDO::FETCH_NUM ) ) )
 		{
-			_fw_set_cookie( self::COOKIE_SESSIONID, $this->sessionId, 0/*time() + self::COOKIE_EXPIRATION * 24 * 60  * 60*/ );
+			_fw_set_cookie( self::COOKIE_SESSIONID, $this->sid, 0/*time() + self::COOKIE_EXPIRATION * 24 * 60  * 60*/ );
 
 			$this->signed = true;
 			return true;
@@ -380,17 +419,23 @@ class session extends \Config
 	/**
 	 * Wipe all expired sessions.
 	 */
-	private function wipe ( ) { _db_query( "DELETE FROM `" . self::T_SESSIONS . "` WHERE `" . self::F_VALID . "` < NOW()" ); }
+	private function wipe ( ) { $this->pdo->exec( "DELETE FROM `" . self::T_SESSIONS . "` WHERE `" . self::F_VALID . "` < NOW()" ); }
 
 	/**
-	 * Load user name (nick).
-	 * @return string
+	 * Loads user entry fields from the table.
 	 */
-	private function loadNick (  )
+	private function load ( )
 	{
-		return ( ( $this->nickName = _db_1field ( "SELECT `" . self::F_LOGIN . "`
-											FROM `" . self::T_USERS . "`
-											WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\"" ) ) !== false );
+		$sql = $this->pdo->prepare( "SELECT `" . self::F_LOGIN . "`,`" . self::F_EMAIL . "`
+				FROM `" . self::T_USERS . "`
+				WHERE `" . self::F_UID . "` = ?" );
+		
+		$sql->bindValue( 1, $this->uid );
+		if ( is_array( $entry = pdo1l( $sql, \PDO::FETCH_ASSOC ) ) )
+		{
+			$this->nick = $entry[self::F_LOGIN];
+			$this->email = $entry[self::F_EMAIL];
+		}
 	}
 
 	/**
@@ -400,35 +445,28 @@ class session extends \Config
 	public function isSigned ( ) { return $this->signed === TRUE; }
 
 	/**
-	 * Returns nickname of the user.
+	 * Returns login name of the user.
 	 * @return string
 	 */
-	public function getNick ( ) { return $this->nickName; }
+	public function getNick ( ) { return $this->nick; }
 
 	/**
-	 * Returns user Id.
+	 * Returns user identifer.
 	 * @return int
 	 */
 	public function getUid ( ) { return $this->uid; }
 
 	/**
-	 * Returns session Id.
+	 * Returns session identifier.
 	 * @return string
 	 */
-	public function getSid ( ) { return $this->sessionId; }
+	public function getSid ( ) { return $this->sid; }
 	
 	/**
 	 * Read interface for user e-mail address.
 	 * @return string
 	 */
-	public function getEmail ( )
-	{
-		if ( is_null( $this->email ) )
-			$this->email = _db_1field ( "SELECT `" . self::F_EMAIL . "`
-											FROM `" . self::T_USERS . "`
-											WHERE `" . self::F_UID . "` = \"" . _db_escape( $this->uid ) . "\"" );
-		return $this->email;
-	}
+	public function getEmail ( ) { return $this->email; }
 }
 
 ?>
