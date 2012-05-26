@@ -340,7 +340,25 @@ class instance extends \pers
 	 * @param array $search reference to parsed search query
 	 * @return string
 	 */
-	protected function orderq ( &$search ) { return "ORDER BY " . $this->cacheq( $search['o'] ) . " " . $this->cacheq( $search['d'] ); }
+	protected function orderq ( &$search )
+	{
+		// Check if input data are correct, field is listed in table and is
+		// orderable. Whitelist method.
+		$fvalid = false;
+		foreach ( $this->fields as $field )
+			if ( ( $field->flags & self::FL_FD_ORDER ) && ( $field->name == $search['o'] ) )
+			{
+				$fvalid = true;
+				break;
+			}
+			
+		if ( $fvalid )
+			// Allow only known direction values. Again, whitelist method.
+			if ( ( $search['d'] == 'ASC' ) || ( $search['d'] == 'DESC' ) )			
+				return "ORDER BY `" . $search['o'] . "` " . $search['d'];
+				
+		return '';
+	}
 	
 	/**
 	 * Builds core of the SQL query for searching in the table.
