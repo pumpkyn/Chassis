@@ -782,7 +782,7 @@ class instance extends \pers
 	 */
 	protected function buildTui ( )
 	{
-		if ( $this->flags | self::FL_PI_TUI )
+		if ( $this->flags & self::FL_PI_TUI )
 			$this->tui = new tui( $this, $this->layout );
 	}
 	
@@ -794,7 +794,7 @@ class instance extends \pers
 	 */
 	protected function buildRui ( )
 	{
-		if ( $this->flags | self::FL_PI_RUI )
+		if ( $this->flags & self::FL_PI_RUI )
 			$this->rui = new rui( $this, $this->layout );
 	}
 	

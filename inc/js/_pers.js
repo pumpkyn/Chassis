@@ -284,7 +284,8 @@ function _pers_tui ( pi )
 	
 	this.res_render = function ( )
 	{
-		if ( !this.pi.tcfg.res_id )
+		/** @todo cache in the constructor */
+		if ( !document.getElementById( this.pi.tcfg.res_id + '.10' ) )
 			return;
 
 		var icons = [ 10, 20, 30, 50 ];

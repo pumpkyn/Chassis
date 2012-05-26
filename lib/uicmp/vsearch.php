@@ -166,6 +166,8 @@ class dummyres extends pool
 		parent::__construct( $parent, $id );
 		$this->type		= __CLASS__;
 		$this->renderer	= CHASSIS_UI . 'uicmp/dummy_resizer.html';
+		if ( $parent instanceof body )
+			$parent->add( $this );
 	}
 }
 
