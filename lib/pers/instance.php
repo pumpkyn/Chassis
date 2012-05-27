@@ -20,6 +20,7 @@ require_once CHASSIS_LIB . 'class.Wa.php';
 require_once CHASSIS_LIB . 'session/repo.php';
 
 require_once CHASSIS_LIB . 'pers/common.php';
+require_once CHASSIS_LIB . 'pers/exceptions.php';
 require_once CHASSIS_LIB . 'pers/field.php';
 require_once CHASSIS_LIB . 'pers/tui.php';
 require_once CHASSIS_LIB . 'pers/rui.php';
@@ -545,7 +546,8 @@ class instance extends \pers
 		$record = NULL;
 		if ( array_key_exists( 'index', $_POST ) )
 		{
-			// loading specific record identified by index combination
+			// Loading specific record identified by index combination,
+			// otherwise provide defaults.
 			$index = explode( ',', $_POST['index'] );
 			$record = $this->record( $index );
 
@@ -554,6 +556,7 @@ class instance extends \pers
 		else
 			$writer->push( 'rui' );
 		
+		// Framework messages.
 		$fw_msg = $this->layout->getMsgs( );
 
 		foreach ( $this->fields as $field )
@@ -575,6 +578,13 @@ class instance extends \pers
 					foreach ( $field->cache as $tag )
 						$writer->element ( 'o', $tag->disp, array( 'v' => $tag->id ) );
 			}
+			elseif ( $field instanceof fk ) // foreign key
+			{
+				if ( is_array( $opts = $field->load( ) ) )
+					foreach ( $opts as $key => $val )
+						$writer->element ( 'o', $val, array( 'v' => $key ) );
+				
+			}
 			elseif ( $field instanceof field )
 			{
 				
@@ -587,6 +597,15 @@ class instance extends \pers
 		
 		return $writer->getXml( );
 	}
+	
+	/**
+	 * Called from save() to confirm that values are correct. On failure to
+	 * validate an instance of \io\creat\chassis\pers\invvalexception is thrown.
+	 * This method is meant to be overriden in the subclass, only default logic
+	 * is provided here.
+	 * @param array $fields key-value pairs
+	 */
+	protected function validate( &$fields ) { return true; }
 	
 	/**
 	 * Parses the client editor form save request XML and performs the save
@@ -626,6 +645,7 @@ class instance extends \pers
 		// parse XML message and extract data
 		if ( ( $doc = simplexml_load_string( str_replace( ' standalone="false"', '', \Wa::PlusSignWaDecode( $_POST['data'] ) ) ) ) !== false )
 		{
+			$fields = NULL;
 			$f = $doc->xpath( '//rui/f' );
 			for ( $i = 0; $i < count( $f ); ++$i )
 			{
@@ -633,11 +653,17 @@ class instance extends \pers
 				if ( in_array( $f[$i]['n'], $this->index ) )
 					continue;
 				
+				// Copy for later evaluation.
+				$fields[(string)$f[$i]['n'][0]] = (string)$f[$i]['v'][0];
+						
 				$b = $this->cacheq( $f[$i]['v'] );
 				
 				$pairs[] = "`{$f[$i]['n']}` = " . $b;
 				$keys[] = "`{$f[$i]['n']}`";
 			}
+			
+			// Check for correct values
+			$this->validate( $fields );
 		}
 		
 		/**
@@ -664,9 +690,10 @@ class instance extends \pers
 						$this->settproxy->llen( $new );
 				break;
 				
-				// loads form data, either for editing the user or only dynamic
+				// Loads form data, either for editing the user or only dynamic
 				// content (for SELECT boxes)
 				case 'load':
+				case 'defaults':
 					if ( $_POST['primitive'] == 'rui' )
 						echo $this->load( );
 				break;
@@ -674,7 +701,14 @@ class instance extends \pers
 				// saves data from the form
 				case 'save':
 					if ( $_POST['primitive'] == 'rui' )
-						echo ( $this->save( ) ? 'OK' : 'KO' );
+						try
+						{
+							echo ( $this->save( ) ? 'OK' : 'KO' );
+						}
+						catch ( invvalexception $e )
+						{
+							echo $e->getIndCode( );
+						}
 				break;
 				
 				// to obtain restrictors values, it requires subclass to

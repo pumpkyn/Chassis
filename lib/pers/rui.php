@@ -65,7 +65,12 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 		$fw_msg		= $this->parent->getMsgs( );
 		$cust_msg	= $this->pi->msg( );
 		$fields		= $this->pi->def( );
-		
+
+		if ( array_key_exists( 'i', $cust_msg['rui'] ) )
+			$imsg = array_merge( $fw_msg['pers']['rui']['ind'], $cust_msg['rui']['i'] );
+		else
+			$imsg = $fw_msg['pers']['rui']['ind'];
+				
 		$this->jscfg['loc']['edit'] = $cust_msg['rui']['edit'];
 		$this->jscfg['loc']['create'] = $cust_msg['rui']['create'];
 		
@@ -75,7 +80,7 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 			$buttons->add( $back = new \io\creat\chassis\uicmp\grpitem( $buttons, $this->pi->id( ) . '.Back', \io\creat\chassis\uicmp\grpitem::IT_A, $fw_msg['pers']['rui']['back'], $this->parent->getJsVar() . ".back();", '_uicmp_gi_back' ) );
 			$buttons->add( new \io\creat\chassis\uicmp\grpitem( $buttons, $this->pi->id( ) . '.S1', \io\creat\chassis\uicmp\grpitem::IT_TXT, '|' ) );
 			$buttons->add( new \io\creat\chassis\uicmp\grpitem( $buttons, $this->pi->id( ) . '.Save', \io\creat\chassis\uicmp\grpitem::IT_BT, $fw_msg['pers']['rui']['save'], $this->pi->jsVar( ) . ".rui.save( );" ) );
-			$buttons->add( $indicator = new \io\creat\chassis\uicmp\indicator( $buttons, $this->pi->id( ) . '.Rui.Ind', \io\creat\chassis\uicmp\grpitem::IT_IND, $fw_msg['pers']['rui']['ind'] ) );
+			$buttons->add( $indicator = new \io\creat\chassis\uicmp\indicator( $buttons, $this->pi->id( ) . '.Rui.Ind', \io\creat\chassis\uicmp\grpitem::IT_IND, $imsg ) );
 
 		$this->jscfg['frmhl_id'] = $headline->getHtmlId( );
 		$fields = $this->pi->def( );
@@ -134,14 +139,19 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 				
 		if ( ( $field->flags & field::FL_FD_MODIFY ) || !( $field->flags & field::FL_FD_HIDDEN ) )
 		{
+			// Disable changes in edit mode.
+			$this->jscfg['f'][$field->name]['c'] = ( ( $field->flags & field::FL_FD_CONST ) ? true : false );
+			
 			$this->jscfg['f'][$field->name]['d'] = ( ( $field->opts->flags & field::FL_FO_DYNAMIC ) ? true : false );
 			$this->jscfg['f'][$field->name]['e'] = ( ( $field->opts->flags & field::FL_FO_NE ) ? false : true );
+			
+			if ( $field->flags & field::FL_FD_PREVIEW )
+				$this->jscfg['preview'] = $field->name;
 			
 			switch ( $field->type )
 			{
 				case field::FT_TAG:
 					$this->jscfg['f'][$field->name]['t'] = 'tag';
-							
 					new \io\creat\chassis\uicmp\frmitem(	$form,
 															'rui::' . $field->name,
 															$field->title,
@@ -153,7 +163,6 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 			
 				case field::FT_ENUM:
 					$this->jscfg['f'][$field->name]['t'] = 'enum';
-					
 					$fi = new \io\creat\chassis\uicmp\frmitem(	$form,
 																'rui::' . $field->name,
 																$field->title,

@@ -133,6 +133,111 @@ class field extends \pers
 	}
 }
 
+/**
+ * Foreign key field, having reference on another table.
+ */
+class fk extends field
+{
+	/**
+	 * Name of the tags table.
+	 * @var string
+	 */
+	public $table = NULL;
+	
+	/**
+	 * Foreign table field used for restriction of the result set.
+	 * @var string
+	 */
+	public $rkey = NULL;
+	
+	/**
+	 * Foreign table field value used for restriction of the result set.
+	 * @var string
+	 */
+	public $rval = NULL;
+	
+	/**
+	 * Foreign table field containing names.
+	 * @var string
+	 */
+	public $names = NULL;
+	
+	/**
+	 * PDO instance for database operation.
+	 * @var PDO
+	 */
+	public $pdo = NULL;
+	
+	/**
+	 * Simple constructor taking instance of field as a prototype and metadata
+	 * to produce new instance to replace original instance of field.
+	 * @param \io\creat\chassis\pers\field $field reference to original instance
+	 * @param string $table foreign table name
+	 * @param string $names field of the foreign table containing names
+	 * @param array $restr pair of field name (key) and value (value, from foreign table) to restrict the dataset
+	 * @param PDO $pdo PDO instance, if NULL (default), global repository PDO is used
+	 */
+	public function __construct ( &$field, $table, $names, $restr = NULL, $pdo = NULL )
+	{
+		parent::__construct(	$field->name,
+								$field->type,
+								$field->flags,
+								$field->title,
+								$field->desc,
+								$field->width,
+								$field->colspan,
+								$field->align );
+		
+		$this->table = $table;
+		$this->names = $names;
+		$this->opts = new fopts( self::FL_FO_DYNAMIC );
+		
+		if ( is_array( $restr ) )
+		{
+			$this->rkey = key( $restr );
+			$this->rval = $restr[$key];
+		}
+		
+		if ( is_null( $pdo ) )
+			$this->pdo = \io\creat\chassis\session\repo::getInstance( )->get(\io\creat\chassis\session\repo::PDO );
+		else
+			$this->pdo = $pdo;
+	}
+	
+	/**
+	 * Loads foreign table content in cached manner.
+	 * @return foreign table dataset
+	 */
+	public function load ( )
+	{
+		if ( !is_array( $this->opts->values ) )
+		{	
+			if ( is_null( $this->rkey ) )
+			{
+				$sql = $this->pdo->prepare( "SELECT `" . $this->name . "`,`" . $this->names . "`
+							FROM `" . $this->table . "`
+							ORDER BY `" . $this->names . "`" );
+				$result = $sql->execute( );
+			}
+			else
+			{
+				$sql = $this->pdo->prepare( "SELECT `" . $this->name . "`,`" . $this->names . "`
+							FROM `" . $this->table . "`
+							WHERE `" . $this->rkey . "` = ?
+							ORDER BY `" . $this->names . "`" );
+				$result =  $sql->execute( array( $this->rval ) );
+			}
+
+			if ( $result )
+			{
+				while ( $entry = $sql->fetch( \PDO::FETCH_NUM ) )
+					$this->opts->set ( $entry[0], $entry[1] );
+			}
+		}
+		
+		return $this->opts->values;
+	}
+}
 
 /**
  * Specialized field for use as tag column. Tag field contains ID from another

@@ -57,7 +57,7 @@ class pers
 	const FT_INT			= 32;	// field is an integer number
 	//const FT_REAL			= 64;	// field is a real number
 	const FT_STRING			= 96;	// field is a string
-	const FT_ENUM			= 128;	// field is a single value from list of options
+	const FT_ENUM			= 128;	// field is a single value from list of options, can be an FK
 	const FT_TAG			= 160;	// field is a reference to single tag
 	const FT_TAGS			= 192;	// field is a serialized list of tags
 	const FT_TIMESTAMP		= 224;	// 

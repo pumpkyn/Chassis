@@ -400,7 +400,10 @@ function _pers_rui ( pi )
 				case 'tag':
 				case 'enum':
 					if ( el )
+					{
 						el.selectedIndex = 0;
+						el.disabled = false;
+					}
 				break;
 			}
 		}
@@ -451,7 +454,10 @@ function _pers_rui ( pi )
 		return waPlusSignWaEncode( writer.flush() );
 	};
 	
-	this.parse = function ( xml )
+	// Parses XML returned from load() or defaults() method of server PI.
+	// @param xml obtained XML payload
+	// @param edit whether form is in editor mode or not
+	this.parse = function ( xml, edit )
 	{
 		var parser = new DOMImplementation( );
 		var domDoc = parser.loadXML( xml );
@@ -459,66 +465,70 @@ function _pers_rui ( pi )
 		var rui = domDoc.getDocumentElement( );
 
 		var fs = rui.getElementsByTagName( 'f' );
-			//alert(fs.length);
-			for( var i = 0; i < fs.length; ++i )
-			{
-				var f = fs.item( i );
-				var field = me.pi.rcfg.f[f.getAttribute( 'n' )];
-				var el = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + f.getAttribute( 'n' ) );
+
+		for( var i = 0; i < fs.length; ++i )
+		{
+			var f = fs.item( i );
+			var field = me.pi.rcfg.f[f.getAttribute( 'n' )];
+			var el = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + f.getAttribute( 'n' ) );
 				
-				if ( field )
+			if ( field )
+			{
+				if ( field.t == 'string' )
+					el.value = f.getAttribute( 'v' );
+				if ( ( field.t == 'tag' ) || ( field.t == 'enum' ) )
 				{
-					if ( field.t == 'string' )
-						el.value = f.getAttribute( 'v' );
-					if ( ( field.t == 'tag' ) || ( field.t == 'enum' ) )
-					{
-						var j = 0;
+					var j = 0;
 						
-							//alert(field.d);
-						if ( field.d === true )
-						{
-							for ( j  = el.length - 1; j >= 0; --j )
-								el.remove( j );
+					if ( field.d === true )
+					{
+						for ( j  = el.length - 1; j >= 0; --j )
+							el.remove( j );
 							
-							var o = f.getElementsByTagName( 'o' );
-							for ( j = 0; j < o.length; ++j )
-							{
-								var opt = document.createElement( 'option' );
-								opt.value = o.item( j ).getAttribute( 'v' );
-								opt.text = o.item( j ).getFirstChild( ).getNodeValue( );
-								try
-								{
-									el.add( opt, null );
-								}
-								catch ( ex )
-								{
-									el.add( opt );	// MSIE
-								}
-								
-								// preselect for dynamic
-								if ( opt.value == f.getAttribute( 'v' ) )
-									el.selectedIndex = j;
-							}
-						}
-						else // preselect for static
+						var o = f.getElementsByTagName( 'o' );
+						for ( j = 0; j < o.length; ++j )
 						{
-							for ( j = 0; j < el.length; ++j )
-								if ( el[j].value == f.getAttribute( 'v' ) )
-								{
-									el.selectedIndex = j;
-									break;
-								}
+							var opt = document.createElement( 'option' );
+							opt.value = o.item( j ).getAttribute( 'v' );
+							opt.text = o.item( j ).getFirstChild( ).getNodeValue( );
+							try
+							{
+								el.add( opt, null );
+							}
+							catch ( ex )
+							{
+								el.add( opt );	// MSIE
+							}
+								
+							// preselect for dynamic
+							if ( opt.value == f.getAttribute( 'v' ) )
+								el.selectedIndex = j;
 						}
 					}
+					else // preselect for static
+					{
+						for ( j = 0; j < el.length; ++j )
+							if ( el[j].value == f.getAttribute( 'v' ) )
+							{
+								el.selectedIndex = j;
+								break;
+							}
+					}
 					
+					// In edit mode this field has to be disabled if flagged as
+					// constant.
+					if ( edit )
+						el.disabled = field.c;
 				}
-				else
-				{
-					var idx = me.pi.rcfg.idx[f.getAttribute( 'n' )];
-					if ( idx && el )
-						el.value = f.getAttribute( 'v' );
-				}
+				
 			}
+			else
+			{
+				var idx = me.pi.rcfg.idx[f.getAttribute( 'n' )];
+				if ( idx && el )
+					el.value = f.getAttribute( 'v' );
+			}
+		}
 	};
 	
 	this.load = function ( index )
@@ -527,10 +537,8 @@ function _pers_rui ( pi )
 		function onFailure( ) {me.pi.rcfg.ind.show( 'e_unknown', '_uicmp_ind_red' );};
 		function onSuccess( data )
 		{
-			//alert(data.responseText);
-			me.parse(data.responseText);
+			me.parse( data.responseText, true );
 			me.index = index;
-			
 			me.pi.rcfg.ind.fade( 'loaded', '_uicmp_ind_green' );
 		};
 
@@ -539,6 +547,57 @@ function _pers_rui ( pi )
 							null,
 							false );
 	};
+	
+	// Load default values for dynamic enums.
+	// @param presets 'field1=val1;field2=val2' formatted presets for enums
+	this.defaults = function ( presets )
+	{
+		function onCreate( ) {me.pi.rcfg.ind.show( 'loading', '_uicmp_ind_gray' );};
+		function onFailure( ) {me.pi.rcfg.ind.show( 'e_unknown', '_uicmp_ind_red' );};
+		function onSuccess( data )
+		{
+			
+			me.parse( data.responseText, false );
+			
+			if ( presets != null )
+			{
+				var pairs = presets.split( ';' );
+				var p;
+				var el;
+				for ( var j = 0; j < pairs.length; ++j )
+				{
+					
+					p = pairs[j].split( '=' );
+					
+					if ( me.pi.rcfg.f[p[0]].t == 'enum' )
+					{
+						el = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + p[0] );
+						for ( var i = 0; i < el.options.length; ++i )
+							if ( el.options[i].value == p[1] )
+							{
+								el.selectedIndex = i;
+								break;
+							}
+					}
+					else
+						if ( me.pi.rcfg.f[p[0]].t == 'string' )
+						{
+							el = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + p[0] );
+							if ( el )
+								el.value = p[1];
+						}
+				}
+			}
+				
+			me.pi.rcfg.ind.fade( 'loaded', '_uicmp_ind_green' );
+		};
+
+		me.pi.ajax.send(	{primitive: 'rui', method: 'defaults'},
+							{onCreate: onCreate, onFailure: onFailure, onSuccess: onSuccess},
+							null,
+							false );
+	};
+	
 	
 	// Performs check on values of all fields, which have constraints.
 	this.check = function ( )
@@ -573,13 +632,14 @@ function _pers_rui ( pi )
 		function onCreate( ) { me.pi.rcfg.ind.show( 'saving', '_uicmp_ind_gray' ); }
 		function onFailure( ) { me.pi.rcfg.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
 		function onSuccess( data )
-		{
-			//alert(data.responseText);
-			//me.parse(data.responseText);
-			//me.index = index;
-			
-			me.pi.rcfg.ind.fade( 'saved', '_uicmp_ind_green' );
-			me.pi.layout.back( );
+		{	
+			if ( data.responseText == 'OK' )
+			{
+				me.pi.rcfg.ind.fade( 'saved', '_uicmp_ind_green' );
+				me.pi.layout.back( );
+			}
+			else
+				me.pi.rcfg.ind.show( data.responseText, '_uicmp_ind_red' );
 		}
 		
 		var data = me.message( );
@@ -595,18 +655,15 @@ function _pers_rui ( pi )
 		me.reset( );
 		me.pi.layout.show( me.pi.rcfg.tab_id );
 		me.load( index );
-		var field;
-		for ( field in me.pi.rcfg.f )
-			me.preview( field );
+		me.preview( me.pi.rcfg.preview );
 	};
 	
-	this.create = function ( )
+	this.create = function ( presets )
 	{
 		me.reset( );
 		me.pi.layout.show( me.pi.rcfg.tab_id );
-		var field;
-		for ( field in me.pi.rcfg.f )
-			me.preview( field );
+		me.defaults( presets );
+		me.preview( me.pi.rcfg.preview );
 	};
 }
 
@@ -664,6 +721,7 @@ function _pers_instance ( id, layout, url, params, tcfg, rcfg )
 	 * .frmhl_id .. headline HTML ID (for preview method)
 	 * .ind ....... reference to indicator instance
 	 * .idx ....... indexes (names are keys)
+	 * .preview ... field, update on which triggers preview
 	 * .f ......... fields configuration
 	 *              .d ... specifies if field is dynamic
 	 *              .e ... specifies if field can have empty values (e.g. zero-length strings)
