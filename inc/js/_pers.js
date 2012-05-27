@@ -690,11 +690,17 @@ function _pers_instance ( id, layout, url, params, tcfg, rcfg )
 	 */
 	this.startup = function ( )
 	{
-		me.tui = new _pers_tui( me );
-		me.rui = new _pers_rui( me );
+		if ( me.tcfg != null )
+			me.tui = new _pers_tui( me );
 		
-		me.tui.startup( );
-		me.rui.startup( );
+		if ( me.rcfg != null )
+			me.rui = new _pers_rui( me );
+		
+		if ( me.tcfg != null )
+			me.tui.startup( );
+		
+		if ( me.rcfg != null )
+			me.rui.startup( );
 	};
 	
 	//Interface to update scope with proper value. This should be used from
@@ -705,5 +711,5 @@ function _pers_instance ( id, layout, url, params, tcfg, rcfg )
 	 * Callback for event of showing the tab. It is bind before the TUI instance
 	 * is created, therefore it must be implemented as proxy method.
 	 */
-	this.refresh = function ( ) {me.tui.refresh( );};
+	this.refresh = function ( ) { me.tui.refresh( );};
 }

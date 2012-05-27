@@ -237,11 +237,14 @@ class instance extends \pers
 		$requirer = $this->layout->getRequirer( );
 		$tcfg = ( !is_null( $this->tableUi( ) ) ) ? $this->tui->jsCfg( ) : 'null';
 		$rcfg = ( !is_null( $this->recordUi( ) ) ) ? $this->rui->jsCfg( ) : 'null';
-		$init = 'var ' . $var . " = new {$this->jsClass}( '{$this->table}', {$this->layout->getJsVar( )}, '{$this->url}', " . \io\creat\chassis\uicmp\vcmp::toJsArray( $this->params ) . ", {$tcfg}, {$rcfg} );";
 		
-		$this->tui->generateReqs( );
+		if ( $this->tui instanceof tui )
+			$this->tui->generateReqs( );
 		if ( $this->rui instanceof rui )
 			$this->rui->generateReqs( );
+		
+		$init = 'var ' . $var . " = new {$this->jsClass}( '{$this->table}', {$this->layout->getJsVar( )}, '{$this->url}', " . \io\creat\chassis\uicmp\vcmp::toJsArray( $this->params ) . ", {$tcfg}, {$rcfg} );";
+		
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( $requirer->getRelative() . 'css/_uicmp.css', __CLASS__ ) );	// a requirement
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( $requirer->getRelative() . 'css/_list.css', __CLASS__ ) );	// a requirement
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( $requirer->getRelative() . 'css/_tags.css', __CLASS__ ) );	// a requirement
@@ -249,8 +252,16 @@ class instance extends \pers
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative() . '3rd/XMLWriter-1.0.0-min.js', __CLASS__ ) );	// a requirement
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( $requirer->getRelative() . 'js/wa.js', __CLASS__ ) );	// a requirement
 		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $init );
-		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $this->layout->getJsVar( ) . '.registerTabCb( \'' . $this->tui->id( ) . '\', \'onShow\', ' . $this->jsVar( ) . '.refresh );' );
-		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $this->layout->getJsVar( ) . '.registerTabCb( \'' . $this->tui->id( ) . '\', \'onLoad\', ' . $this->jsVar( ) . '.startup );' );
+		
+		if ( $this->tui instanceof tui )
+		{
+			$id = $this->tui->id( );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $this->layout->getJsVar( ) . '.registerTabCb( \'' . $id . '\', \'onShow\', ' . $this->jsVar( ) . '.refresh );' );
+		}
+		else
+			$id = $this->rui->id( );
+
+		$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $this->layout->getJsVar( ) . '.registerTabCb( \'' . $id . '\', \'onLoad\', ' . $this->jsVar( ) . '.startup );' );
 	}
 	
 	/**
