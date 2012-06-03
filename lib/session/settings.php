@@ -125,7 +125,7 @@ abstract class settings extends \Config
 	private function set ( $key, $value )
 	{
 		$this->writer->bindValue( 'key', $key );
-		$this->writer->bindValue( 'val', $val );
+		$this->writer->bindValue( 'val', $value );
 		$this->writer->execute( );
 		$this->table[$key] = $value;
 	}
