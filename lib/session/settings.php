@@ -1,5 +1,7 @@
 <?php
 
+// vim: ts=4
+
 /**
  * @file settings.php
  * @author giorno
@@ -122,7 +124,7 @@ abstract class settings extends \Config
 	 * @param string $key identifier of setting entry
 	 * @param mixed $value value of setting
 	 */
-	private function set ( $key, $value )
+	public function set ( $key, $value )
 	{
 		$this->writer->bindValue( 'key', $key );
 		$this->writer->bindValue( 'val', $value );
