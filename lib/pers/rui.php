@@ -172,7 +172,30 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 																( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onChange' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
 					$fi->setOptions( $field->opts->values );
 				break;
+			
+				case field::FT_BOOL:
+					$this->jscfg['f'][$field->name]['t'] = 'bool';
+					$fi = new \io\creat\chassis\uicmp\frmitem(	$form,
+																'rui::' . $field->name,
+																$field->title,
+																'',
+																'',
+																\io\creat\chassis\uicmp\frmitem::FIT_CHECKBOX,
+																( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onChange' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
+					$fi->setOptions( $field->opts->values );
+				break;
 					
+				case field::FT_PASSWORD:
+					$this->jscfg['f'][$field->name]['t'] = 'password';
+					new \io\creat\chassis\uicmp\frmitem(	$form,
+															'rui::' . $field->name,
+															$field->title,
+															'',
+															'',
+															\io\creat\chassis\uicmp\frmitem::FIT_PASSWORD,
+															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onKeyUp' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
+				break;
+			
 				default:
 					$this->jscfg['f'][$field->name]['t'] = 'string';
 					new \io\creat\chassis\uicmp\frmitem(	$form,
@@ -181,7 +204,7 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 															'',
 															'',
 															\io\creat\chassis\uicmp\frmitem::FIT_TEXT,
-															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onKeyUp' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
+															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onClick' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
 				break;
 			}
 		}

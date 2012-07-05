@@ -53,10 +53,11 @@ class pers
 	 * Constants for description of the field type.
 	 */
 	const FT_UNKNOWN		= 0;	// field type is unknown, this renders field not being used
-	const FT_ICON			= 1;	// type of pseudofields reserved for list icons
+	const FT_ICON			= 1;	// type of pseudofields reserved for list icons (for actions)
 	const FT_INT			= 32;	// field is an integer number
 	//const FT_REAL			= 64;	// field is a real number
 	const FT_STRING			= 96;	// field is a string
+	const FT_PASSWORD		= 97;	// field is a string containing password (specially treated)
 	const FT_ENUM			= 128;	// field is a single value from list of options, can be an FK
 	const FT_TAG			= 160;	// field is a reference to single tag
 	const FT_TAGS			= 192;	// field is a serialized list of tags
@@ -64,6 +65,7 @@ class pers
 	const FT_DATE			= 256;	// 
 	const FT_TIME			= 288;	// 
 	const FT_DATETIME		= 320;	//
+	const FT_BOOL			= 353;	// Boolean type, represented in database as 0 or 1 integer
 }
 
 ?>

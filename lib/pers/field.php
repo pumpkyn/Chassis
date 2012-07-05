@@ -12,7 +12,7 @@ namespace io\creat\chassis\pers;
 
 require_once CHASSIS_LIB . '_cdes.php';
 require_once CHASSIS_LIB . 'pers/common.php';
-require_once CHASSIS_LIB . 'tags/instance.php';
+//require_once CHASSIS_LIB . 'tags/instance.php';
 require_once CHASSIS_LIB . 'session/repo.php';
 
 /**
