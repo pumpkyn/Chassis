@@ -110,7 +110,9 @@ $__chassis_msg['srch']['e_unknown']		= $__chassis_msg['cdes']['e_unknown'];
 /**
  * Persistence.
  */
-$__chassis_msg['pers']['ind']				= $__chassis_msg['srch'];
+$__chassis_msg['pers']['tui']['ind']				= $__chassis_msg['srch'];
+$__chassis_msg['pers']['tui']['ind']['executing']	= 'Vykonávám...';
+$__chassis_msg['pers']['tui']['ind']['done']		= 'Dokončeno';
 $__chassis_msg['pers']['as']['on']			= 'rozšířené vyhledávání';
 $__chassis_msg['pers']['as']['field']		= 'V poli';
 $__chassis_msg['pers']['as']['allfields']	= 'Ve všech polích';

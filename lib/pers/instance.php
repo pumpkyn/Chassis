@@ -495,7 +495,15 @@ class instance extends \pers
 									break;
 								}
 						}
+						
+						// Empty cell (fallback)
 						return new \_list_cell( \_list_cell::Text( '' ), '', $field->align );
+					break;
+					
+					// Empty cell (fallback). This logic should be overriden in
+					// subclass to provide proper decoration and semantic.
+					case field::FT_ICON:
+						return new \_list_cell( \_list_cell::Text( '' ), '', 'left' );
 					break;
 					
 					default:
@@ -665,7 +673,10 @@ class instance extends \pers
 			// Check for correct values
 			$this->validate( $fields );
 		}
-		
+
+		/*echo "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', array_keys( $this->cache ) ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs );
+		var_dump($this->cache);*/
+		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		/**
 		 * @todo validate result of the operation and return appropriate result
 		 */

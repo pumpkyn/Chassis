@@ -111,6 +111,8 @@ $__chassis_msg['srch']['e_unknown']	= $__chassis_msg['cdes']['e_unknown'];
  * Persistence.
  */
 $__chassis_msg['pers']['tui']['ind']				= $__chassis_msg['srch'];
+$__chassis_msg['pers']['tui']['ind']['executing']	= 'Executing...';
+$__chassis_msg['pers']['tui']['ind']['done']		= 'Done';
 $__chassis_msg['pers']['tui']['as']['on']			= 'advanced search';
 $__chassis_msg['pers']['tui']['as']['field']		= 'In field';
 $__chassis_msg['pers']['tui']['as']['allfields']	= 'In all fields';

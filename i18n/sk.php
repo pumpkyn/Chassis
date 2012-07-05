@@ -111,6 +111,8 @@ $__chassis_msg['srch']['e_unknown']		= $__chassis_msg['cdes']['e_unknown'];
  * Persistence.
  */
 $__chassis_msg['pers']['tui']['ind']				= $__chassis_msg['srch'];
+$__chassis_msg['pers']['tui']['ind']['executing']	= 'Vykonávam...';
+$__chassis_msg['pers']['tui']['ind']['done']		= 'Dokončené';
 $__chassis_msg['pers']['tui']['as']['on']			= 'pokročilé hľadanie';
 $__chassis_msg['pers']['tui']['as']['field']		= 'V poli';
 $__chassis_msg['pers']['tui']['as']['allfields']	= 'Vo všetkých poliach';

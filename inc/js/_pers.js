@@ -58,7 +58,7 @@ function _pers_tui ( pi )
 	
 	//Interface to update scope with proper value. This should be used from
 	// subclass to set proper private member for whole inheritance hierarchy.
-	this.cp = function ( alter ) { me = alter; };
+	this.cp = function ( alter ) {me = alter;};
 	
 	this.search = function ( )
 	{
@@ -83,8 +83,8 @@ function _pers_tui ( pi )
 		this.focus( );
 		this.res_render( );
 		
-		function onCreate( ) { me.effect_show( ); me.pi.tcfg.ind.show( 'loading', '_uicmp_ind_gray' ); }
-		function onFailure( ) { me.effect_hide( ); me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
+		function onCreate( ) {me.effect_show( );me.pi.tcfg.ind.show( 'loading', '_uicmp_ind_gray' );}
+		function onFailure( ) {me.effect_hide( );me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' );}
 		function onComplete( ) { /*me.effect_hide( );*/ }
 		function onSuccess( )
 		{
@@ -256,7 +256,7 @@ function _pers_tui ( pi )
 	
 	// Implements same interface as UICMP search solution to match resizer's
 	// requirements.
-	this.resize = function ( val ) { me.res_update( val ); };
+	this.resize = function ( val ) {me.res_update( val );};
 	
 	this.res_update = function ( val )
 	{
@@ -266,8 +266,8 @@ function _pers_tui ( pi )
 		_uicmp_resizer_size = val;
 		this.focus( );
 		
-		function onCreate( ) { me.pi.tcfg.ind.show( 'resizing', '_uicmp_ind_gray' ); }
-		function onFailure( ) { me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
+		function onCreate( ) {me.pi.tcfg.ind.show( 'resizing', '_uicmp_ind_gray' );}
+		function onFailure( ) {me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' );}
 		function onSuccess( data )
 		{
 			me.pi.tcfg.ind.fade( 'resized', '_uicmp_ind_green' );
@@ -316,6 +316,25 @@ function _pers_tui ( pi )
 		
 		if ( refresh )
 			this.refresh( );
+	};
+	
+	// Executes click on an icon representing an action field.
+	this.iclick = function ( icon, data )
+	{
+		var scope = me;
+		function onCreate ( ) {scope.effect_show( );scope.pi.tcfg.ind.show( 'executing', '_uicmp_ind_gray' );}
+		function onFailure ( ) {scope.effect_hide( );scope.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' );}
+		function onSuccess ( )
+		{
+			scope.effect_hide( ); 
+			scope.pi.tcfg.ind.fade( 'done', '_uicmp_ind_green' );
+			scope.refresh( );
+		}
+		
+		scope.pi.ajax.send(	{primitive: 'tui', method: 'iclick', icon: icon, data: data},
+							{onCreate: onCreate, onFailure: onFailure, onSuccess: onSuccess},
+							null,
+							false );
 	};
 }
 
@@ -378,7 +397,7 @@ function _pers_rui ( pi )
 	
 	//Interface to update scope with proper value. This should be used from
 	// subclass to set proper private member for whole inheritance hierarchy.
-	this.cp = function ( alter ) { me = alter; };
+	this.cp = function ( alter ) {me = alter;};
 	
 	// Erase the form and set it into initial state.
 	this.reset = function ( )
@@ -393,6 +412,7 @@ function _pers_rui ( pi )
 			switch ( me.pi.rcfg.f[field].t )
 			{
 				case 'string':
+				case 'password':
 					if ( el )
 						el.value = '';
 				break;
@@ -405,6 +425,9 @@ function _pers_rui ( pi )
 						el.disabled = false;
 					}
 				break;
+				
+				case 'bool':
+					el.checked = false;
 			}
 		}
 	};
@@ -434,6 +457,7 @@ function _pers_rui ( pi )
 						switch ( me.pi.rcfg.f[field].t )
 						{
 							case 'string':
+							case 'password':
 								if ( el )
 									writer.writeAttributeString( 'v', el.value );
 							break;
@@ -443,11 +467,16 @@ function _pers_rui ( pi )
 								if ( el )
 									writer.writeAttributeString( 'v', el.options[el.selectedIndex].value );
 							break;
+							
+							case 'bool':
+								if ( el )
+									writer.writeAttributeString( 'v', el.checked );
+							break;
 						}
-						//writer.writeAttributeString( 'v',  );
+
 					writer.writeEndElement( );
 				}
-				//writer.writeElementString( 'pl', Base64.encode( document.getElementById( me.form_id + '.loc' ).value ) );
+
 			writer.writeEndElement( );
 		writer.writeEndDocument( );
 		
@@ -476,6 +505,10 @@ function _pers_rui ( pi )
 			{
 				if ( field.t == 'string' )
 					el.value = f.getAttribute( 'v' );
+				
+				if ( field.t == 'bool' )
+					el.checked = f.getAttribute( 'v' ) == '1';
+				
 				if ( ( field.t == 'tag' ) || ( field.t == 'enum' ) )
 				{
 					var j = 0;
@@ -629,8 +662,8 @@ function _pers_rui ( pi )
 			return;
 		
 		//alert(me.message());
-		function onCreate( ) { me.pi.rcfg.ind.show( 'saving', '_uicmp_ind_gray' ); }
-		function onFailure( ) { me.pi.rcfg.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
+		function onCreate( ) {me.pi.rcfg.ind.show( 'saving', '_uicmp_ind_gray' );}
+		function onFailure( ) {me.pi.rcfg.ind.show( 'e_unknown', '_uicmp_ind_red' );}
 		function onSuccess( data )
 		{	
 			if ( data.responseText == 'OK' )
@@ -763,11 +796,11 @@ function _pers_instance ( id, layout, url, params, tcfg, rcfg )
 	
 	//Interface to update scope with proper value. This should be used from
 	// subclass to set proper private member for whole inheritance hierarchy.
-	this.cp = function ( alter ) { me = alter; };
+	this.cp = function ( alter ) {me = alter;};
 	
 	/**
 	 * Callback for event of showing the tab. It is bind before the TUI instance
 	 * is created, therefore it must be implemented as proxy method.
 	 */
-	this.refresh = function ( ) { me.tui.refresh( );};
+	this.refresh = function ( ) {me.tui.refresh( );};
 }
