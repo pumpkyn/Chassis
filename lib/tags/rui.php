@@ -86,6 +86,9 @@ class rui extends \io\creat\chassis\pers\rui
 	 */
 	protected function item ( &$form, &$field, &$index )
 	{
+		if ( $field->flags & \pers::FL_FD_PREVIEW )
+				$this->jscfg['preview'] = $field->name;
+		
 		// we need to create preview badge instead of simple form item
 		switch ( $field->name )
 		{
