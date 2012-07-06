@@ -470,7 +470,7 @@ function _pers_rui ( pi )
 							
 							case 'bool':
 								if ( el )
-									writer.writeAttributeString( 'v', el.checked );
+									writer.writeAttributeString( 'v', el.checked ? 1 : 0 );
 							break;
 						}
 
