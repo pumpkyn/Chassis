@@ -611,9 +611,11 @@ class instance extends \pers
 	 * validate an instance of \io\creat\chassis\pers\invvalexception is thrown.
 	 * This method is meant to be overriden in the subclass, only default logic
 	 * is provided here.
-	 * @param array $fields key-value pairs
+	 * @param array $index index data sent by RUI
+	 * @param array $fields key-value pairs extracted from the RUI sent XML
+	 * @return bool
 	 */
-	protected function validate( &$fields ) { return true; }
+	protected function validate( &$index, &$fields ) { return true; }
 	
 	/**
 	 * Parses the client editor form save request XML and performs the save
@@ -671,12 +673,10 @@ class instance extends \pers
 			}
 			
 			// Check for correct values
-			$this->validate( $fields );
+			if ( $this->validate( $index, $fields ) === false )
+				return false;
 		}
 
-		/*echo "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', array_keys( $this->cache ) ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs );
-		var_dump($this->cache);*/
-		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		/**
 		 * @todo validate result of the operation and return appropriate result
 		 */
@@ -714,7 +714,12 @@ class instance extends \pers
 					if ( $_POST['primitive'] == 'rui' )
 						try
 						{
-							echo ( $this->save( ) ? 'OK' : 'KO' );
+							$status = $this->save( );
+							
+							// This means that output has not been polluted by
+							// subclass custom logic in save( ) override.
+							if ( (int)ob_get_length( ) == 0 )
+								echo ( $status ? 'OK' : 'KO' );
 						}
 						catch ( invvalexception $e )
 						{
