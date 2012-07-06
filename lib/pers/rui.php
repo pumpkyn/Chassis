@@ -66,8 +66,11 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 		$cust_msg	= $this->pi->msg( );
 		$fields		= $this->pi->def( );
 
+		// Incorporate user code localization.
 		if ( array_key_exists( 'i', $cust_msg['rui'] ) )
 			$imsg = array_merge( $fw_msg['pers']['rui']['ind'], $cust_msg['rui']['i'] );
+		elseif ( array_key_exists( 'ind', $cust_msg['rui'] ) )
+			$imsg = array_merge( $fw_msg['pers']['rui']['ind'], $cust_msg['rui']['ind'] );
 		else
 			$imsg = $fw_msg['pers']['rui']['ind'];
 				
