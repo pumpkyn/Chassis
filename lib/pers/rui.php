@@ -207,7 +207,7 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 															'',
 															'',
 															\io\creat\chassis\uicmp\frmitem::FIT_TEXT,
-															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onClick' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
+															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onKeyUp' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
 				break;
 			}
 		}
