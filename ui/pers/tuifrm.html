@@ -57,7 +57,7 @@
 			<tr>
 				{if array_key_exists('f',$USR_PERS_TUICFG)}
 				<td class="_uicmp_search_field">
-					<select onClick="{$USR_UICMP_CMP->jsVar()}.tui.focus();" id="{$USR_UICMP_CMP->getHtmlId()}::field">
+					<select onChange="{$USR_UICMP_CMP->jsVar()}.tui.focus();" id="{$USR_UICMP_CMP->getHtmlId()}::field">
 						{foreach from=$USR_PERS_TUICFG.f.option key=value item=label}
 						<option value="{$value}"{if $USR_PERS_TUICFG.f.selected==$value} selected="selected"{/if}>{$label}</option>
 						{/foreach}
@@ -67,7 +67,7 @@
 				{if array_key_exists('r',$USR_PERS_TUICFG)}
 				{foreach from=$USR_PERS_TUICFG.r key=name item=restrictor}
 				<td class="_uicmp_search_field">
-					<select onClick="{$USR_UICMP_CMP->jsVar()}.tui.focus();" id="{$USR_UICMP_CMP->getHtmlId()}::restrictor::{$name}">
+					<select onChange="{$USR_UICMP_CMP->jsVar()}.tui.focus();" id="{$USR_UICMP_CMP->getHtmlId()}::restrictor::{$name}">
 						{foreach from=$restrictor.option key=value item=label}
 						<option value="{$value}"{if $restrictor.selected==$value} selected="selected"{/if}>{$label}</option>
 						{/foreach}
