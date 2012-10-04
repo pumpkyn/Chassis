@@ -190,6 +190,26 @@ class instance extends \pers
 	public function idx ( ) { return $this->index; }
 	
 	/**
+	 * Provides string representation of index for particular record.
+	 * @param array $record as extracted from the table
+	 * @return string
+	 */
+	public function idxSerialize ( &$record )
+	{
+		foreach ( $this->index as $i )
+			$index[] = $record[$i];
+		
+		return implode( '::', $index);
+	}
+	
+	/**
+	 * Converts serialized index to an array of values.
+	 * @param string $plain
+	 * @return array
+	 */
+	public function idxUnserialize ( $plain ) { return explode( '::', $plain ); }
+	
+	/**
 	 * Generator of Javascript variable name.
 	 * @return string
 	 * @todo cache
@@ -482,13 +502,8 @@ class instance extends \pers
 								if ( ( (int)$record[$field->name] > 0 ) && ( array_key_exists( (int)$record[$field->name], $field->cache ) ) )
 								{
 									if ( ( $field->flags & field::FL_FD_ANCHOR ) && ( is_array( $this->index ) ) )
-									{
-										foreach ( $this->index as $i )
-											$index[] = $record[$i];
-										
-										return new \_list_cell( \_list_cell::Badge( $field->cache[(int)$record[$field->name]]->id, $field->cache[(int)$record[$field->name]]->sch, $field->cache[(int)$record[$field->name]]->disp, '', $search['jsvar'] . '.rui.edit( \'' . implode( '::', $index ) . '\' );' ),
+										return new \_list_cell( \_list_cell::Badge( $field->cache[(int)$record[$field->name]]->id, $field->cache[(int)$record[$field->name]]->sch, $field->cache[(int)$record[$field->name]]->disp, '', $search['jsvar'] . '.rui.edit( \'' . $this->idxSerialize( $record ) . '\' );' ),
 														\_list_cell::MAN_BADGE );
-									}
 									else
 										return new \_list_cell( \_list_cell::Badge( $field->cache[(int)$record[$field->name]]->id, $field->cache[(int)$record[$field->name]]->sch, $field->cache[(int)$record[$field->name]]->disp ),
 														\_list_cell::MAN_BADGE );
