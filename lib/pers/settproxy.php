@@ -49,6 +49,12 @@ class settproxy
 	protected $lsett = NULL;
 	
 	/**
+	 * This value is used for textare heights save operation.
+	 * @var string
+	 */
+	protected $tahkeyroot = NULL;
+	
+	/**
 	 * Reference to Persistence instance.
 	 * @var \io\creat\chassis\pers\instance
 	 */
@@ -60,13 +66,15 @@ class settproxy
 	 * @param \_settings $lsett reference to settings object handling list configuration
 	 * @param string $llenkey key value for the page size setting 
 	 * @param string $phkey key value for the pager half size setting
+	 * @param string $tahkeyroot prefix of keys used to store heights of textarea fields
 	 */
-	public function __construct ( &$gsett, &$lsett, $llenkey, $phkey )
+	public function __construct ( &$gsett, &$lsett, $llenkey, $phkey, $tahkeyroot = 'usr.ta.h.' )
 	{
-		$this->gsett	= $gsett;
-		$this->llenkey	= $llenkey;
-		$this->lsett	= $lsett;
-		$this->phkey	= $phkey;
+		$this->gsett		= $gsett;
+		$this->llenkey		= $llenkey;
+		$this->lsett		= $lsett;
+		$this->phkey		= $phkey;
+		$this->tahkeyroot	= $tahkeyroot;
 	}
 	
 	/**
@@ -108,6 +116,22 @@ class settproxy
 	 * @param \io\creat\chassis\pers\instance $pi reference to instance itself (i.e. $this)
 	 */
 	public function pi( &$pi ) { $this->pi = $pi; }
+	
+	/**
+	 * Getter/setter of textarea height. Getter mode is triggered by
+	 * single-argument call.
+	 * @param string $table table name for the PI
+	 * @param string $field name of field belonging to the textarea
+	 * @param int new height to update
+	 * @return string (in getter mode)
+	 */
+	public function tah ( $table, $field, $height = NULL )
+	{
+		if ( !is_null( $height ) )
+			$this->lsett->saveOne( $this->tahkeyroot . $table . '.' . $field, $height );
+		else
+			return $this->lsett->get( $this->tahkeyroot . $table . '.' . $field );
+	}
 }
 
 ?>

@@ -366,6 +366,26 @@ function _pers_rui ( pi )
 	{
 		if ( me.pi.rcfg !== null )
 			disableSelection( document.getElementById( me.pi.rcfg.back_id ) );
+
+		// special treatment of textareas to make them resizable
+		for ( field in me.pi.rcfg.f )
+			if ( me.pi.rcfg.f[field].m )
+			{
+				var res_opts = new Object();
+				res_opts.afterDrag = me.tah_save;
+				res_opts.field = field;
+				new TextAreaResizer( document.getElementById( me.pi.rcfg.frm_id + '.rui::' + field ), res_opts );
+			}
+	};
+	
+	/**
+	 * Sends actual height of a text area that was just resized to the server.
+	 * @param res_opts object populated upon creation of TextAreaResizer object
+	 */
+	this.tah_save = function ( res_opts )
+	{
+		// field name is carried in res_opts
+		me.pi.ajax.send( {method: 'tah', field: res_opts.field, val: document.getElementById( me.pi.rcfg.frm_id + '.rui::' + res_opts.field ).getHeight( )}, {}, null, true );
 	};
 	
 	// Updates form caption with value of the form field given by parameter.
@@ -759,6 +779,7 @@ function _pers_instance ( id, layout, url, params, tcfg, rcfg )
 	 *              .d ... specifies if field is dynamic
 	 *              .e ... specifies if field can have empty values (e.g. zero-length strings)
 	 *              .t ... type ('string','tag','enum')
+	 *              .m ... multiline (for comment-like .t='string')
 	 * .loc ....... localization messages
 	 *              .edit ..... for editing a record
 	 *              .create ... for creating a record

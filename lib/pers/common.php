@@ -58,6 +58,7 @@ class pers
 	//const FT_REAL			= 64;	// field is a real number
 	const FT_STRING			= 96;	// field is a string
 	const FT_PASSWORD		= 97;	// field is a string containing password (specially treated)
+	const FT_COMMENT		= 98;	// field is a multiline string (renders to textarea)
 	const FT_ENUM			= 128;	// field is a single value from list of options, can be an FK
 	const FT_TAG			= 160;	// field is a reference to single tag
 	const FT_TAGS			= 192;	// field is a serialized list of tags

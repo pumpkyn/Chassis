@@ -709,6 +709,9 @@ class instance extends \pers
 		if ( array_key_exists( 'method', $_POST ) )
 			switch ( $_POST['method'] )
 			{
+				// record new height of a comment field textarea
+				case 'tah': $this->settproxy->tah( $this->table, $_POST['field'], $_POST['val'] ); break;
+			
 				// perform list length change
 				case 'resize':
 					$new = (int)$_POST['value'];

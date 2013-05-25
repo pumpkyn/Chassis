@@ -45,6 +45,13 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 	protected $jscfg = NULL;
 	
 	/**
+	 * Post build up Javascript code. Used to register resizable textarea
+	 * related code.
+	 * @var string
+	 */
+	protected $postJs = NULL;
+	
+	/**
 	 * Constructor.
 	 * @param \io\creat\chassis\pers\instance $pi parent Persistence instance
 	 * @param \io\creat\chassis\uicmp\layout $parent parent UICMP component (layout)
@@ -147,6 +154,7 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 			
 			$this->jscfg['f'][$field->name]['d'] = ( ( $field->opts->flags & field::FL_FO_DYNAMIC ) ? true : false );
 			$this->jscfg['f'][$field->name]['e'] = ( ( $field->opts->flags & field::FL_FO_NE ) ? false : true );
+			$this->jscfg['f'][$field->name]['m'] = false;
 			
 			if ( $field->flags & field::FL_FD_PREVIEW )
 				$this->jscfg['preview'] = $field->name;
@@ -199,15 +207,29 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onKeyUp' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
 				break;
 			
+				case field::FT_STRING:
+				case field::FT_COMMENT:
 				default:
 					$this->jscfg['f'][$field->name]['t'] = 'string';
-					new \io\creat\chassis\uicmp\frmitem(	$form,
+
+					$fi = new \io\creat\chassis\uicmp\frmitem(	$form,
 															'rui::' . $field->name,
 															$field->title,
 															'',
 															'',
-															\io\creat\chassis\uicmp\frmitem::FIT_TEXT,
-															( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onKeyUp' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
+															( $field->type == field::FT_COMMENT ) ? \io\creat\chassis\uicmp\frmitem::FIT_TEXTAREA : \io\creat\chassis\uicmp\frmitem::FIT_TEXT,
+															( ( $field->flags & field::FL_FD_PREVIEW )
+																? array( 'onKeyUp' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' )
+																: NULL ) );
+					
+					
+					
+					// required to enforce client logic to make textarea resizable
+					if ( $field->type == field::FT_COMMENT )
+					{
+						$this->jscfg['f'][$field->name]['m'] = true;
+						$fi->setOption( 'tah', $this->pi->settproxy( )->tah( $this->pi->name( ), $field->name ) );
+					}
 				break;
 			}
 		}
@@ -226,9 +248,33 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 	public function jsCfg ( ) { return \io\creat\chassis\uicmp\vcmp::toJsArray( $this->jscfg ); }
 	
 	/**
+	 * Returns this instance's Javascript post initialization.
+	 * @return array
+	 */
+	public function getPostJs ( ) { return $this->postJs; }
+	
+	/**
 	 * Generate client side requirements for whole subtree of UICMP components.
 	 */
-	public function generateReqs ( ) { if ( !is_null( $this->tab ) ) $this->tab->generateReqs( ); }
+	public function generateReqs ( )
+	{
+		if ( !is_null( $this->tab ) ) $this->tab->generateReqs( );
+		
+		/*if ( is_array( $this->postJs ) )
+		//if ( ( $this->itype == self::FIT_TEXTAREA ) && is_array( $this->cbs ) )
+		{
+			$requirer = $this->parent->getRequirer( );
+
+			if ( !is_null( $requirer ) )
+			{
+				$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( 'inc/chassis/3rd/textarearesizer.js' , __CLASS__ ) );
+				$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, array( 'inc/chassis/3rd/textarearesizer.css' , __CLASS__ ) );
+				
+				foreach ( $this->postJs as $js )
+					$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $js );
+			}
+		}*/
+	}
 }
 
 ?>
