@@ -711,6 +711,18 @@ class instance extends \pers
 			{
 				// record new height of a comment field textarea
 				case 'tah': $this->settproxy->tah( $this->table, $_POST['field'], $_POST['val'] ); break;
+				
+				// Remove entry from the table.
+				// @warning this is not checking anything, and should not be
+				// used without explicit flag
+				// @todo implement flag to allow removal and logic to determine safe removal
+				case 'remove':
+					/*$this->pdo->prepare( "DELETE FROM `" . $this->table . "`
+						WHERE `" . self::FN_ID . "` = ?")->execute( array( $_POST['id'] ) );*/
+					/*$this->pdo->prepare( "DELETE FROM `" . $this->table . "`
+								WHERE `" . self::FN_ID . "` = ? AND `" . self::FN_UID . "` = ?")->execute( array( $_POST['id'], $this->uid ) );*/
+					return;
+				break;
 			
 				// perform list length change
 				case 'resize':

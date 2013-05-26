@@ -419,6 +419,23 @@ function _pers_rui ( pi )
 	// subclass to set proper private member for whole inheritance hierarchy.
 	this.cp = function ( alter ) {me = alter;};
 	
+	// Calls Ajax server with request to remove tag with given ID.
+	this.remove = function ( id, list )
+	{		
+		function onCreate( ) { me.pi.tcfg.ind.show( 'executing', '_uicmp_ind_gray' ); }
+		function onFailure( ) { me.pi.tcfg.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
+		function onSuccess( data )
+		{
+			me.pi.tcfg.ind.fade( 'executed', '_uicmp_ind_green' );
+			me.pi.tui.refresh( );
+		}
+
+		me.pi.ajax.send(	{primitive: 'rui', method: 'remove', id: id},
+							{onCreate: onCreate, onFailure: onFailure, onSuccess: onSuccess},
+							null,
+							false );
+	};
+	
 	// Erase the form and set it into initial state.
 	this.reset = function ( )
 	{
@@ -824,4 +841,14 @@ function _pers_instance ( id, layout, url, params, tcfg, rcfg )
 	 * is created, therefore it must be implemented as proxy method.
 	 */
 	this.refresh = function ( ) {me.tui.refresh( );};
+}
+
+// Callback for context remove icon onClick() event.
+function _pers_remove ( data )
+{
+	var instance = data['jsvar'];
+	instance.remove( data['id'], data['list'] );
+
+	if ( typeof data['cb'] !== 'undefined' )
+		data['cb']();	
 }
