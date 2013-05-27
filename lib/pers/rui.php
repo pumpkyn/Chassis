@@ -195,6 +195,17 @@ class rui extends \io\creat\chassis\uicmp\vcmp
 																( ( $field->flags & field::FL_FD_PREVIEW ) ? array( 'onChange' => $this->pi->jsVar( ) . '.rui.preview( \'' . $field->name . '\' );' ) : NULL ) );
 					$fi->setOptions( $field->opts->values );
 				break;
+			
+				case field::FT_DATESTAMP:
+					$this->jscfg['f'][$field->name]['t'] = 'datestamp';
+					$fi = new \io\creat\chassis\uicmp\frmitem(	$form,
+																'rui::' . $field->name,
+																$field->title,
+																'',
+																'',
+																\io\creat\chassis\uicmp\frmitem::FIT_DATE );
+					//$fi->setOptions( $field->opts->values );
+				break;
 					
 				case field::FT_PASSWORD:
 					$this->jscfg['f'][$field->name]['t'] = 'password';

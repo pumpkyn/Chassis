@@ -63,7 +63,8 @@ class pers
 	const FT_TAG			= 160;	// field is a reference to single tag
 	const FT_TAGS			= 192;	// field is a serialized list of tags
 	const FT_TIMESTAMP		= 224;	// 
-	const FT_DATE			= 256;	// 
+	const FT_DATE			= 256;	//
+	const FT_DATESTAMP		= 257;	// field is a date information stored as timestamp (renders to date picker)
 	const FT_TIME			= 288;	// 
 	const FT_DATETIME		= 320;	//
 	const FT_BOOL			= 353;	// Boolean type, represented in database as 0 or 1 integer

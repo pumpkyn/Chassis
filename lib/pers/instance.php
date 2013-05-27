@@ -588,7 +588,21 @@ class instance extends \pers
 				continue;
 			
 			if ( is_array( $record ) )
-				$writer->push( 'f', array( 'n' => $field->name, 'v' => $record[$field->name] ) );
+			{
+				switch ( $field->type )
+				{
+					
+					case self::FT_DATESTAMP:
+						// comes in YYYY-MM-DD HH:ii:SS
+						$stamp = \strtotime( $record[$field->name] );
+						$writer->push( 'f', array( 'n' => $field->name, 'd' => date( 'j', $stamp ), 'm' => date( 'm', $stamp ), 'y' => date( 'Y', $stamp ) ) );
+					break;
+				
+					default:
+						$writer->push( 'f', array( 'n' => $field->name, 'v' => $record[$field->name] ) );
+					break;
+				}
+			}
 			else
 				$writer->push( 'f', array( 'n' => $field->name ) );
 				
@@ -678,6 +692,10 @@ class instance extends \pers
 				if ( in_array( $f[$i]['n'], $this->index ) )
 					continue;
 				
+				// convert YYYY-MM-DD information to UNIX timestamp
+				if ( $this->fields[(string)$f[$i]['n'][0]]->type == self::FT_DATESTAMP )
+					$f[$i]->addAttribute( 'v', (string)$f[$i]['y'][0] . '-' . (string)$f[$i]['m'][0] . '-' . (string)$f[$i]['d'][0] . ' 00:00:00' );
+				
 				// Copy for later evaluation.
 				$fields[(string)$f[$i]['n'][0]] = (string)$f[$i]['v'][0];
 						
@@ -695,6 +713,8 @@ class instance extends \pers
 		/**
 		 * @todo validate result of the operation and return appropriate result
 		 */
+		//echo( "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', array_keys( $this->cache ) ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs ) );
+		//var_dump($this->cache);
 		return $this->pdo->prepare( "INSERT INTO `" . $this->table . "` (" . implode( ',', $keys ) . ") VALUES (" . implode( ',', array_keys( $this->cache ) ) . ") ON DUPLICATE KEY UPDATE " . implode( ',', $pairs ) )->execute( $this->cache );
 	}
 	

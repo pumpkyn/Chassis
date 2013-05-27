@@ -26,6 +26,8 @@ interface _uicmp
 	const FIT_TEXTAREA	= 4;
 	/** Simple form item. Read-only text input. */
 	const FIT_ROTEXT	= 5;
+	/** Date picker (SELECT box style). */
+	const FIT_DATE		= 6;
 	
 	/** Group item. Plain text, e.g. pipe character for separator. */
 	const GIT_TEXT		= 32;

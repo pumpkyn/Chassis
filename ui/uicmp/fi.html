@@ -54,5 +54,12 @@
 <tr>
 	<td colspan="2" class="_uicmp_frm_field" width="100%"><textarea class="resizable" id="{$USR_UICMP_FI->getHtmlId()}" style="height:{$USR_UICMP_FI->getOption('tah')}px;">{$USR_UICMP_FI->getValue()}</textarea></td>
 </tr>
+{elseif $USR_UICMP_FI->getIType()==_uicmp::FIT_DATE}
+<tr>
+	<td class="_uicmp_frm_prompt">{$USR_UICMP_FI->getPrompt()}</td>
+	<td class="_uicmp_frm_field" width="100%">
+		{html_select_date start_year="-5" end_year="+1" day_extra="id=\"{$USR_UICMP_FI->getHtmlId()}.day\"" month_extra="id=\"{$USR_UICMP_FI->getHtmlId()}.month\"" year_extra="id=\"{$USR_UICMP_FI->getHtmlId()}.year\""}
+	</td>
+</tr>
 {/if}
 {if $USR_UICMP_FI->getDesc()&&($USR_UICMP_FI->getIType()!=_uicmp::FIT_CHECKBOX)}<tr><td></td><td class="_uicmp_frm_fdesc" >{$USR_UICMP_FI->getDesc()}</td></tr>{/if}

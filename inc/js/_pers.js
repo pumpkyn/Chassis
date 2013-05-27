@@ -493,6 +493,18 @@ function _pers_rui ( pi )
 
 						switch ( me.pi.rcfg.f[field].t )
 						{
+							case 'datestamp':
+								var dayel = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + field + '.day' );
+								var monel = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + field + '.month' );
+								var yerel = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + field + '.year' );
+								var day = dayel.options[dayel.selectedIndex].value;
+								var mon = monel.options[monel.selectedIndex].value;
+								var yer = yerel.options[yerel.selectedIndex].value;
+								writer.writeAttributeString( 'd', day );
+								writer.writeAttributeString( 'm', mon );
+								writer.writeAttributeString( 'y', yer );
+							break;
+							
 							case 'string':
 							case 'password':
 								if ( el )
@@ -542,6 +554,26 @@ function _pers_rui ( pi )
 			{
 				if ( field.t == 'string' )
 					el.value = f.getAttribute( 'v' );
+				
+				if ( field.t == 'datestamp' )
+				{
+					var day = f.getAttribute( 'd' );
+					var mon = f.getAttribute( 'm' );
+					var yer = f.getAttribute( 'y' );
+					var dayel = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + f.getAttribute( 'n' ) + '.day' );
+					var monel = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + f.getAttribute( 'n' ) + '.month' );
+					var yerel = document.getElementById( me.pi.rcfg.frm_id + '.rui::' + f.getAttribute( 'n' ) + '.year' );
+					
+					for ( j = 0; j < dayel.length; ++j )
+						if ( dayel[j].value == day ) { dayel.selectedIndex = j; break; }
+					
+					for ( j = 0; j < monel.length; ++j )
+						if ( monel[j].value == mon ) { monel.selectedIndex = j; break; }
+					
+					for ( j = 0; j < yerel.length; ++j )
+						if ( yerel[j].value == yer ) { yerel.selectedIndex = j; break; }
+					
+				}
 				
 				if ( field.t == 'bool' )
 					el.checked = f.getAttribute( 'v' ) == '1';
@@ -795,7 +827,7 @@ function _pers_instance ( id, layout, url, params, tcfg, rcfg )
 	 * .f ......... fields configuration
 	 *              .d ... specifies if field is dynamic
 	 *              .e ... specifies if field can have empty values (e.g. zero-length strings)
-	 *              .t ... type ('string','tag','enum')
+	 *              .t ... type ('string','tag','enum','datestamp')
 	 *              .m ... multiline (for comment-like .t='string')
 	 * .loc ....... localization messages
 	 *              .edit ..... for editing a record
