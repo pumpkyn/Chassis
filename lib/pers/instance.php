@@ -595,7 +595,7 @@ class instance extends \pers
 					case self::FT_DATESTAMP:
 						// comes in YYYY-MM-DD HH:ii:SS
 						$stamp = \strtotime( $record[$field->name] );
-						$writer->push( 'f', array( 'n' => $field->name, 'd' => date( 'j', $stamp ), 'm' => date( 'n', $stamp ), 'y' => date( 'Y', $stamp ) ) );
+						$writer->push( 'f', array( 'n' => $field->name, 'd' => date( 'j', $stamp ), 'm' => date( 'm', $stamp ), 'y' => date( 'Y', $stamp ) ) );
 					break;
 				
 					default:
